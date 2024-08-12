@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "28256255725",
-    "project_id": "ready-artisans",
-    "storage_bucket": "ready-artisans.appspot.com"
+    "project_number": "171846959174",
+    "project_id": "ready-artisans-c6a6e",
+    "storage_bucket": "ready-artisans-c6a6e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:28256255725:android:64ae07e0e53cfcd15e96e4",
+        "mobilesdk_app_id": "1:171846959174:android:167922b933cd2011a68a47",
         "android_client_info": {
           "package_name": "com.fihankra.ready_artisans"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "28256255725-ejkdbpe8gbioaephr4nm5somcp2188kn.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC4vq_Ce0roy5XmHYEcOR-LgJxN7DG0-nc"
+          "current_key": "AIzaSyBgUW722TiNQ6Njal-OOFV-T7IU5ioMGVo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "28256255725-ejkdbpe8gbioaephr4nm5somcp2188kn.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

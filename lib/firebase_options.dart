@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -50,11 +47,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC4vq_Ce0roy5XmHYEcOR-LgJxN7DG0-nc',
-    appId: '1:28256255725:android:64ae07e0e53cfcd15e96e4',
-    messagingSenderId: '28256255725',
-    projectId: 'ready-artisans',
-    storageBucket: 'ready-artisans.appspot.com',
+    apiKey: 'AIzaSyBgUW722TiNQ6Njal-OOFV-T7IU5ioMGVo',
+    appId: '1:171846959174:android:167922b933cd2011a68a47',
+    messagingSenderId: '171846959174',
+    projectId: 'ready-artisans-c6a6e',
+    storageBucket: 'ready-artisans-c6a6e.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -66,4 +63,14 @@ class DefaultFirebaseOptions {
     iosClientId: '28256255725-0t99umadh49i6kgfavq49vvi60aqphot.apps.googleusercontent.com',
     iosBundleId: 'com.fihankra.readyArtisans',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyD6-GbqAK0RD7cfDbf38ajmIUUHMNEEgk8',
+    appId: '1:171846959174:web:a764226f4ac53b48a68a47',
+    messagingSenderId: '171846959174',
+    projectId: 'ready-artisans-c6a6e',
+    authDomain: 'ready-artisans-c6a6e.firebaseapp.com',
+    storageBucket: 'ready-artisans-c6a6e.appspot.com',
+  );
+
 }

@@ -70,37 +70,30 @@ class _MyAppState extends ConsumerState<MyApp> {
     var location = ref.watch(locationStreamProvider);
     if (FirebaseAuthService.isUserLogin()) {
       var user = FirebaseAuthService.getCurrentUser();
-      if (user != null) {
-        //set user Online
-        await FireStoreServices.setUserOnline(user.uid);
-        UserModel userData = await FireStoreServices.getUserData(user.uid);
-        if (userData.idNumber != null) {
-          //update user location
-          location.whenData((location) async {
-            if (location.latitude != null && location.longitude != null) {
-              userData = userData.copyWith(
-                location: location.toMap(),
-                latitude: location.latitude,
-                longitude: location.longitude,
-                city: location.city,
-                region: location.region,
-              );
-              await FireStoreServices.updateUserLocation(userData);
-            }
-          });
-
-          //check if widget is build
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ref.watch(userProvider.notifier).setUser(userData);
-          });
-          return true;
-        } else {
-          return false;
+      //set user Online
+      await FireStoreServices.setUserOnline(user.uid);
+      UserModel userData = await FireStoreServices.getUserData(user.uid);
+      
+      //update user location
+      location.whenData((location) async {
+        if (location.latitude != null && location.longitude != null) {
+          userData = userData.copyWith(
+            location: location.toMap(),
+            latitude: location.latitude,
+            longitude: location.longitude,
+            city: location.city,
+            region: location.region,
+          );
+          await FireStoreServices.updateUserLocation(userData);
         }
-      } else {
-        return false;
-      }
-    } else {
+      });
+
+      //check if widget is build
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.watch(userProvider.notifier).setUser(userData);
+      });
+      return true;
+            } else {
       return false;
     }
   }
