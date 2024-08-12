@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -106,7 +107,11 @@ void launchURL(String url) async {
       }
     }
   } catch (error) {
-    print('Error=================================$error');
+    if (kDebugMode) {
+      if (kDebugMode) {
+        print('Error=================================$error');
+      }
+    }
     CustomDialog.showError(title: 'Error', message: 'Could not launch $url');
   }
 }
@@ -221,7 +226,9 @@ double calculateDistance(
       pow(sin(dLat / 2), 2) + pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
   double rad = 6371;
   double c = 2 * asin(sqrt(a));
-  print('distance=====================${rad * c}');
+  if (kDebugMode) {
+    print('distance=====================${rad * c}');
+  }
   return rad * c;
 }
 

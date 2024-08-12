@@ -28,7 +28,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           color: secondaryColor,
           alignment: Alignment.center,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            // circular avator with bother and edit button
+            // circular avatar with bother and edit button
             Container(
               height: 100,
               width: 100,
@@ -44,7 +44,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             ),
             const SizedBox(height: 10),
             Text(
-              user.name ?? '',
+              user.name,
               style: GoogleFonts.roboto(
                   color: Colors.white,
                   fontSize: 22,
@@ -52,7 +52,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             ),
             const SizedBox(height: 5),
             Text(
-              user.email ?? '',
+              user.email,
               style: GoogleFonts.roboto(
                   color: Colors.white,
                   fontSize: 16,
@@ -60,7 +60,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             ),
             const SizedBox(height: 5),
             Text(
-              user.phone ?? '',
+              user.phone,
               style: GoogleFonts.roboto(
                   color: Colors.white,
                   fontSize: 16,
@@ -94,9 +94,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                     color: secondaryColor),
                               ),
                               Text(
-                                user.userType != null &&
-                                        user.userType != null &&
-                                        user.userType!.toLowerCase() == 'client'
+                                user.userType.toLowerCase() == 'client'
                                     ? 'Total Requests'
                                     : 'Services provided',
                                 style: GoogleFonts.roboto(
@@ -122,8 +120,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           child: Column(
                             children: [
                               Text(
-                                user.userType != null &&
-                                        user.userType!.toLowerCase() == 'client'
+                                user.userType.toLowerCase() == 'client'
                                     ? '10%'
                                     : '4',
                                 style: GoogleFonts.podkova(
@@ -132,9 +129,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                     color: secondaryColor),
                               ),
                               Text(
-                              user.userType!=null?  user.userType!.toLowerCase() == 'client'
+                              user.userType.toLowerCase() == 'client'
                                     ? 'Discount & coupons'
-                                    : 'Years of experience':'',
+                                    : 'Years of experience',
                                 style: GoogleFonts.roboto(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -148,7 +145,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                if (user.userType!.toLowerCase() != 'artisan')
+                if (user.userType.toLowerCase() != 'artisan')
                   //become artisan card
                   Container(
                     width: size.width,
@@ -190,7 +187,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       ),
                     ),
                   ),
-                if (user.userType!.toLowerCase() == 'artisan')
+                if (user.userType.toLowerCase() == 'artisan')
                   Container(
                     width: size.width,
                     padding: const EdgeInsets.all(10),

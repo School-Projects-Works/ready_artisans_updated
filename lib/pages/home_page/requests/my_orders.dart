@@ -9,7 +9,7 @@ import 'package:ready_artisans/styles/styles.dart';
 import '../../../state_managers/user_data_state.dart';
 
 class MyOrders extends ConsumerStatefulWidget {
-  const MyOrders({Key? key}) : super(key: key);
+  const MyOrders({super.key});
 
   @override
   ConsumerState<MyOrders> createState() => _MyOrdersState();
@@ -18,7 +18,7 @@ class MyOrders extends ConsumerStatefulWidget {
 class _MyOrdersState extends ConsumerState<MyOrders> {
   @override
   Widget build(BuildContext context) {
-    var user = ref.read(userProvider);
+    ref.read(userProvider);
     var size = MediaQuery.of(context).size;
     var request = ref.watch(appointmentStreamProvider);
     return Container(
@@ -59,7 +59,7 @@ class _MyOrdersState extends ConsumerState<MyOrders> {
                         Icons.search,
                         color: Colors.white,
                       ),
-                      onChanged: (vaule) {
+                      onChanged: (value) {
                         //TODO: search request
                       },
                     ),

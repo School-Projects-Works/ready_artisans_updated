@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ready_artisans/admin/provider/admin_provider.dart';
 import '../../generated/assets.dart';
 import '../../router/router.dart';
 import '../../router/router_items.dart';
@@ -20,9 +21,9 @@ class _MainPageState extends ConsumerState<DashboardMain> {
   @override
   Widget build(BuildContext context) {
     var styles = Styles(context);
-    var locationnsStream = ref.watch(locationStreamProvider);
-    var emergenciesStream = ref.watch(emergencyStreamProvider);
-    var contactsStream = ref.watch(contactsStreamProvider);
+    var artisans = ref.watch(artisanStreamProvider);
+    var categories = ref.watch(categoriesStream);
+    
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -56,34 +57,23 @@ class _MainPageState extends ConsumerState<DashboardMain> {
                           child: Container(
                               color: Colors.grey[100],
                               padding: const EdgeInsets.all(10),
-                              child: locationnsStream.when(
+                              child: categories.when(
                                 loading: () => const Center(
                                     child: CircularProgressIndicator()),
                                 error: (error, stack) {
                                   return Center(child: Text(error.toString()));
                                 },
                                 data: (data) {
-                                  return emergenciesStream.when(
+                                  return artisans.when(
                                       data: (user) {
-                                        return contactsStream.when(
-                                            data: (notice) {
-                                              return widget.child;
-                                             },
-                                            error: (error, stack) {
-                                              return Center(
-                                                  child:
-                                                      Text(error.toString()));
-                                            },
-                                            loading: () => const Center(
-                                                child:
-                                                    CircularProgressIndicator()));
+                                        return widget.child;
                                       },
+                                      loading: () =>
+                                          const Center(child: CircularProgressIndicator()),
                                       error: (error, stack) {
-                                        return Center(
-                                            child: Text(error.toString()));
-                                      },
-                                      loading: () => const Center(
-                                          child: CircularProgressIndicator()));
+                                        return Center(child: Text(error.toString()));
+                                      }
+                                      );
                                 },
                               )))
                     ],
@@ -119,10 +109,10 @@ class _MainPageState extends ConsumerState<DashboardMain> {
                 padding: const EdgeInsets.only(
                     right: 40, top: 10, bottom: 10, left: 10),
                 icon: Icons.location_on,
-                title: 'Locations',
+                title: 'Artisans',
                 onTap: () {
                   MyRouter(context: context, ref: ref)
-                      .navigateToRoute(RouterItem.locationsRoute);
+                      .navigateToRoute(RouterItem.artisansRoute);
                   Navigator.of(context).pop();
                 }),
           ),
@@ -131,10 +121,10 @@ class _MainPageState extends ConsumerState<DashboardMain> {
                 padding: const EdgeInsets.only(
                     right: 40, top: 10, bottom: 10, left: 10),
                 icon: Icons.warning,
-                title: 'Emergency',
+                title: 'Users',
                 onTap: () {
                   MyRouter(context: context, ref: ref)
-                      .navigateToRoute(RouterItem.emergenciesRoute);
+                      .navigateToRoute(RouterItem.usersRoute);
                   Navigator.of(context).pop();
                 }),
           ),
@@ -143,10 +133,10 @@ class _MainPageState extends ConsumerState<DashboardMain> {
                 padding: const EdgeInsets.only(
                     right: 40, top: 10, bottom: 10, left: 10),
                 icon: Icons.contact_phone,
-                title: 'Contacts',
+                title: 'Categories',
                 onTap: () {
                   MyRouter(context: context, ref: ref)
-                      .navigateToRoute(RouterItem.contactsRoute);
+                      .navigateToRoute(RouterItem.categoriesRoute);
                   Navigator.of(context).pop();
                 }),
           ),

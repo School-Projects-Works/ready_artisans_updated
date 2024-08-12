@@ -66,41 +66,54 @@ class SideBar extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 2),
           child: SideBarItem(
-            title: 'Locations',
+            title: 'Artisans',
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            icon: Icons.location_on,
+            icon: Icons.person,
             isActive:
-                ref.watch(routerProvider) == RouterItem.locationsRoute.name,
+                ref.watch(routerProvider) == RouterItem.artisansRoute.name,
             onTap: () {
               MyRouter(context: context, ref: ref)
-                  .navigateToRoute(RouterItem.locationsRoute);
+                  .navigateToRoute(RouterItem.artisansRoute);
             },
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 2),
           child: SideBarItem(
-            title: 'Emergency',
+            title: 'Customers',
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            icon: Icons.warning,
+            icon: Icons.people,
             isActive:
-                ref.watch(routerProvider) == RouterItem.emergenciesRoute.name,
+                ref.watch(routerProvider) == RouterItem.usersRoute.name,
             onTap: () {
               MyRouter(context: context, ref: ref)
-                  .navigateToRoute(RouterItem.emergenciesRoute);
+                  .navigateToRoute(RouterItem.usersRoute);
             },
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 2),
           child: SideBarItem(
-            title: 'Contacts',
+            title: 'Categories',
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            icon: Icons.contact_phone,
-            isActive: ref.watch(routerProvider) == RouterItem.contactsRoute.name,
+            icon: Icons.category,
+            isActive: ref.watch(routerProvider) == RouterItem.categoriesRoute.name,
             onTap: () {
               MyRouter(context: context, ref: ref)
-                  .navigateToRoute(RouterItem.contactsRoute);
+                  .navigateToRoute(RouterItem.categoriesRoute);
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2),
+          child: SideBarItem(
+            title: 'Bookings',
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            icon: Icons.task,
+            isActive: ref.watch(routerProvider) == RouterItem.bookingRoute.name,
+            onTap: () {
+              MyRouter(context: context, ref: ref)
+                  .navigateToRoute(RouterItem.bookingRoute);
             },
           ),
         ),

@@ -6,7 +6,7 @@ import '../styles/styles.dart';
 
 class CustomTextFields extends StatelessWidget {
   const CustomTextFields({
-    Key? key,
+    super.key,
     this.controller,
     this.label,
     this.prefixIcon,
@@ -27,7 +27,7 @@ class CustomTextFields extends StatelessWidget {
     this.max = 999999,
     this.min = 0,
     this.focusNode,
-  }) : super(key: key);
+  });
   final TextEditingController? controller;
   final String? label;
   final String? hintText;

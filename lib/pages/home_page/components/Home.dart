@@ -1,3 +1,5 @@
+// ignore_for_file: unused_result
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +16,7 @@ import '../../../state_managers/artisans_data_state.dart';
 import 'artisan_card.dart';
 
 class Home extends ConsumerStatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   ConsumerState<Home> createState() => _HomeState();
@@ -107,7 +109,7 @@ class _HomeState extends ConsumerState<Home> {
                     TextButton(
                         onPressed: () {
                           ref.invalidate(locationStreamProvider);
-                          var data = ref.refresh(locationStreamProvider);
+                           ref.refresh(locationStreamProvider);
                         },
                         child: const Text(
                           'Refresh',
@@ -205,7 +207,7 @@ class _HomeState extends ConsumerState<Home> {
                     return CarouselSlider.builder(
                         itemCount: data.length,
                         carouselController: buttonCarouselController,
-                        itemBuilder: (context, index, inde) {
+                        itemBuilder: (context, index, index2) {
                           var category = data[index];
                           return CategoryItem(
                             categoryImage: category.image,
@@ -219,7 +221,7 @@ class _HomeState extends ConsumerState<Home> {
                           autoPlay: true,
                           onPageChanged: (index, reason) {
                             ref.read(selectedCategoryProvider.notifier).state =
-                                data[index].name!;
+                                data[index].name;
                           },
                         ));
                   }
@@ -254,7 +256,7 @@ class _HomeState extends ConsumerState<Home> {
                       SizedBox(
                         height: 250,
                         child: ListTile(
-                          title: Text('Recomedded Artisans',
+                          title: Text('Recommended Artisans',
                               style: normalText(
                                   color: secondaryColor,
                                   fontSize: 20,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -350,7 +351,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                   onPressed: () {
                     setState(() {
                       _currentIndex = 0;
-                      print('Pass=============================');
+                      if (kDebugMode) {
+                        print('Pass=============================');
+                      }
                     });
                   },
                   icon: const Icon(
@@ -523,7 +526,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                               CustomDialog.showToast(message: 'Please select a profile image');
                               return;
                             }else {
-                              ref.read(userProvider.notifier).craeteUser(
+                              ref.read(userProvider.notifier).createUser(
                                 context, ref,
                                 image: image!, password: password);
                             }

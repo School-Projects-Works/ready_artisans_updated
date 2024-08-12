@@ -10,7 +10,7 @@ import '../../styles/app_colors.dart';
 import '../../generated/assets.dart';
 
 class ImagesSection extends ConsumerStatefulWidget {
-  const ImagesSection({Key? key}) : super(key: key);
+  const ImagesSection({super.key});
 
   @override
   ConsumerState<ImagesSection> createState() => _ImagesSectionState();

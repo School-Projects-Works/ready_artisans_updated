@@ -12,7 +12,7 @@ import '../../state_managers/user_data_state.dart';
 import '../../styles/app_colors.dart';
 
 class ServiceDetails extends ConsumerStatefulWidget {
-  const ServiceDetails({Key? key}) : super(key: key);
+  const ServiceDetails({super.key});
 
   @override
   ConsumerState<ServiceDetails> createState() => _ServiceDetailsState();
@@ -96,7 +96,7 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
                         items: data
                             .map((e) => DropdownMenuItem(
                                   value: e.name,
-                                  child: Text(e.name!,
+                                  child: Text(e.name,
                                       style: GoogleFonts.poppins()),
                                 ))
                             .toList(),
@@ -173,12 +173,12 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       CustomDialog.showLoading(message: 'Sending data..Please wait...');
-      //change usertype to artisan
+      //change userType to artisan
       var user = ref.read(userProvider);
       bool results = await FireStoreServices.updateUserToArtisan(
           user.id, selectedService!);
       //save service details
-      //deley for 3 seconds
+      //daley for 3 seconds
       if (results) {
         ref
             .read(userProvider.notifier)
@@ -192,7 +192,7 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
               Navigator.of(context).pop();
             });
       } else {
-        CustomDialog.showError(title: 'Error', message: 'An error occured');
+        CustomDialog.showError(title: 'Error', message: 'An error occurred');
       }
     }
   }

@@ -20,7 +20,7 @@ final artisanStreamProvider =
 final selectedArtisanProvider =
     StateProvider.autoDispose.family<UserModel, String>((ref, id) {
   var artisans = ref.watch(artisanStreamProvider);
-  UserModel artisan = UserModel();
+  UserModel artisan = UserModel.empty();
   artisans.whenData((value) {
     artisan = value.firstWhere((element) => element.id == id);
   });
@@ -30,7 +30,7 @@ final selectedArtisanProvider =
 final selectedArtisanCategoryProvider =
     StateProvider.autoDispose.family<CategoryModel, String>((ref, id) {
   var categories = ref.watch(categoryStreamProvider);
-  CategoryModel category = CategoryModel();
+  CategoryModel category = CategoryModel.empty();
   categories.whenData((value) {
     category = value.firstWhere((element) => element.name == id);
   });
@@ -51,7 +51,7 @@ final filteredArtisanStreamProvider =
     data.whenData((value) {
       artisans = value
           .where((element) =>
-              element.name!.toLowerCase().contains(query.toLowerCase()))
+              element.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
     return artisans;

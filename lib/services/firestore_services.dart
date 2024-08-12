@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:ready_artisans/models/appointment_model.dart';
 import 'package:ready_artisans/models/review_mode.dart';
 import 'package:ready_artisans/models/user_model.dart';
@@ -60,7 +61,9 @@ class FireStoreServices {
           .set(state.toMap());
       return true;
     } on FirebaseException catch (e) {
-      print(e.message);
+      if (kDebugMode) {
+        print(e.message);
+      }
       return false;
     } catch (e) {
       return false;
@@ -109,14 +112,14 @@ class FireStoreServices {
     try {
       await _fireStore.collection('requests').doc(state.id).set(state.toMap());
       return true;
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       return false;
     } catch (e) {
       return false;
     }
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getResquests(String? uid) {
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getRequests(String? uid) {
     return _fireStore
         .collection('requests')
         .where('ids', arrayContains: uid)
@@ -138,7 +141,7 @@ class FireStoreServices {
           .doc(id)
           .update({'userType': 'artisan', 'artisanCategory': category});
       return true;
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       return false;
     } catch (e) {
       return false;

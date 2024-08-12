@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyJobs extends StatefulWidget {
-  const MyJobs({Key? key}) : super(key: key);
+  const MyJobs({super.key});
 
   @override
   State<MyJobs> createState() => _MyJobsState();

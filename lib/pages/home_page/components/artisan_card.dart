@@ -58,7 +58,7 @@ class ArtisanCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      artisan!.name!,
+                      artisan!.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style:

@@ -3,19 +3,20 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+
 import 'package:ready_artisans/models/category_mode.dart';
 
 class UserModel {
-  String? id;
-  String? idNumber;
-  String? name;
-  String? email;
-  String? phone;
-  String? address;
+  String id;
+  String idNumber;
+  String name;
+  String email;
+  String phone;
+  String address;
   String? image;
-  String? userType;
+  String userType;
   Map<String, dynamic>? location;
-  String? gender;
+  String gender;
   double? rating;
   double? latitude;
   double? longitude;
@@ -23,32 +24,48 @@ class UserModel {
   bool? available;
   String? city;
   String? region;
-  List<dynamic>? images;
+  List<String>? images;
   int? createdAt;
   String? artisanCategory;
-
   UserModel({
-    this.id,
-    this.idNumber,
-    this.name,
-    this.email,
-    this.phone,
-    this.address,
+    required this.id,
+    required this.idNumber,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.address,
     this.image,
-    this.userType,
+    required this.userType,
     this.location,
-    this.gender,
-    this.rating = 2.0,
+    required this.gender,
+    this.rating,
     this.latitude,
     this.longitude,
     this.isOnline,
-    this.available = true,
+    this.available,
     this.city,
     this.region,
     this.images,
     this.createdAt,
     this.artisanCategory,
   });
+
+  static UserModel empty() {
+    return UserModel(
+      id: '',
+      idNumber: '',
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      image: '',
+      userType: '',
+      location: {},
+      gender: '',
+      rating: 0.0,
+
+    );
+  }
 
   UserModel copyWith({
     String? id,
@@ -68,7 +85,7 @@ class UserModel {
     bool? available,
     String? city,
     String? region,
-    List<dynamic>? images,
+    List<String>? images,
     int? createdAt,
     String? artisanCategory,
   }) {
@@ -97,65 +114,85 @@ class UserModel {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'idNumber': idNumber,
-      'name': name,
-      'email': email,
-      'phone': phone,
-      'address': address,
-      'image': image,
-      'userType': userType,
-      'location': location,
-      'gender': gender,
-      'rating': rating,
-      'latitude': latitude,
-      'longitude': longitude,
-      'isOnline': isOnline,
-      'available': available,
-      'city': city,
-      'region': region,
-      'images': images,
-      'createdAt': createdAt,
-      'artisanCategory': artisanCategory,
-    };
+    final result = <String, dynamic>{};
+
+    result.addAll({'id': id});
+    result.addAll({'idNumber': idNumber});
+    result.addAll({'name': name});
+    result.addAll({'email': email});
+    result.addAll({'phone': phone});
+    result.addAll({'address': address});
+    if (image != null) {
+      result.addAll({'image': image});
+    }
+    result.addAll({'userType': userType});
+    if (location != null) {
+      result.addAll({'location': location});
+    }
+    result.addAll({'gender': gender});
+    if (rating != null) {
+      result.addAll({'rating': rating});
+    }
+    if (latitude != null) {
+      result.addAll({'latitude': latitude});
+    }
+    if (longitude != null) {
+      result.addAll({'longitude': longitude});
+    }
+    if (isOnline != null) {
+      result.addAll({'isOnline': isOnline});
+    }
+    if (available != null) {
+      result.addAll({'available': available});
+    }
+    if (city != null) {
+      result.addAll({'city': city});
+    }
+    if (region != null) {
+      result.addAll({'region': region});
+    }
+    if (images != null) {
+      result.addAll({'images': images});
+    }
+    if (createdAt != null) {
+      result.addAll({'createdAt': createdAt});
+    }
+    if (artisanCategory != null) {
+      result.addAll({'artisanCategory': artisanCategory});
+    }
+
+    return result;
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] != null ? map['id'] as String : null,
-      idNumber: map['idNumber'] != null ? map['idNumber'] as String : null,
-      name: map['name'] != null ? map['name'] as String : null,
-      email: map['email'] != null ? map['email'] as String : null,
-      phone: map['phone'] != null ? map['phone'] as String : null,
-      address: map['address'] != null ? map['address'] as String : null,
-      image: map['image'] != null ? map['image'] as String : null,
-      userType: map['userType'] != null ? map['userType'] as String : null,
-      location: map['location'] != null
-          ? Map<String, dynamic>.from((map['location'] as Map<String, dynamic>))
-          : null,
-      gender: map['gender'] != null ? map['gender'] as String : null,
-      rating: map['rating'] != null ? map['rating'] as double : null,
-      latitude: map['latitude'] != null ? map['latitude'] as double : null,
-      longitude: map['longitude'] != null ? map['longitude'] as double : null,
-      isOnline: map['isOnline'] != null ? map['isOnline'] as bool : null,
-      available: map['available'] != null ? map['available'] as bool : null,
-      city: map['city'] != null ? map['city'] as String : null,
-      region: map['region'] != null ? map['region'] as String : null,
-      images: map['images'] != null
-          ? List<dynamic>.from((map['images'] as List<dynamic>))
-          : null,
-      createdAt: map['createdAt'] != null ? map['createdAt'] as int : null,
-      artisanCategory: map['artisanCategory'] != null
-          ? map['artisanCategory'] as String
-          : null,
+      id: map['id'] ?? '',
+      idNumber: map['idNumber'] ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      phone: map['phone'] ?? '',
+      address: map['address'] ?? '',
+      image: map['image'],
+      userType: map['userType'] ?? '',
+      location: Map<String, dynamic>.from(map['location']),
+      gender: map['gender'] ?? '',
+      rating: map['rating']?.toDouble(),
+      latitude: map['latitude']?.toDouble(),
+      longitude: map['longitude']?.toDouble(),
+      isOnline: map['isOnline'],
+      available: map['available'],
+      city: map['city'],
+      region: map['region'],
+      images: List<String>.from(map['images']),
+      createdAt: map['createdAt']?.toInt(),
+      artisanCategory: map['artisanCategory'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+      UserModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -163,10 +200,11 @@ class UserModel {
   }
 
   @override
-  bool operator ==(covariant UserModel other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
+    return other is UserModel &&
+        other.id == id &&
         other.idNumber == idNumber &&
         other.name == name &&
         other.email == email &&
@@ -405,6 +443,7 @@ class DummyData {
     for (int i = 0; i < ghanaianNames.length; i++) {
       artisans.add(
         UserModel(
+          id: '',
           name: ghanaianNames[i],
           email: doctorsEmails[i],
           address: doctorsAddresses[i],

@@ -3,8 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ready_artisans/styles/app_colors.dart';
 
 class CategoryItem extends StatelessWidget {
-  const CategoryItem({Key? key, this.categoryName, this.categoryImage})
-      : super(key: key);
+  const CategoryItem({super.key, this.categoryName, this.categoryImage});
   final String? categoryName;
   final String? categoryImage;
 

@@ -31,7 +31,7 @@ class _ArtisanDetailPageState extends ConsumerState<ArtisanDetailPage> {
     UserModel artisan = ref.watch(selectedArtisanProvider(widget.artisanId!));
     var category =
         ref.watch(selectedArtisanCategoryProvider(artisan.artisanCategory!));
-    var reviews = ref.watch(reviewStreamProvider(artisan.id!));
+    var reviews = ref.watch(reviewStreamProvider(artisan.id));
     var appointments = ref.watch(appointmentStreamProvider);
     return SafeArea(
         child: Scaffold(
@@ -61,8 +61,7 @@ class _ArtisanDetailPageState extends ConsumerState<ArtisanDetailPage> {
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.black)),
-                  subtitle: category.id != null
-                      ? Container(
+                  subtitle: Container(
                           decoration: BoxDecoration(
                               color: Colors.black12,
                               borderRadius: BorderRadius.circular(10)),
@@ -162,7 +161,7 @@ class _ArtisanDetailPageState extends ConsumerState<ArtisanDetailPage> {
                                   ),
                                 ],
                               )))
-                      : Container()),
+                      ),
               const SizedBox(height: 10),
               appointments.when(data: (data) {
                 var appointment = data

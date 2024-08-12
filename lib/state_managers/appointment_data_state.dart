@@ -81,7 +81,7 @@ class AppointmentDataState extends StateNotifier<AppointmentModel> {
 final appointmentStreamProvider =
     StreamProvider<List<AppointmentModel>>((ref) async* {
   var uid = ref.read(userProvider).id;
-  var data = FireStoreServices.getResquests(uid);
+  var data = FireStoreServices.getRequests(uid);
   ref.onDispose(() {
     data.drain();
   });

@@ -27,29 +27,27 @@ final locationStreamProvider = StreamProvider<UserLocation>((ref) async* {
     Stream<Position> positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings);
     await for (Position position in positionStream) {
-      if (position.latitude != null) {
-        UserLocation location = UserLocation(
+      UserLocation location = UserLocation(
+        latitude: position.latitude,
+        longitude: position.longitude,
+      );
+      await geo
+          .placemarkFromCoordinates(position.latitude, position.longitude)
+          .then((List<geo.Placemark> placeMarks) {
+        geo.Placemark place = placeMarks[0];
+        location = UserLocation(
           latitude: position.latitude,
           longitude: position.longitude,
+          name: place.name,
+          street: place.street,
+          city: place.locality,
+          region: place.administrativeArea,
+          country: place.country,
+          countryCode: place.isoCountryCode,
+          district: place.subAdministrativeArea,
         );
-        await geo
-            .placemarkFromCoordinates(position.latitude, position.longitude)
-            .then((List<geo.Placemark> placeMarks) {
-          geo.Placemark place = placeMarks[0];
-          location = UserLocation(
-            latitude: position.latitude,
-            longitude: position.longitude,
-            name: place.name,
-            street: place.street,
-            city: place.locality,
-            region: place.administrativeArea,
-            country: place.country,
-            countryCode: place.isoCountryCode,
-            district: place.subAdministrativeArea,
-          );
-        });
-        yield location;
-      }
-    }
+      });
+      yield location;
+        }
   }
 });

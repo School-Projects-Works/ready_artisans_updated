@@ -110,13 +110,9 @@ class _HomePageState extends ConsumerState<HomePage>
   List<Widget> _buildScreens() {
     var user = ref.watch(userProvider);
     return [
-      if (user.userType == null)
-        const Center(
-          child: CircularProgressIndicator(),
-        ),
-      if (user.userType != null && user.userType!.toLowerCase() == 'client')
+      if (user.userType.toLowerCase() == 'client')
         const Home(),
-      if (user.userType != null && user.userType!.toLowerCase() == 'artisan')
+      if (user.userType.toLowerCase() == 'artisan')
         const ArtisanHome(),
       const MyOrders(),
       const ProfilePage(),

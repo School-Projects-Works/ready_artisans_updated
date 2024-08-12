@@ -61,7 +61,7 @@ class _OpenArtisanTopState extends State<OpenArtisanTop>
             Expanded(
               child: Column(children: [
                 Text(
-                  widget.artisan.name!,
+                  widget.artisan.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.roboto(
@@ -80,7 +80,7 @@ class _OpenArtisanTopState extends State<OpenArtisanTop>
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        widget.artisan.email!,
+                        widget.artisan.email,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.roboto(
@@ -101,7 +101,7 @@ class _OpenArtisanTopState extends State<OpenArtisanTop>
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      widget.artisan.phone!,
+                      widget.artisan.phone,
                       style: GoogleFonts.roboto(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -177,7 +177,7 @@ class _OpenArtisanTopState extends State<OpenArtisanTop>
                           borderRadius: BorderRadius.circular(10))),
                   onPressed: () {
                     launchURL(
-                        'whatsapp://send?phone=+233${widget.artisan.phone!.substring(1)}&text=Hello ${widget.artisan.name}');
+                        'whatsapp://send?phone=+233${widget.artisan.phone.substring(1)}&text=Hello ${widget.artisan.name}');
                   },
                   icon: const Icon(
                     Icons.chat,

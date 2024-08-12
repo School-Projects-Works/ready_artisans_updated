@@ -6,8 +6,7 @@ import 'custom_clipper.dart';
 
 class StyleShape extends StatelessWidget {
   const StyleShape(
-      {Key? key, this.color = const [Color(0xfffbb448), Color(0xffe46b10)]})
-      : super(key: key);
+      {super.key, this.color = const [Color(0xfffbb448), Color(0xffe46b10)]});
   final List<Color> color;
 
   @override

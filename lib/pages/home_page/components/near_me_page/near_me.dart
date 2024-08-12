@@ -38,7 +38,7 @@ class _ArtisansNearMeState extends ConsumerState<ArtisansNearMe> {
   }
 
   void _startTimer() {
-    _timer = Timer(Duration(seconds: 10), () {
+    _timer = Timer(const Duration(seconds: 10), () {
       setState(() {
         _showFirstWidget = false;
       });

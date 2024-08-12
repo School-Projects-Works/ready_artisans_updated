@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ready_artisans/admin/dashboard/main_page.dart';
 import '../admin/auth/views/login_page.dart';
-import '../admin/dashboard/dashboard_contact_page.dart';
-import '../admin/dashboard/locations_page.dart';
+import '../admin/dashboard/home_page.dart';
 import 'router_items.dart';
 
 class MyRouter {
@@ -46,19 +46,19 @@ class MyRouter {
                         return const DashboardHome();
                       }),
                   GoRoute(
-                      path: RouterItem.emergenciesRoute.path,
+                      path: RouterItem.artisansRoute.path,
                       builder: (context, state) {
-                        return const EmergenciesPage();
+                        return const Center(child: Text('Artisans Page not showing due to version difference'));
                       }),
                   GoRoute(
-                      path: RouterItem.contactsRoute.path,
+                      path: RouterItem.usersRoute.path,
                       builder: (context, state) {
-                        return const DashboardContactPage();
+                        return const Center(child: Text('Users Page not showing due to version difference'));
                       }),
                   GoRoute(
-                      path: RouterItem.locationsRoute.path,
+                      path: RouterItem.bookingRoute.path,
                       builder: (context, state) {
-                        return const LocationsPage();
+                        return const Center(child: Text('Booking Page not showing due to version difference'));
                       })
                 ])
           ]);

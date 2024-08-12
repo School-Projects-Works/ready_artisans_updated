@@ -11,7 +11,7 @@ import 'forgot_password.dart';
 import 'login_page.dart';
 
 class WelcomePage extends ConsumerStatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({super.key});
 
   @override
   ConsumerState<WelcomePage> createState() => _WelcomePageState();

@@ -7,7 +7,7 @@ import 'image_section.dart';
 import 'service_details.dart';
 
 class NewArtisanPage extends ConsumerWidget {
-  const NewArtisanPage({Key? key}) : super(key: key);
+  const NewArtisanPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

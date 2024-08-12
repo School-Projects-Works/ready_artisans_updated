@@ -85,7 +85,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           children: [
             if (style.isMobile)
               Image.asset(
-                Assets.imagesLogin,
+                Assets.imagesLogoLargeT,
                 width: 200,
                 height: 200,
               ),

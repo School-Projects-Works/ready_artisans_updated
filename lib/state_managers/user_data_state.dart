@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,13 +19,13 @@ final userProvider = StateNotifierProvider<UserDataState, UserModel>((ref) {
 });
 
 class UserDataState extends StateNotifier<UserModel> {
-  UserDataState() : super(UserModel());
+  UserDataState() : super(UserModel.empty());
   void setUser(UserModel user) {
     state = user;
   }
 
   void clearUser() {
-    state = UserModel();
+    state = UserModel.empty();
   }
 
   void setEmail(String s) {
@@ -50,7 +52,7 @@ class UserDataState extends StateNotifier<UserModel> {
     state = state.copyWith(address: s);
   }
 
-  void craeteUser(BuildContext context, WidgetRef ref,
+  void createUser(BuildContext context, WidgetRef ref,
       {required File image, String? password}) async {
     CustomDialog.showLoading(
       message: 'Creating Account...',
@@ -58,11 +60,11 @@ class UserDataState extends StateNotifier<UserModel> {
     state = state.copyWith(
         createdAt: DateTime.now().millisecondsSinceEpoch, userType: 'client');
     var user = await FirebaseAuthService.createUserWithEmailAndPassword(
-        state.email!, password!);
+        state.email, password!);
     if (user != null) {
       await FirebaseAuthService.sendEmailVerification();
       var location = ref.read(locationStreamProvider);
-      await location.whenData((value) {
+      location.whenData((value) {
         state.copyWith(
           location: value.toMap(),
           latitude: value.latitude,
@@ -85,7 +87,7 @@ class UserDataState extends StateNotifier<UserModel> {
       final String response = await FireStoreServices.saveUser(state);
       if (response == 'success') {
         // clear all states
-        ref.read(userProvider.notifier).state = UserModel();
+        ref.read(userProvider.notifier).state = UserModel.empty();
         await FirebaseAuthService.signOut();
         CustomDialog.dismiss();
         CustomDialog.showSuccess(
@@ -106,7 +108,7 @@ class UserDataState extends StateNotifier<UserModel> {
 
   void updateUserAvailable(bool available) async {
     state = state.copyWith(available: available);
-    await FireStoreServices.updateUserAvailableStatus(state.id!, available);
+    await FireStoreServices.updateUserAvailableStatus(state.id, available);
   }
 
   void logout(BuildContext context) async {

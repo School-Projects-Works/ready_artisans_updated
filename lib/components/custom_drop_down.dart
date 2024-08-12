@@ -5,7 +5,7 @@ import '../styles/styles.dart';
 
 class CustomDropDown extends StatelessWidget {
   const CustomDropDown(
-      {Key? key,
+      {super.key,
       this.value,
       required this.items,
       this.validator,
@@ -15,8 +15,7 @@ class CustomDropDown extends StatelessWidget {
       this.onSaved,
       this.label,
       this.iconData,
-      this.icon})
-      : super(key: key);
+      this.icon});
 
   final dynamic value;
   final List<DropdownMenuItem> items;

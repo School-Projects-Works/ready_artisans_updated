@@ -11,18 +11,21 @@ class RouterItem {
      
   static final RouterItem dashboardRoute =
       RouterItem(path: '/dashboard', name: 'dashboard');
-  static final RouterItem locationsRoute =
-      RouterItem(path: '/locations', name: 'locations');
-  static final RouterItem emergenciesRoute =
-      RouterItem(path: '/emergencies', name: 'emergencies');
-      static final RouterItem contactsRoute =
-      RouterItem(path: '/contacts', name: 'contacts');
+  static final RouterItem artisansRoute =
+      RouterItem(path: '/artisans', name: 'artisans');
+  static final RouterItem usersRoute =
+      RouterItem(path: '/users', name: 'users');
+      static final RouterItem bookingRoute =
+      RouterItem(path: '/booking', name: 'booking');
+      static RouterItem categoriesRoute =
+      RouterItem(path: '/categories', name: 'categories');
 static List<RouterItem> allRoutes = [
     loginRoute,
     dashboardRoute,
-    locationsRoute,
-    emergenciesRoute,
-    contactsRoute,
+    artisansRoute,
+    usersRoute,
+    bookingRoute,
+    categoriesRoute,
   ];
 
   static RouterItem getRouteByPath(String fullPath) {

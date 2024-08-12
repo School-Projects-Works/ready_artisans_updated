@@ -5,14 +5,13 @@ import '../styles/app_colors.dart';
 
 class CustomButton extends StatefulWidget {
   const CustomButton(
-      {Key? key,
+      {super.key,
       this.onPressed,
       required this.text,
       this.color = primaryColor,
       this.padding = const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
       this.radius = 5,
-      this.icon})
-      : super(key: key);
+      this.icon});
   final VoidCallback? onPressed;
   final String text;
   final Color color;
