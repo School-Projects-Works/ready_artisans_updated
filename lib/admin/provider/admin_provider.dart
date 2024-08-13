@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ready_artisans/admin/core/custom_dialog.dart';
 
 import 'package:ready_artisans/models/user_model.dart';
 
@@ -32,24 +33,26 @@ class UserFilter {
   }
 }
 
-
-final artisansFilterProvider = StateNotifierProvider<ArtisansProvider, UserFilter>((ref) {
+final artisansFilterProvider =
+    StateNotifierProvider<ArtisansProvider, UserFilter>((ref) {
   return ArtisansProvider();
 });
-
 
 class ArtisansProvider extends StateNotifier<UserFilter> {
   ArtisansProvider() : super(UserFilter(items: [], filter: []));
 
   void filterArtisans(String query) {
-    state = state.copyWith(filter: state.items.where((element) => element.name.toLowerCase().contains(query.toLowerCase())).toList());
+    state = state.copyWith(
+        filter: state.items
+            .where((element) =>
+                element.name.toLowerCase().contains(query.toLowerCase()))
+            .toList());
   }
 
   void setArtisans(List<UserModel> items) {
     state = state.copyWith(items: items, filter: items);
   }
 }
-
 
 final categoriesStream = StreamProvider<List<CategoryModel>>((ref) async* {
   var data = AdminServices.getCategories();
@@ -78,21 +81,31 @@ class CategoryFilter {
   }
 }
 
-
-final categoriesFilterProvider = StateNotifierProvider<CategoriesProvider, CategoryFilter>((ref) {
+final categoriesFilterProvider =
+    StateNotifierProvider<CategoriesProvider, CategoryFilter>((ref) {
   return CategoriesProvider();
 });
-
 
 class CategoriesProvider extends StateNotifier<CategoryFilter> {
   CategoriesProvider() : super(CategoryFilter(items: [], filter: []));
 
   void filterCategories(String query) {
-    state = state.copyWith(filter: state.items.where((element) => element.name.toLowerCase().contains(query.toLowerCase())).toList());
+    state = state.copyWith(
+        filter: state.items
+            .where((element) =>
+                element.name.toLowerCase().contains(query.toLowerCase()))
+            .toList());
   }
 
   void setCategories(List<CategoryModel> items) {
     state = state.copyWith(items: items, filter: items);
   }
-}
 
+  void deleteCategory(String id) async {
+    CustomAdminDialog.dismiss();
+    CustomAdminDialog.showLoading(message: 'Deleting Category');
+    await AdminServices.deleteCategory(id);
+    CustomAdminDialog.dismiss();
+    CustomAdminDialog.showToast(message: 'Category Deleted');
+  }
+}

@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ready_artisans/admin/dashboard/main_page.dart';
 import '../admin/auth/views/login_page.dart';
+import '../admin/categories/views/categories_page.dart';
 import '../admin/dashboard/home_page.dart';
 import 'router_items.dart';
 
@@ -48,17 +48,28 @@ class MyRouter {
                   GoRoute(
                       path: RouterItem.artisansRoute.path,
                       builder: (context, state) {
-                        return const Center(child: Text('Artisans Page not showing due to version difference'));
+                        return const Center(
+                            child: Text(
+                                'Artisans Page not showing due to version difference'));
+                      }),
+                  GoRoute(
+                      path: RouterItem.categoriesRoute.path,
+                      builder: (context, state) {
+                        return const CategoriesPage();
                       }),
                   GoRoute(
                       path: RouterItem.usersRoute.path,
                       builder: (context, state) {
-                        return const Center(child: Text('Users Page not showing due to version difference'));
+                        return const Center(
+                            child: Text(
+                                'Users Page not showing due to version difference'));
                       }),
                   GoRoute(
                       path: RouterItem.bookingRoute.path,
                       builder: (context, state) {
-                        return const Center(child: Text('Booking Page not showing due to version difference'));
+                        return const Center(
+                            child: Text(
+                                'Booking Page not showing due to version difference'));
                       })
                 ])
           ]);
