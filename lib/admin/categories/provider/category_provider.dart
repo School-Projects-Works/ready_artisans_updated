@@ -1,5 +1,4 @@
-import 'package:flutter/src/widgets/form.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ready_artisans/admin/core/custom_dialog.dart';
@@ -28,12 +27,25 @@ class NewCategory extends StateNotifier<CategoryModel> {
     state = state.copyWith(perHourRate: parse);
   }
 
-  void saveCategory(GlobalKey<FormState> formKey, WidgetRef ref)async {
+  void saveCategory(GlobalKey<FormState> formKey, WidgetRef ref) async {
     CustomAdminDialog.showLoading(message: 'Saving Category');
     var id = AdminServices.getCategoryId();
     var image = ref.read(categoryImageProvider)!;
     var byte = await image.readAsBytes();
     var url = await AdminServices.uploadImage(byte, id);
+    state = state.copyWith(id: id, image: url);
+    var results = await AdminServices.addCategory(state);
+    if (results) {
+      CustomAdminDialog.dismiss();
+      CustomAdminDialog.showToast(
+        message: 'Category saved successfully',
+      );
+      formKey.currentState!.reset();
+      ref.read(categoryImageProvider.notifier).state = null;
+    } else {
+      CustomAdminDialog.dismiss();
+      CustomAdminDialog.showToast(message: 'Unable to save category');
+    }
   }
 }
 

@@ -39,11 +39,7 @@ class SideBar extends ConsumerWidget {
           const SizedBox(
             height: 25,
           ),
-          Expanded(
-            child: 
-                 buildAdminManu(ref, context)
-                
-          ),
+          Expanded(child: buildAdminManu(ref, context)),
           // footer
           Text('© 2024 All rights reserved',
               style: styles.body(color: Colors.white38, fontSize: 12)),
@@ -83,8 +79,7 @@ class SideBar extends ConsumerWidget {
             title: 'Customers',
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             icon: Icons.people,
-            isActive:
-                ref.watch(routerProvider) == RouterItem.usersRoute.name,
+            isActive: ref.watch(routerProvider) == RouterItem.usersRoute.name,
             onTap: () {
               MyRouter(context: context, ref: ref)
                   .navigateToRoute(RouterItem.usersRoute);
@@ -97,28 +92,15 @@ class SideBar extends ConsumerWidget {
             title: 'Categories',
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             icon: Icons.category,
-            isActive: ref.watch(routerProvider) == RouterItem.categoriesRoute.name,
+            isActive:
+                ref.watch(routerProvider) == RouterItem.categoriesRoute.name,
             onTap: () {
               MyRouter(context: context, ref: ref)
                   .navigateToRoute(RouterItem.categoriesRoute);
             },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2),
-          child: SideBarItem(
-            title: 'Bookings',
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            icon: Icons.task,
-            isActive: ref.watch(routerProvider) == RouterItem.bookingRoute.name,
-            onTap: () {
-              MyRouter(context: context, ref: ref)
-                  .navigateToRoute(RouterItem.bookingRoute);
-            },
-          ),
-        ),
-       ],
+      ],
     );
   }
-
- }
+}

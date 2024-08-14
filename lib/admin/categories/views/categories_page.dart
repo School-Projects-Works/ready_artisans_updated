@@ -24,7 +24,7 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     var style = Styles(context);
-     var titleStyles = style.title(color: Colors.white, fontSize: 15);
+    var titleStyles = style.title(color: Colors.white, fontSize: 15);
     var rowStyles = style.body(fontSize: 13);
     var categories = ref.watch(categoriesFilterProvider).filter;
     return Container(
@@ -45,14 +45,16 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
                 child: CustomTextFields(
                   hintText: 'Search Categories',
                   onChanged: (query) {
-                    ref.read(categoriesFilterProvider.notifier).filterCategories(query);
+                    ref
+                        .read(categoriesFilterProvider.notifier)
+                        .filterCategories(query);
                   },
                 ),
               )
             ],
           ),
           const SizedBox(height: 20),
-        Expanded(
+          Expanded(
             child: DataTable2(
               columnSpacing: 30,
               horizontalMargin: 12,
@@ -72,7 +74,7 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
                       style: titleStyles,
                     ),
                     fixedWidth: style.largerThanMobile ? 80 : null),
-                    DataColumn2(
+                DataColumn2(
                   label: Text('Image'.toUpperCase()),
                 ),
                 DataColumn2(
@@ -96,35 +98,40 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
                     DataCell(
                       category.image == null
                           ? const Icon(Icons.image)
-                          : SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: ImageNetwork(
-                                image: category.image!,
-                                width: 50,
-                                height: 50,
+                          : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: ImageNetwork(
+                                  image: category.image!,
+                                  width: 50,
+                                  height: 50,
+                                ),
                               ),
-                          ),
+                            ),
                     ),
                     DataCell(Text(category.name, style: rowStyles)),
                     DataCell(Text(category.description,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                     style: rowStyles)),
-                    DataCell(Text(category.perHourRate!.toStringAsFixed(2), style: rowStyles)),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: rowStyles)),
+                    DataCell(Text(category.perHourRate!.toStringAsFixed(2),
+                        style: rowStyles)),
                     DataCell(
                       IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
                           CustomAdminDialog.showInfo(
-                            
                               message:
                                   'Are you sure you want to delete this category?',
-                                  buttonText: 'Delete',
-                                  onPressed: () {
-                                    ref.read(categoriesFilterProvider.notifier).deleteCategory(category.id);
-                                  }
-                              );
+                              buttonText: 'Delete',
+                              onPressed: () {
+                                print('Pressed======');
+                                ref
+                                    .read(categoriesFilterProvider.notifier)
+                                    .deleteCategory(category.id);
+                              });
                         },
                       ),
                     )

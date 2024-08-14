@@ -15,7 +15,7 @@ class _HomePageState extends ConsumerState<DashboardHome> {
   Widget build(BuildContext context) {
     var artisans = ref.watch(artisansFilterProvider).items;
     var categories = ref.watch(categoriesFilterProvider).items;
-
+    var clients = ref.watch(clientFilterProvider).items;
     return Container(
       padding: const EdgeInsets.all(12),
       color: Colors.white,
@@ -36,8 +36,8 @@ class _HomePageState extends ConsumerState<DashboardHome> {
                   onTap: () {}),
               DashBoardItem(
                   icon: Icons.warning,
-                  title: 'Users',
-                  itemCount: 0,
+                  title: 'Customers',
+                  itemCount: clients.length,
                   color: Colors.orange,
                   onTap: () {}),
               DashBoardItem(

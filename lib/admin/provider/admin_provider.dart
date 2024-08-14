@@ -1,15 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ready_artisans/admin/core/custom_dialog.dart';
+import 'package:ready_artisans/admin/core/funnnctions/sms_functions.dart';
 
 import 'package:ready_artisans/models/user_model.dart';
 
 import '../../models/category_mode.dart';
 import '../services/admin_services.dart';
 
-final artisanStreamProvider = StreamProvider<List<UserModel>>((ref) async* {
+final userStream = StreamProvider<List<UserModel>>((ref) async* {
   var data = AdminServices.getArtisans();
   await for (var value in data) {
-    ref.read(artisansFilterProvider.notifier).setArtisans(value);
+    var artisans =
+        value.where((element) => element.userType == 'artisan').toList();
+    ref.read(artisansFilterProvider.notifier).setArtisans(artisans);
+    var clients =
+        value.where((element) => element.userType == 'client').toList();
+    ref.read(clientFilterProvider.notifier).setClients(clients);
     yield value;
   }
 });
@@ -51,6 +57,56 @@ class ArtisansProvider extends StateNotifier<UserFilter> {
 
   void setArtisans(List<UserModel> items) {
     state = state.copyWith(items: items, filter: items);
+  }
+
+  void updateStatus(UserModel copyWith) async {
+    CustomAdminDialog.dismiss();
+    CustomAdminDialog.showLoading(message: 'Updating User Status');
+    var results = await AdminServices.updateUser(copyWith);
+    await sendMessage(copyWith.phone,
+        'Your account has been ${copyWith.status == 'active' ? 'activated, login to start using the platform.' : 'banned. Contact admin for more information'}');
+    CustomAdminDialog.dismiss();
+    if (results) {
+      CustomAdminDialog.showToast(message: 'User Status Updated');
+    } else {
+      CustomAdminDialog.showToast(message: 'Unable to update user status');
+    }
+  }
+}
+
+final clientFilterProvider =
+    StateNotifierProvider<ClientsProvider, UserFilter>((ref) {
+  return ClientsProvider();
+});
+
+class ClientsProvider extends StateNotifier<UserFilter> {
+  ClientsProvider() : super(UserFilter(items: [], filter: []));
+
+  void filterClients(String query) {
+    state = state.copyWith(
+        filter: state.items
+            .where((element) =>
+                element.name.toLowerCase().contains(query.toLowerCase()))
+            .toList());
+  }
+
+  void setClients(List<UserModel> items) {
+    state = state.copyWith(items: items, filter: items);
+  }
+
+  void updateStatus(UserModel copyWith) async {
+    CustomAdminDialog.dismiss();
+    CustomAdminDialog.showLoading(message: 'Updating User Status');
+    var results = await AdminServices.updateUser(copyWith);
+    //send user sms
+    await sendMessage(copyWith.phone,
+        'Your account has been ${copyWith.status == 'active' ? 'activated, login to start using the platform.' : 'banned. Contact admin for more information'}');
+    CustomAdminDialog.dismiss();
+    if (results) {
+      CustomAdminDialog.showToast(message: 'User Status Updated');
+    } else {
+      CustomAdminDialog.showToast(message: 'Unable to update user status');
+    }
   }
 }
 
@@ -102,10 +158,16 @@ class CategoriesProvider extends StateNotifier<CategoryFilter> {
   }
 
   void deleteCategory(String id) async {
+
     CustomAdminDialog.dismiss();
     CustomAdminDialog.showLoading(message: 'Deleting Category');
-    await AdminServices.deleteCategory(id);
+    var results = await AdminServices.deleteCategory(id);
+
     CustomAdminDialog.dismiss();
-    CustomAdminDialog.showToast(message: 'Category Deleted');
+    if (results) {
+      CustomAdminDialog.showToast(message: 'Category Deleted');
+    } else {
+      CustomAdminDialog.showToast(message: 'Unable to delete category');
+    }
   }
 }

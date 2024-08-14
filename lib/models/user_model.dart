@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:ready_artisans/models/category_mode.dart';
@@ -13,20 +14,22 @@ class UserModel {
   String email;
   String phone;
   String address;
-  String? image;
+  String status;
+  String image;
   String userType;
-  Map<String, dynamic>? location;
+  String certificate;
+  Map<String, dynamic> location;
   String gender;
-  double? rating;
-  double? latitude;
-  double? longitude;
-  bool? isOnline;
-  bool? available;
-  String? city;
-  String? region;
-  List<String>? images;
-  int? createdAt;
-  String? artisanCategory;
+  double rating;
+  double latitude;
+  double longitude;
+  bool isOnline;
+  bool available;
+  String city;
+  String region;
+  List<String> images;
+  int createdAt;
+  String artisanCategory;
   UserModel({
     required this.id,
     required this.idNumber,
@@ -34,38 +37,23 @@ class UserModel {
     required this.email,
     required this.phone,
     required this.address,
-    this.image,
-    required this.userType,
-    this.location,
+    required this.status,
+    this.image = '',
+    this.userType = 'client',
+    required this.certificate,
+    this.location = const {},
     required this.gender,
-    this.rating,
-    this.latitude,
-    this.longitude,
-    this.isOnline,
-    this.available,
-    this.city,
-    this.region,
-    this.images,
-    this.createdAt,
-    this.artisanCategory,
+    required this.rating,
+    required this.latitude,
+    required this.longitude,
+    required this.isOnline,
+    required this.available,
+    required this.city,
+    required this.region,
+    required this.images,
+    required this.createdAt,
+    required this.artisanCategory,
   });
-
-  static UserModel empty() {
-    return UserModel(
-      id: '',
-      idNumber: '',
-      name: '',
-      email: '',
-      phone: '',
-      address: '',
-      image: '',
-      userType: '',
-      location: {},
-      gender: '',
-      rating: 0.0,
-
-    );
-  }
 
   UserModel copyWith({
     String? id,
@@ -74,8 +62,10 @@ class UserModel {
     String? email,
     String? phone,
     String? address,
+    String? status,
     String? image,
     String? userType,
+    String? certificate,
     Map<String, dynamic>? location,
     String? gender,
     double? rating,
@@ -96,8 +86,10 @@ class UserModel {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       address: address ?? this.address,
+      status: status ?? this.status,
       image: image ?? this.image,
       userType: userType ?? this.userType,
+      certificate: certificate ?? this.certificate,
       location: location ?? this.location,
       gender: gender ?? this.gender,
       rating: rating ?? this.rating,
@@ -122,44 +114,22 @@ class UserModel {
     result.addAll({'email': email});
     result.addAll({'phone': phone});
     result.addAll({'address': address});
-    if (image != null) {
-      result.addAll({'image': image});
-    }
+    result.addAll({'status': status});
+    result.addAll({'image': image});
     result.addAll({'userType': userType});
-    if (location != null) {
-      result.addAll({'location': location});
-    }
+    result.addAll({'certificate': certificate});
+    result.addAll({'location': location});
     result.addAll({'gender': gender});
-    if (rating != null) {
-      result.addAll({'rating': rating});
-    }
-    if (latitude != null) {
-      result.addAll({'latitude': latitude});
-    }
-    if (longitude != null) {
-      result.addAll({'longitude': longitude});
-    }
-    if (isOnline != null) {
-      result.addAll({'isOnline': isOnline});
-    }
-    if (available != null) {
-      result.addAll({'available': available});
-    }
-    if (city != null) {
-      result.addAll({'city': city});
-    }
-    if (region != null) {
-      result.addAll({'region': region});
-    }
-    if (images != null) {
-      result.addAll({'images': images});
-    }
-    if (createdAt != null) {
-      result.addAll({'createdAt': createdAt});
-    }
-    if (artisanCategory != null) {
-      result.addAll({'artisanCategory': artisanCategory});
-    }
+    result.addAll({'rating': rating});
+    result.addAll({'latitude': latitude});
+    result.addAll({'longitude': longitude});
+    result.addAll({'isOnline': isOnline});
+    result.addAll({'available': available});
+    result.addAll({'city': city});
+    result.addAll({'region': region});
+    result.addAll({'images': images});
+    result.addAll({'createdAt': createdAt});
+    result.addAll({'artisanCategory': artisanCategory});
 
     return result;
   }
@@ -172,20 +142,22 @@ class UserModel {
       email: map['email'] ?? '',
       phone: map['phone'] ?? '',
       address: map['address'] ?? '',
-      image: map['image'],
+      status: map['status'] ?? '',
+      image: map['image'] ?? '',
       userType: map['userType'] ?? '',
+      certificate: map['certificate'] ?? '',
       location: Map<String, dynamic>.from(map['location']),
       gender: map['gender'] ?? '',
-      rating: map['rating']?.toDouble(),
-      latitude: map['latitude']?.toDouble(),
-      longitude: map['longitude']?.toDouble(),
-      isOnline: map['isOnline'],
-      available: map['available'],
-      city: map['city'],
-      region: map['region'],
+      rating: map['rating']?.toDouble() ?? 0.0,
+      latitude: map['latitude']?.toDouble() ?? 0.0,
+      longitude: map['longitude']?.toDouble() ?? 0.0,
+      isOnline: map['isOnline'] ?? false,
+      available: map['available'] ?? false,
+      city: map['city'] ?? '',
+      region: map['region'] ?? '',
       images: List<String>.from(map['images']),
-      createdAt: map['createdAt']?.toInt(),
-      artisanCategory: map['artisanCategory'],
+      createdAt: map['createdAt']?.toInt() ?? 0,
+      artisanCategory: map['artisanCategory'] ?? '',
     );
   }
 
@@ -196,7 +168,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, idNumber: $idNumber, name: $name, email: $email, phone: $phone, address: $address, image: $image, userType: $userType, location: $location, gender: $gender, rating: $rating, latitude: $latitude, longitude: $longitude, isOnline: $isOnline, available: $available, city: $city, region: $region, images: $images, createdAt: $createdAt, artisanCategory: $artisanCategory)';
+    return 'UserModel(id: $id, idNumber: $idNumber, name: $name, email: $email, phone: $phone, address: $address, status: $status, image: $image, userType: $userType, certificate: $certificate, location: $location, gender: $gender, rating: $rating, latitude: $latitude, longitude: $longitude, isOnline: $isOnline, available: $available, city: $city, region: $region, images: $images, createdAt: $createdAt, artisanCategory: $artisanCategory)';
   }
 
   @override
@@ -210,8 +182,10 @@ class UserModel {
         other.email == email &&
         other.phone == phone &&
         other.address == address &&
+        other.status == status &&
         other.image == image &&
         other.userType == userType &&
+        other.certificate == certificate &&
         mapEquals(other.location, location) &&
         other.gender == gender &&
         other.rating == rating &&
@@ -234,8 +208,10 @@ class UserModel {
         email.hashCode ^
         phone.hashCode ^
         address.hashCode ^
+        status.hashCode ^
         image.hashCode ^
         userType.hashCode ^
+        certificate.hashCode ^
         location.hashCode ^
         gender.hashCode ^
         rating.hashCode ^
@@ -248,6 +224,33 @@ class UserModel {
         images.hashCode ^
         createdAt.hashCode ^
         artisanCategory.hashCode;
+  }
+
+  static UserModel empty() {
+    return UserModel(
+      id: '',
+      idNumber: '',
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      image: '',
+      userType: '',
+      certificate: '',
+      location: const {},
+      status: 'active',
+      gender: '',
+      rating: 0.0,
+      latitude: 0.0,
+      longitude: 0.0,
+      isOnline: false,
+      available: false,
+      city: '',
+      region: '',
+      images: [],
+      createdAt: 0,
+      artisanCategory: '',
+    );
   }
 
   Map<String, dynamic> locationUpdateMap() {
@@ -284,6 +287,12 @@ class DummyData {
     'Abena Mensah',
     'Kwame Asamoah',
     'Ama Owusu',
+  ];
+  static List<String> clientList = [
+    'Frank Kwaku Mensah',
+    'Edwin Kofi Osei',
+    'Kofi Emmanuel',
+    'Akosua Fraema'
   ];
   static List<String> doctorsImages = [
     "https://img.freepik.com/free-photo/carpenter-cutting-mdf-board-inside-workshop_23-2149451041.jpg?w=740&t=st=1690891302~exp=1690891902~hmac=87ecc13f10e29a2309ec9d3d78cd7a789fc130e3bc384119c606b91383634643",
@@ -414,7 +423,6 @@ class DummyData {
   }
 
   static String _getRandomGender() {
-    //rettuen random gender
     return ['Male', 'Female'][_random.nextInt(2)];
   }
 
@@ -439,25 +447,46 @@ class DummyData {
 
   static List<UserModel> artisanList() {
     List<UserModel> artisans = [];
-
+    var _faker = Faker();
     for (int i = 0; i < ghanaianNames.length; i++) {
-      artisans.add(
-        UserModel(
-          id: '',
-          name: ghanaianNames[i],
-          email: doctorsEmails[i],
-          address: doctorsAddresses[i],
-          idNumber: generateRandomId(),
-          gender: _getRandomGender(),
-          phone: doctorsPhoneNumbers[i],
-          userType: 'artisan',
-          image: doctorsImages[i],
-          artisanCategory: _getDoctorSpecialty(),
-          //return random double between 1.5 and 5.0
-          rating: 1.5 + _random.nextDouble() * (5.0 - 1.5),
-          isOnline: _getRandomBool(),
-        ),
+      var user = UserModel.empty();
+      user = user.copyWith(
+        id: '',
+        certificate: _faker.randomGenerator.boolean()
+            ? 'gs://ready-artisans-c6a6e.appspot.com/bank statement.pdf'
+            : '',
+        name: ghanaianNames[i],
+        email: doctorsEmails[i],
+        address: doctorsAddresses[i],
+        idNumber: generateRandomId(),
+        gender: _getRandomGender(),
+        phone: doctorsPhoneNumbers[i],
+
+        userType: 'artisan',
+        image: doctorsImages[i],
+        artisanCategory: _getDoctorSpecialty(),
+        //return random double between 1.5 and 5.0
+        rating: 1.5 + _random.nextDouble() * (5.0 - 1.5),
+        isOnline: _getRandomBool(),
       );
+      artisans.add(user);
+    }
+    for (int i = 0; i < clientList.length; i++) {
+      var user = UserModel.empty();
+      user = user.copyWith(
+        id: '',
+        name: clientList[i],
+        email: doctorsEmails[i],
+        address: doctorsAddresses[i],
+        idNumber: generateRandomId(),
+        gender: _getRandomGender(),
+        phone: doctorsPhoneNumbers[i],
+        userType: 'client',
+        image: doctorsImages[i],
+        artisanCategory: _getDoctorSpecialty(),
+        isOnline: _getRandomBool(),
+      );
+      artisans.add(user);
     }
     return artisans;
   }

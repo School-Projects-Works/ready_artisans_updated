@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ready_artisans/admin/services/admin_services.dart';
 import 'package:ready_artisans/pages/home_page/home_page.dart';
 import 'package:ready_artisans/pages/welcome_page/welcome_page.dart';
 import 'package:ready_artisans/state_managers/location_data_state.dart';
@@ -14,13 +15,33 @@ import 'package:ready_artisans/services/firestore_services.dart';
 import 'package:ready_artisans/state_managers/user_data_state.dart';
 import 'admin/main/views/admin_main.dart';
 import 'firebase_options.dart';
+import 'models/category_mode.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  //await saveDummy();
   runApp(const ProviderScope(child: MyApp()));
+}
+
+Future<void> saveDummy() async {
+  var category = CategoryModel.dummyData;
+  for (var cat in category) {
+    var id = AdminServices.getCategoryId();
+    cat.id = id;
+    var results = await AdminServices.addCategory(cat);
+  }
+
+  // var artisans = DummyData.artisanList();
+  // for (var user in artisans) {
+  //   var id = AdminServices.getUserId();
+  //   user.id = id;
+  //   user.createdAt = DateTime.now().toUtc().millisecondsSinceEpoch;
+
+  //   await AdminServices.createUser(user);
+  // }
 }
 
 class MyApp extends ConsumerStatefulWidget {
@@ -73,7 +94,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       //set user Online
       await FireStoreServices.setUserOnline(user.uid);
       UserModel userData = await FireStoreServices.getUserData(user.uid);
-      
+
       //update user location
       location.whenData((location) async {
         if (location.latitude != null && location.longitude != null) {
@@ -93,7 +114,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         ref.watch(userProvider.notifier).setUser(userData);
       });
       return true;
-            } else {
+    } else {
       return false;
     }
   }

@@ -21,9 +21,9 @@ class _MainPageState extends ConsumerState<DashboardMain> {
   @override
   Widget build(BuildContext context) {
     var styles = Styles(context);
-    var artisans = ref.watch(artisanStreamProvider);
+    var users = ref.watch(userStream);
     var categories = ref.watch(categoriesStream);
-    
+
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -64,16 +64,16 @@ class _MainPageState extends ConsumerState<DashboardMain> {
                                   return Center(child: Text(error.toString()));
                                 },
                                 data: (data) {
-                                  return artisans.when(
+                                  return users.when(
                                       data: (user) {
                                         return widget.child;
                                       },
-                                      loading: () =>
-                                          const Center(child: CircularProgressIndicator()),
+                                      loading: () => const Center(
+                                          child: CircularProgressIndicator()),
                                       error: (error, stack) {
-                                        return Center(child: Text(error.toString()));
-                                      }
-                                      );
+                                        return Center(
+                                            child: Text(error.toString()));
+                                      });
                                 },
                               )))
                     ],
@@ -121,7 +121,7 @@ class _MainPageState extends ConsumerState<DashboardMain> {
                 padding: const EdgeInsets.only(
                     right: 40, top: 10, bottom: 10, left: 10),
                 icon: Icons.warning,
-                title: 'Users',
+                title: 'Customers',
                 onTap: () {
                   MyRouter(context: context, ref: ref)
                       .navigateToRoute(RouterItem.usersRoute);
@@ -132,7 +132,7 @@ class _MainPageState extends ConsumerState<DashboardMain> {
             child: BarItem(
                 padding: const EdgeInsets.only(
                     right: 40, top: 10, bottom: 10, left: 10),
-                icon: Icons.contact_phone,
+                icon: Icons.category,
                 title: 'Categories',
                 onTap: () {
                   MyRouter(context: context, ref: ref)
@@ -140,9 +140,8 @@ class _MainPageState extends ConsumerState<DashboardMain> {
                   Navigator.of(context).pop();
                 }),
           ),
-         ];
+        ];
       },
     );
   }
 }
-
