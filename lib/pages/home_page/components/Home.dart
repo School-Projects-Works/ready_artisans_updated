@@ -51,7 +51,6 @@ class _HomeState extends ConsumerState<Home> {
     var categories = ref.watch(categoryStreamProvider);
     var artisans = ref.watch(artisanStreamProvider);
     var location = ref.watch(locationStreamProvider);
-    var filtedArtisans = ref.watch(filteredArtisanStreamProvider);
     return Container(
       width: size.width,
       height: size.height,
@@ -109,7 +108,7 @@ class _HomeState extends ConsumerState<Home> {
                     TextButton(
                         onPressed: () {
                           ref.invalidate(locationStreamProvider);
-                           ref.refresh(locationStreamProvider);
+                          ref.refresh(locationStreamProvider);
                         },
                         child: const Text(
                           'Refresh',
@@ -158,15 +157,15 @@ class _HomeState extends ConsumerState<Home> {
                             setState(() {
                               _controller.clear();
                               ref
-                                  .read(artisanSearchQueryProvider.notifier)
-                                  .state = '';
+                                  .read(artisansFilterProvider.notifier)
+                                  .filterArtisansByName('');
                               _focus.unfocus();
                             });
                           },
                           icon: const Icon(Icons.close, color: primaryColor))
                       : const Icon(Icons.search, color: primaryColor),
                   onChanged: (value) {
-                    ref.read(artisanSearchQueryProvider.notifier).state = value;
+                    ref.read(artisansFilterProvider.notifier).filterArtisansByName(value);
                   },
                 ),
               )
@@ -178,9 +177,9 @@ class _HomeState extends ConsumerState<Home> {
           Expanded(
             child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: filtedArtisans.length,
+                itemCount: ref.watch(artisansFilterProvider).filter.length,
                 itemBuilder: (context, index) {
-                  var artisan = filtedArtisans[index];
+                  var artisan = ref.watch(artisansFilterProvider).filter[index];
                   return ArtisanCard(
                     artisan: artisan,
                     isRated: true,
@@ -218,10 +217,9 @@ class _HomeState extends ConsumerState<Home> {
                           enableInfiniteScroll: true,
                           enlargeCenterPage: true,
                           viewportFraction: 0.8,
-                          autoPlay: true,
+                          autoPlay: false,
                           onPageChanged: (index, reason) {
-                            ref.read(selectedCategoryProvider.notifier).state =
-                                data[index].name;
+                            ref.read(artisansFilterProvider.notifier).filterArtisansByCat(data[index].name);
                           },
                         ));
                   }
@@ -243,7 +241,8 @@ class _HomeState extends ConsumerState<Home> {
               ),
               const SizedBox(height: 10),
               artisans.when(data: (data) {
-                if (data.isEmpty) {
+                var artisanData = ref.watch(artisansFilterProvider).filter;
+                if (artisanData.isEmpty) {
                   return Center(
                     child: Text(
                       'No Artisan found',
@@ -262,7 +261,7 @@ class _HomeState extends ConsumerState<Home> {
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold)),
                           subtitle: ListView.builder(
-                              itemCount: data.length,
+                              itemCount: artisanData.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 var artisan = data[index];

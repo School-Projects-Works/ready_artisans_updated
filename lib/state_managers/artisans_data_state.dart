@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ready_artisans/models/category_mode.dart';
 import 'package:ready_artisans/models/user_model.dart';
 import 'package:ready_artisans/services/firestore_services.dart';
-import 'package:ready_artisans/state_managers/category_data_state.dart';
 
 final artisanStreamProvider =
     StreamProvider.autoDispose<List<UserModel>>((ref) async* {
@@ -13,47 +11,65 @@ final artisanStreamProvider =
   List<UserModel> artisans = [];
   await for (var snapshot in data) {
     artisans = snapshot.docs.map((e) => UserModel.fromMap(e.data())).toList();
+    ref.read(artisansFilterProvider.notifier).setItems(artisans);
     yield artisans;
   }
 });
 
-final selectedArtisanProvider =
-    StateProvider.autoDispose.family<UserModel, String>((ref, id) {
-  var artisans = ref.watch(artisanStreamProvider);
-  UserModel artisan = UserModel.empty();
-  artisans.whenData((value) {
-    artisan = value.firstWhere((element) => element.id == id);
+
+class ArtisansFilter {
+  List<UserModel> items;
+  List<UserModel> filter;
+  ArtisansFilter({
+    required this.items,
+    required this.filter,
   });
-  return artisan;
+
+  ArtisansFilter copyWith({
+    List<UserModel>? items,
+    List<UserModel>? filter,
+  }) {
+    return ArtisansFilter(
+      items: items ?? this.items,
+      filter: filter ?? this.filter,
+    );
+  }
+}
+
+final artisansFilterProvider =
+    StateNotifierProvider<ArtisansFilterState, ArtisansFilter>((ref) {
+  return ArtisansFilterState();
 });
 
-final selectedArtisanCategoryProvider =
-    StateProvider.autoDispose.family<CategoryModel, String>((ref, id) {
-  var categories = ref.watch(categoryStreamProvider);
-  CategoryModel category = CategoryModel.empty();
-  categories.whenData((value) {
-    category = value.firstWhere((element) => element.name == id);
-  });
-  return category;
-});
+class ArtisansFilterState extends StateNotifier<ArtisansFilter> {
+  ArtisansFilterState() : super(ArtisansFilter(items: [], filter: []));
+  void setItems(List<UserModel> items) {
+    state = state.copyWith(items: items, filter: items);
+  }
 
-final artisanSearchQueryProvider = StateProvider.autoDispose<String>((ref) {
-  return '';
-});
-final filteredArtisanStreamProvider =
-    StateProvider.autoDispose<List<UserModel>>((ref) {
-  String query = ref.watch(artisanSearchQueryProvider);
-  var data = ref.watch(artisanStreamProvider);
-  if (query.isEmpty) {
-    return [];
-  } else {
-    List<UserModel> artisans = [];
-    data.whenData((value) {
-      artisans = value
+  void filterArtisansByCat(String query) {
+    if (query.isNotEmpty) {
+      List<UserModel> _filtered = state.items
+          .where((element) =>
+             
+              element.artisanCategory.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      state = state.copyWith(filter: _filtered);
+    } else {
+      state = state.copyWith(filter: state.items);
+    }
+  }
+
+  void filterArtisansByName(String query) {
+    if (query.isNotEmpty) {
+      List<UserModel> _filtered = state.items
           .where((element) =>
               element.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
-    });
-    return artisans;
+      state = state.copyWith(filter: _filtered);
+    } else {
+      state = state.copyWith(filter: state.items);
+    }
   }
-});
+}
+

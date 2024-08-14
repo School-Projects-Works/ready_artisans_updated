@@ -130,6 +130,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.white,
         indicatorColor: Colors.black87,
+        primaryColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.black87),
         cardTheme: CardTheme(
           color: Colors.white,
@@ -140,7 +141,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           ),
         ),
         textTheme: GoogleFonts.nunitoTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.black87),
+            .apply(bodyColor: Colors.black, displayColor: Colors.black),
         canvasColor: primaryColor,
       ),
       builder: FlutterSmartDialog.init(),

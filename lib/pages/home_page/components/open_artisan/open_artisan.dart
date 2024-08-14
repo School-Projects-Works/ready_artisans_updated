@@ -11,13 +11,12 @@ import 'package:ready_artisans/styles/styles.dart';
 import '../../../../components/custom_button.dart';
 import '../../../../generated/assets.dart';
 import '../../../../state_managers/appointment_data_state.dart';
-import '../../../../state_managers/artisans_data_state.dart';
 import '../../../../state_managers/review_data_state.dart';
 import 'top_view.dart';
 
 class ArtisanDetailPage extends ConsumerStatefulWidget {
-  const ArtisanDetailPage(this.artisanId, {super.key});
-  final String? artisanId;
+  const ArtisanDetailPage(this.artisan, {super.key});
+  final UserModel artisan;
 
   @override
   ConsumerState<ArtisanDetailPage> createState() => _ArtisanDetailPageState();
@@ -28,9 +27,7 @@ class _ArtisanDetailPageState extends ConsumerState<ArtisanDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    UserModel artisan = ref.watch(selectedArtisanProvider(widget.artisanId!));
-    var category =
-        ref.watch(selectedArtisanCategoryProvider(artisan.artisanCategory!));
+    var artisan = widget.artisan;
     var reviews = ref.watch(reviewStreamProvider(artisan.id));
     var appointments = ref.watch(appointmentStreamProvider);
     return SafeArea(
@@ -79,7 +76,7 @@ class _ArtisanDetailPageState extends ConsumerState<ArtisanDetailPage> {
                                               fontSize: 18,
                                               fontWeight: FontWeight.w700,
                                               color: Colors.black54)),
-                                      Text('GHC ${category.perHourRate}',
+                                      Text('GHC ${artisan.perHourRate}',
                                           style: GoogleFonts.roboto(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
@@ -152,7 +149,7 @@ class _ArtisanDetailPageState extends ConsumerState<ArtisanDetailPage> {
                                               fontSize: 18,
                                               fontWeight: FontWeight.w700,
                                               color: Colors.black54)),
-                                      Text('GHC ${category.perHourRate! + 50}',
+                                      Text('GHC ${artisan.perHourRate + 50}',
                                           style: GoogleFonts.roboto(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
@@ -238,7 +235,7 @@ class _ArtisanDetailPageState extends ConsumerState<ArtisanDetailPage> {
                                                           artisan: artisan,
                                                           context: context,
                                                           ref: ref,
-                                                          perHourRate: category
+                                                          perHourRate: artisan
                                                               .perHourRate,
                                                           note:
                                                               _controller.text,

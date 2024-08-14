@@ -4,7 +4,6 @@ import 'package:ready_artisans/models/appointment_model.dart';
 import 'package:ready_artisans/models/user_model.dart';
 import 'package:ready_artisans/services/firestore_services.dart';
 import 'package:ready_artisans/state_managers/navigation_state.dart';
-
 import '../components/smart_dialog.dart';
 import 'user_data_state.dart';
 
@@ -13,7 +12,7 @@ final newAppointmentProvider =
         (ref) => AppointmentDataState());
 
 class AppointmentDataState extends StateNotifier<AppointmentModel> {
-  AppointmentDataState() : super(AppointmentModel());
+  AppointmentDataState() : super(AppointmentModel.empty());
   void addAppointment(AppointmentModel appointment) {
     state = appointment;
   }
@@ -24,7 +23,7 @@ class AppointmentDataState extends StateNotifier<AppointmentModel> {
       required WidgetRef ref,
       double? perHourRate,
       String? note}) async {
-    if (artisan.available ?? true) {
+    if (artisan.available) {
       CustomDialog.showLoading(message: 'Sending request...');
       var client = ref.read(userProvider);
       state = state.copyWith(
@@ -92,6 +91,52 @@ final appointmentStreamProvider =
     yield appointments;
   }
 });
+
+class AppFilter {
+  List<AppointmentModel> items;
+  List<AppointmentModel> filter;
+  AppFilter({
+    required this.items,
+    required this.filter,
+  });
+  
+
+  AppFilter copyWith({
+    List<AppointmentModel>? items,
+    List<AppointmentModel>? filter,
+  }) {
+    return AppFilter(
+      items: items ?? this.items,
+      filter: filter ?? this.filter,
+    );
+  }
+}
+
+final appointmentFilterProvider =
+    StateNotifierProvider<AppFilterState, AppFilter>((ref) {
+  return AppFilterState();
+});
+class AppFilterState extends StateNotifier<AppFilter> {
+  AppFilterState() : super(AppFilter(items: [], filter: []));
+  void setItems(List<AppointmentModel> items) {
+    state = state.copyWith(items: items, filter: items);
+  }
+
+  void filterAppointments(String query) {
+    if (query.isNotEmpty) {
+      List<AppointmentModel> _filtered = state.items
+          .where((element) =>
+              element.artisanName.toLowerCase().contains(query.toLowerCase()) ||
+              element.clientName.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      state = state.copyWith(filter: _filtered);
+    } else {
+      state = state.copyWith(filter: state.items);
+    }
+  }
+
+}
+
 
 final appointmentWithArtisanListProvider =
     StateProvider.family<List<AppointmentModel>, String>((ref, id) {

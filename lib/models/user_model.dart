@@ -17,6 +17,7 @@ class UserModel {
   String status;
   String image;
   String userType;
+  double perHourRate;
   String certificate;
   Map<String, dynamic> location;
   String gender;
@@ -39,7 +40,9 @@ class UserModel {
     required this.address,
     required this.status,
     this.image = '',
+
     this.userType = 'client',
+     this.perHourRate=0.0,
     required this.certificate,
     this.location = const {},
     required this.gender,
@@ -65,6 +68,7 @@ class UserModel {
     String? status,
     String? image,
     String? userType,
+    double? perHourRate,
     String? certificate,
     Map<String, dynamic>? location,
     String? gender,
@@ -89,6 +93,7 @@ class UserModel {
       status: status ?? this.status,
       image: image ?? this.image,
       userType: userType ?? this.userType,
+      perHourRate: perHourRate ?? this.perHourRate,
       certificate: certificate ?? this.certificate,
       location: location ?? this.location,
       gender: gender ?? this.gender,
@@ -107,7 +112,7 @@ class UserModel {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-
+  
     result.addAll({'id': id});
     result.addAll({'idNumber': idNumber});
     result.addAll({'name': name});
@@ -117,6 +122,7 @@ class UserModel {
     result.addAll({'status': status});
     result.addAll({'image': image});
     result.addAll({'userType': userType});
+    result.addAll({'perHourRate': perHourRate});
     result.addAll({'certificate': certificate});
     result.addAll({'location': location});
     result.addAll({'gender': gender});
@@ -130,7 +136,7 @@ class UserModel {
     result.addAll({'images': images});
     result.addAll({'createdAt': createdAt});
     result.addAll({'artisanCategory': artisanCategory});
-
+  
     return result;
   }
 
@@ -145,6 +151,7 @@ class UserModel {
       status: map['status'] ?? '',
       image: map['image'] ?? '',
       userType: map['userType'] ?? '',
+      perHourRate: map['perHourRate']?.toDouble() ?? 0.0,
       certificate: map['certificate'] ?? '',
       location: Map<String, dynamic>.from(map['location']),
       gender: map['gender'] ?? '',
@@ -168,62 +175,64 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, idNumber: $idNumber, name: $name, email: $email, phone: $phone, address: $address, status: $status, image: $image, userType: $userType, certificate: $certificate, location: $location, gender: $gender, rating: $rating, latitude: $latitude, longitude: $longitude, isOnline: $isOnline, available: $available, city: $city, region: $region, images: $images, createdAt: $createdAt, artisanCategory: $artisanCategory)';
+    return 'UserModel(id: $id, idNumber: $idNumber, name: $name, email: $email, phone: $phone, address: $address, status: $status, image: $image, userType: $userType, perHourRate: $perHourRate, certificate: $certificate, location: $location, gender: $gender, rating: $rating, latitude: $latitude, longitude: $longitude, isOnline: $isOnline, available: $available, city: $city, region: $region, images: $images, createdAt: $createdAt, artisanCategory: $artisanCategory)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is UserModel &&
-        other.id == id &&
-        other.idNumber == idNumber &&
-        other.name == name &&
-        other.email == email &&
-        other.phone == phone &&
-        other.address == address &&
-        other.status == status &&
-        other.image == image &&
-        other.userType == userType &&
-        other.certificate == certificate &&
-        mapEquals(other.location, location) &&
-        other.gender == gender &&
-        other.rating == rating &&
-        other.latitude == latitude &&
-        other.longitude == longitude &&
-        other.isOnline == isOnline &&
-        other.available == available &&
-        other.city == city &&
-        other.region == region &&
-        listEquals(other.images, images) &&
-        other.createdAt == createdAt &&
-        other.artisanCategory == artisanCategory;
+      other.id == id &&
+      other.idNumber == idNumber &&
+      other.name == name &&
+      other.email == email &&
+      other.phone == phone &&
+      other.address == address &&
+      other.status == status &&
+      other.image == image &&
+      other.userType == userType &&
+      other.perHourRate == perHourRate &&
+      other.certificate == certificate &&
+      mapEquals(other.location, location) &&
+      other.gender == gender &&
+      other.rating == rating &&
+      other.latitude == latitude &&
+      other.longitude == longitude &&
+      other.isOnline == isOnline &&
+      other.available == available &&
+      other.city == city &&
+      other.region == region &&
+      listEquals(other.images, images) &&
+      other.createdAt == createdAt &&
+      other.artisanCategory == artisanCategory;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        idNumber.hashCode ^
-        name.hashCode ^
-        email.hashCode ^
-        phone.hashCode ^
-        address.hashCode ^
-        status.hashCode ^
-        image.hashCode ^
-        userType.hashCode ^
-        certificate.hashCode ^
-        location.hashCode ^
-        gender.hashCode ^
-        rating.hashCode ^
-        latitude.hashCode ^
-        longitude.hashCode ^
-        isOnline.hashCode ^
-        available.hashCode ^
-        city.hashCode ^
-        region.hashCode ^
-        images.hashCode ^
-        createdAt.hashCode ^
-        artisanCategory.hashCode;
+      idNumber.hashCode ^
+      name.hashCode ^
+      email.hashCode ^
+      phone.hashCode ^
+      address.hashCode ^
+      status.hashCode ^
+      image.hashCode ^
+      userType.hashCode ^
+      perHourRate.hashCode ^
+      certificate.hashCode ^
+      location.hashCode ^
+      gender.hashCode ^
+      rating.hashCode ^
+      latitude.hashCode ^
+      longitude.hashCode ^
+      isOnline.hashCode ^
+      available.hashCode ^
+      city.hashCode ^
+      region.hashCode ^
+      images.hashCode ^
+      createdAt.hashCode ^
+      artisanCategory.hashCode;
   }
 
   static UserModel empty() {

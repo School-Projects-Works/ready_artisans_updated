@@ -199,6 +199,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           await FireStoreServices.updateUserOnlineStatus(user.uid, true);
           UserModel? userModel = await FireStoreServices.getUser(user.uid);
           if (userModel != null) {
+            if(userModel.status=='banned'){
+              CustomDialog.showError(
+                title: 'Account Banned',
+                message: 'Your account has been banned, contact support for more information',
+              );
+              return;
+            }
             ref.read(userProvider.notifier).setUser(userModel);
             CustomDialog.dismiss();
             if (mounted) {

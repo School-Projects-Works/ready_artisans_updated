@@ -47,6 +47,7 @@ class _HomePageState extends ConsumerState<HomePage>
 
   @override
   Widget build(BuildContext context) {
+     var user = ref.watch(userProvider);
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(75),
@@ -88,16 +89,22 @@ class _HomePageState extends ConsumerState<HomePage>
                   padding: const EdgeInsets.all(8),
                   gap: 8,
                   activeColor: Colors.white,
-                  tabs: const [
-                    GButton(
+                  tabs:  [
+                    const GButton(
                       icon: Icons.home,
                       text: 'Home',
                     ),
-                    GButton(
+                    if (user.userType.toLowerCase() == 'artisan' &&
+                        user.status.toLowerCase() == 'active')
+                         const GButton(
+                        icon: Icons.apps,
+                        text: 'Dashboard',
+                      ),
+                    const GButton(
                       icon: Icons.request_page,
                       text: 'Request',
                     ),
-                    GButton(
+                    const GButton(
                       icon: Icons.person,
                       text: 'Profile',
                     ),
@@ -110,9 +117,8 @@ class _HomePageState extends ConsumerState<HomePage>
   List<Widget> _buildScreens() {
     var user = ref.watch(userProvider);
     return [
-      if (user.userType.toLowerCase() == 'client')
         const Home(),
-      if (user.userType.toLowerCase() == 'artisan')
+      if (user.userType.toLowerCase() == 'artisan'&&user.status.toLowerCase() == 'active')
         const ArtisanHome(),
       const MyOrders(),
       const ProfilePage(),

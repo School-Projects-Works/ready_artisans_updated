@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ready_artisans/components/smart_dialog.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../state_managers/navigation_state.dart';
 import '../../styles/app_colors.dart';
 import '../../generated/assets.dart';
@@ -17,7 +19,7 @@ class ImagesSection extends ConsumerStatefulWidget {
 }
 
 class _ImagesSectionState extends ConsumerState<ImagesSection> {
-  File? idBack, idFront, profileImage;
+  File? idBack, idFront, profileImage, certificate;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -170,7 +172,53 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
                             fontWeight: FontWeight.w600),
                       ),
                     ),
-                  )
+                  ),
+                  Container(
+                    width: size.width,
+                    height: 250,
+                    margin: const EdgeInsets.all(10),
+                    alignment: Alignment.bottomCenter,
+                    decoration: BoxDecoration(
+                      color: Colors.black26,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Stack(
+                      children: [
+                        certificate != null
+                            ? Container(
+                                width: size.width,
+                                height: 250,
+                                decoration: BoxDecoration(
+                                  color: Colors.black26,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: SfPdfViewer.file(
+                                  certificate!,
+                                ),
+                              )
+                            : const SizedBox(),
+                        TextButton.icon(
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                          ),
+                          onPressed: () {
+                            _pickCertificate();
+                          },
+                          icon: const Icon(
+                            FontAwesomeIcons.camera,
+                            color: Colors.white,
+                          ),
+                          label: Text(
+                            'Upload Certificate',
+                            style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -225,7 +273,7 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
               });
             },
             leading: const Icon(Icons.camera_alt),
-            title: const Text('Camera'),
+            title: const Text('Camera', style: TextStyle(color: Colors.black)),
           ),
           ListTile(
             onTap: () async {
@@ -237,7 +285,7 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
               });
             },
             leading: const Icon(Icons.image),
-            title: const Text('Gallery'),
+            title: const Text('Gallery', style: TextStyle(color: Colors.black)),
           ),
           const Divider(
             color: Colors.grey,
@@ -248,7 +296,7 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
               CustomDialog.dismiss();
             },
             leading: const Icon(Icons.close),
-            title: const Text('Cancel'),
+            title: const Text('Cancel', style: TextStyle(color: Colors.black)),
           ),
         ],
       ),
@@ -282,7 +330,7 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
               });
             },
             leading: const Icon(Icons.camera_alt),
-            title: const Text('Camera'),
+            title: const Text('Camera', style: TextStyle(color: Colors.black)),
           ),
           ListTile(
             onTap: () async {
@@ -294,7 +342,7 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
               });
             },
             leading: const Icon(Icons.image),
-            title: const Text('Gallery'),
+            title: const Text('Gallery', style: TextStyle(color: Colors.black)),
           ),
           const Divider(
             color: Colors.grey,
@@ -305,7 +353,7 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
               CustomDialog.dismiss();
             },
             leading: const Icon(Icons.close),
-            title: const Text('Cancel'),
+            title: const Text('Cancel', style: TextStyle(color: Colors.black)),
           ),
         ],
       ),
@@ -339,7 +387,7 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
               });
             },
             leading: const Icon(Icons.camera_alt),
-            title: const Text('Camera'),
+            title: const Text('Camera', style: TextStyle(color: Colors.black)),
           ),
           ListTile(
             onTap: () async {
@@ -351,7 +399,7 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
               });
             },
             leading: const Icon(Icons.image),
-            title: const Text('Gallery'),
+            title: const Text('Gallery', style: TextStyle(color: Colors.black)),
           ),
           const Divider(
             color: Colors.grey,
@@ -362,19 +410,47 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
               CustomDialog.dismiss();
             },
             leading: const Icon(Icons.close),
-            title: const Text('Cancel'),
+            title: const Text('Cancel', style: TextStyle(color: Colors.black)),
           ),
         ],
       ),
     ));
   }
 
+  void _pickCertificate() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      setState(() {
+        certificate = file;
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
+
   void checkAndContinue() async {
-    if (idFront == null || idBack == null || profileImage == null) {
+    if (idFront == null || idBack == null || profileImage == null|| certificate == null) {
       CustomDialog.showError(
           title: 'Error', message: 'Please upload all images');
     } else {
+      List<File> list = [
+        idFront!,
+        idBack!,
+        profileImage!,
+        certificate!
+      ];
+      ref.read(filesProvider.notifier).state = list;
       ref.read(newArtisanIndexProvider.notifier).state = 1;
     }
   }
 }
+
+
+final filesProvider = StateProvider<List<File>>((ref) {
+  return [];
+});

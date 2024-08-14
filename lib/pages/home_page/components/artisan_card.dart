@@ -7,8 +7,8 @@ import 'package:ready_artisans/styles/styles.dart';
 import 'open_artisan/open_artisan.dart';
 
 class ArtisanCard extends StatelessWidget {
-  const ArtisanCard({super.key, this.artisan, this.isRated = false});
-  final UserModel? artisan;
+  const ArtisanCard({super.key, required this.artisan, this.isRated = false});
+  final UserModel artisan;
   final bool isRated;
 
   @override
@@ -19,7 +19,7 @@ class ArtisanCard extends StatelessWidget {
         sendToPage(
             context,
             ArtisanDetailPage(
-              artisan!.id,
+              artisan,
             ));
       },
       child: Container(
@@ -30,9 +30,9 @@ class ArtisanCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
-            image: artisan!.image != null
+            image: artisan.image.isNotEmpty
                 ? DecorationImage(
-                    image: NetworkImage(artisan!.image!),
+                    image: NetworkImage(artisan.image),
                     fit: BoxFit.fill,
                   )
                 : null,
@@ -58,30 +58,30 @@ class ArtisanCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      artisan!.name,
+                      artisan.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style:
                           normalText(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      artisan!.artisanCategory!,
+                      artisan.artisanCategory,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                           fontSize: 15, fontWeight: FontWeight.w600),
                     ),
                     //rating
-                    if (artisan!.rating != null)
+                    if (artisan.rating != 0)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            artisan!.rating!.toStringAsFixed(1),
+                            artisan.rating.toStringAsFixed(1),
                             style: normalText(
                                 fontSize: 15, fontWeight: FontWeight.w600),
                           ),
-                          for (int i = 0; i < artisan!.rating!.toInt(); i++)
+                          for (int i = 0; i < artisan.rating.toInt(); i++)
                             const Icon(Icons.star,
                                 color: secondaryColor, size: 15)
                         ],

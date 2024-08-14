@@ -60,7 +60,9 @@ class _MyOrdersState extends ConsumerState<MyOrders> {
                         color: Colors.white,
                       ),
                       onChanged: (value) {
-                        //TODO: search request
+                        ref
+                            .read(appointmentFilterProvider.notifier)
+                            .filterAppointments(value);
                       },
                     ),
                   )
@@ -68,7 +70,8 @@ class _MyOrdersState extends ConsumerState<MyOrders> {
               )),
           Expanded(
             child: request.when(data: (data) {
-              if (data.isEmpty) {
+              var apps = ref.watch(appointmentFilterProvider).filter;
+              if (apps.isEmpty) {
                 return Center(
                   child: Text(
                     'No request found',
@@ -77,10 +80,10 @@ class _MyOrdersState extends ConsumerState<MyOrders> {
                 );
               } else {
                 return ListView.builder(
-                    itemCount: data.length,
+                    itemCount: apps.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return RequestCard(data: data[index]);
+                      return RequestCard(data: apps[index]);
                     });
               }
             }, error: (e, s) {

@@ -38,6 +38,8 @@ dependencies:
   image_network: ^2.5.6
   faker: ^2.1.0
   http: ^1.2.2
+  file_picker: ^8.0.7
+  syncfusion_flutter_pdfviewer: ^26.2.9
 
 
 

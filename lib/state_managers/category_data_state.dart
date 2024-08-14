@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ready_artisans/services/firestore_services.dart';
-
 import '../models/category_mode.dart';
 
 final categoryStreamProvider = StreamProvider<List<CategoryModel>>(
@@ -18,5 +17,4 @@ final categoryStreamProvider = StreamProvider<List<CategoryModel>>(
   },
 );
 
-final categorySearchQueryProvider = StateProvider<String>((ref) => '');
-final selectedCategoryProvider = StateProvider<String>((ref) => '');
+

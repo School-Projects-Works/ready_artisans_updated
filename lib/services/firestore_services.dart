@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ready_artisans/models/appointment_model.dart';
 import 'package:ready_artisans/models/review_mode.dart';
@@ -7,6 +9,7 @@ import '../models/category_mode.dart';
 
 class FireStoreServices {
   static final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  
 
   static Future<UserModel> getUserData(uid) async {
     var data = await _fireStore.collection('users').doc(uid).get();
@@ -134,17 +137,38 @@ class FireStoreServices {
         .update({'status': data.status});
   }
 
-  static Future<bool> updateUserToArtisan(String? id, String category) async {
+  static Future<bool> updateUserToArtisan(UserModel user) async {
     try {
       await _fireStore
           .collection('users')
-          .doc(id)
-          .update({'userType': 'artisan', 'artisanCategory': category});
+          .doc(user.id)
+          .update(user.toMap());
       return true;
     } on FirebaseException {
       return false;
     } catch (e) {
       return false;
+    }
+  }
+
+  static Future<(String,String,String,)> uploadFiles(List<File> files) async{
+    try {
+      var image = await uploadFile(files[0]);
+      var id = await uploadFile(files[1]);
+      var cert = await uploadFile(files[2]);
+      return (image,id,cert);
+    } catch (e) {
+      return ('','','');
+    }
+  }
+  
+  static Future<String>uploadFile(File fil) async{
+    try {
+      var ref = FirebaseStorage.instance.ref().child('files/${fil.path}');
+      await ref.putFile(fil);
+      return await ref.getDownloadURL();
+    } catch (e) {
+      return '';
     }
   }
 }
