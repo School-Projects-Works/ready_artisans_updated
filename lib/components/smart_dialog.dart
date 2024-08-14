@@ -36,7 +36,8 @@ class CustomDialog {
   }) {
     SmartDialog.showToast(
       message,
-      alignment:Alignment.topCenter, // This is optional, default is Alignment.bottomCenter
+      alignment: Alignment
+          .center, // This is optional, default is Alignment.bottomCenter
       builder: (context) => Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -134,8 +135,8 @@ class CustomDialog {
                         style: ButtonStyle(
                           backgroundColor:
                               WidgetStateProperty.all(Colors.transparent),
-                          padding: WidgetStateProperty.all(
-                              const EdgeInsets.all(10)),
+                          padding:
+                              WidgetStateProperty.all(const EdgeInsets.all(10)),
                         ),
                         child: Text(
                           'Okay',
@@ -222,8 +223,8 @@ class CustomDialog {
                         style: ButtonStyle(
                           backgroundColor:
                               WidgetStateProperty.all(Colors.transparent),
-                          padding: WidgetStateProperty.all(
-                              const EdgeInsets.all(10)),
+                          padding:
+                              WidgetStateProperty.all(const EdgeInsets.all(10)),
                         ),
                         child: Text(
                           'Okay',

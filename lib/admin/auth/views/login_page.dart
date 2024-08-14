@@ -104,14 +104,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               thickness: 3,
             ),
             const SizedBox(height: 15),
-            CustomAdminTextFields(
+            CustomTextFields(
               label: 'Username',
               prefixIcon: Icons.person,
               hintText: 'Enter your username',
               controller: _emailController,
             ),
             const SizedBox(height: 22),
-            CustomAdminTextFields(
+            CustomTextFields(
               label: 'Password',
               hintText: 'Enter your password',
               prefixIcon: Icons.lock,

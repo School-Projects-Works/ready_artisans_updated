@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomAdminTextFields extends ConsumerWidget {
-  const CustomAdminTextFields({
+import '../../styles/styles_admin.dart';
+
+
+
+
+class CustomTextFields extends ConsumerWidget {
+  const CustomTextFields({
     super.key,
     this.label,
     this.prefixIcon,
@@ -28,6 +33,7 @@ class CustomAdminTextFields extends ConsumerWidget {
     this.isPhoneInput = false,
     this.onSubmitted,
     this.focusNode,
+    this.initialValue,
   });
 
   final String? label;
@@ -52,9 +58,11 @@ class CustomAdminTextFields extends ConsumerWidget {
   final int? max, min;
   final TextEditingController? controller;
   final bool? isPhoneInput;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var styles = Styles(context);
     return TextFormField(
       keyboardType: keyboardType,
       controller: controller,
@@ -63,6 +71,7 @@ class CustomAdminTextFields extends ConsumerWidget {
       validator: validator,
       focusNode: focusNode,
       onFieldSubmitted: onSubmitted,
+      initialValue: initialValue,
       inputFormatters: [
         if (isCapitalized!) UpperCaseTextFormatter(),
         if (isDigitOnly ?? false)
@@ -72,12 +81,12 @@ class CustomAdminTextFields extends ConsumerWidget {
       textCapitalization: isCapitalized!
           ? TextCapitalization.characters
           : TextCapitalization.none,
-      style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
+      style: styles.body(
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
           color: isReadOnly!
-              ? Colors.grey
-              : Theme.of(context).textTheme.labelLarge!.color),
+              ? Theme.of(context).textTheme.labelLarge!.color!
+              : Theme.of(context).textTheme.labelLarge!.color!),
       onChanged: onChanged,
       onSaved: onSaved,
       maxLines: maxLines ?? 1,
@@ -99,8 +108,9 @@ class CustomAdminTextFields extends ConsumerWidget {
         ),
         fillColor: Colors.transparent,
         filled: true,
-        errorStyle: TextStyle(
+        errorStyle: styles.body(
           color: Theme.of(context).colorScheme.error,
+          fontSize: 12
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius ?? 5),
@@ -110,7 +120,9 @@ class CustomAdminTextFields extends ConsumerWidget {
         prefixIconColor: Theme.of(context).colorScheme.secondary,
         suffixIconColor: Theme.of(context).colorScheme.secondary,
         contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-        labelStyle: const TextStyle(),
+        labelStyle: styles.body(
+          fontWeight: FontWeight.w300
+        ),
         labelText: label,
         hintText: hintText,
         focusColor: Theme.of(context).colorScheme.secondary,
@@ -119,7 +131,8 @@ class CustomAdminTextFields extends ConsumerWidget {
           fontWeight: FontWeight.w500,
         ),
         iconColor: Theme.of(context).colorScheme.secondary,
-        hintStyle: const TextStyle(),
+        hintStyle: styles.body(
+            fontWeight: FontWeight.w300, fontSize: 13),
         prefixIcon: prefixIcon != null
             ? Icon(
                 prefixIcon,

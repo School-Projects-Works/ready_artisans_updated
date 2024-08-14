@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ready_artisans/constant/enums.dart';
 import 'package:ready_artisans/state_managers/navigation_state.dart';
 import 'package:ready_artisans/state_managers/user_data_state.dart';
 import '../../components/custom_drop_down.dart';
@@ -319,7 +320,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             const SizedBox(height: 20),
             CustomDropDown(
               label: 'Select gender',
-              value: ref.watch(userProvider).gender,
+              value: ref.watch(userProvider).gender.isEmpty
+                  ? null
+                  : ref.watch(userProvider).gender,
               onChanged: (value) {
                 ref.read(userProvider.notifier).setgender(value!);
               },
@@ -343,7 +346,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                         style: GoogleFonts.nunito(color: Colors.black))),
               ],
             ),
-            const SizedBox(height: 20),
+            // const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -522,13 +525,15 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                         _thirdForm.currentState!.save();
                         if (password == confirmPassword) {
                           if (policy) {
-                            if(image == null){
-                              CustomDialog.showToast(message: 'Please select a profile image');
+                            if (image == null) {
+                              CustomDialog.showToast(
+                                  message: 'Please select a profile image',
+                                  type: ToastType.error);
                               return;
-                            }else {
+                            } else {
                               ref.read(userProvider.notifier).createUser(
-                                context, ref,
-                                image: image!, password: password);
+                                  context, ref,
+                                  image: image!, password: password);
                             }
                           } else {
                             CustomDialog.showError(
