@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:ready_artisans/admin/core/funnnctions/sms_functions.dart';
 import 'package:ready_artisans/constant/functions.dart';
 import 'package:ready_artisans/models/appointment_model.dart';
 import 'package:ready_artisans/services/firestore_services.dart';
@@ -31,7 +32,7 @@ class RequestCard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: Text(
-                    data.artisanCategory!,
+                    data.artisanCategory,
                     style: GoogleFonts.roboto(
                         color: Colors.black,
                         fontSize: 18,
@@ -40,7 +41,7 @@ class RequestCard extends ConsumerWidget {
                 ),
                 const Spacer(),
                 Text(
-                  data.status!,
+                  data.status,
                   style: GoogleFonts.roboto(
                       color: data.status == 'Pending'
                           ? Colors.orange
@@ -59,8 +60,8 @@ class RequestCard extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     user.id == data.artisanId
-                        ? data.clientName!
-                        : data.artisanName!,
+                        ? data.clientName
+                        : data.artisanName,
                     style: normalText(color: Colors.black54, fontSize: 16),
                   ),
                 ),
@@ -103,9 +104,8 @@ class RequestCard extends ConsumerWidget {
                     endIndent: 15,
                     color: Colors.black45,
                   )),
-                  if (data.clientLocation != null)
-                    Text(
-                        data.clientLocation!['region'].toString().split(':')[0])
+                  Text(
+                      data.clientLocation['region'].toString().split(':')[0])
                 ],
               ),
               const SizedBox(height: 10),
@@ -120,10 +120,9 @@ class RequestCard extends ConsumerWidget {
                     endIndent: 15,
                     color: Colors.black45,
                   )),
-                  if (data.clientLocation != null)
-                    Text(data.clientLocation!['district']
-                        .toString()
-                        .split(':')[0])
+                  Text(data.clientLocation['district']
+                      .toString()
+                      .split(':')[0])
                 ],
               ),
               const SizedBox(height: 10),
@@ -138,8 +137,7 @@ class RequestCard extends ConsumerWidget {
                     endIndent: 15,
                     color: Colors.black45,
                   )),
-                  if (data.clientLocation != null)
-                    Text(data.clientLocation!['city'].toString().split(':')[0])
+                  Text(data.clientLocation['city'].toString().split(':')[0])
                 ],
               ),
               const SizedBox(height: 10),
@@ -154,20 +152,14 @@ class RequestCard extends ConsumerWidget {
                     endIndent: 15,
                     color: Colors.black45,
                   )),
-                  if (data.clientLocation != null)
-                    Text(data.clientAddress.toString())
+                  Text(data.clientAddress.toString())
                 ],
               ),
               TextButton(
                   onPressed: () {
-                    if (data.clientLatitude != null &&
-                        data.clientLongitude != null) {
-                      MapsLauncher.launchCoordinates(
-                          data.clientLatitude!, data.clientLongitude!);
-                    } else {
-                      CustomDialog.showToast(message: 'Location not available');
-                    }
-                  },
+                    MapsLauncher.launchCoordinates(
+                        data.clientLatitude, data.clientLongitude);
+                                    },
                   child: Text(
                     'View on map',
                     style: normalText(color: secondaryColor, fontSize: 16),
@@ -194,7 +186,7 @@ class RequestCard extends ConsumerWidget {
                       children: [
                         Text(
                           user.id == data.clientId
-                              ? data.artisanPhone ?? ''
+                              ? data.artisanPhone
                               : data.clientPhone ?? '',
                           style: normalText(
                               fontSize: 16, fontWeight: FontWeight.bold),
@@ -324,7 +316,7 @@ class RequestCard extends ConsumerWidget {
                           color: Colors.black45,
                         )),
                         Text(
-                          'GHC ${data.perHourRate! + 50}',
+                          'GHC ${data.perHourRate + 50}',
                           style: normalText(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -339,8 +331,7 @@ class RequestCard extends ConsumerWidget {
             color: Colors.black45,
           ),
           if (user.id == data.artisanId &&
-              data.note != null &&
-              data.note!.isNotEmpty)
+              data.note.isNotEmpty)
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Row(
@@ -476,7 +467,7 @@ class RequestCard extends ConsumerWidget {
                     label: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: Text(
-                        data.status!,
+                        data.status,
                         style: normalText(color: Colors.white),
                       ),
                     )),
@@ -531,7 +522,8 @@ class RequestCard extends ConsumerWidget {
                     : 'Rejecting request...';
     CustomDialog.dismiss();
     CustomDialog.showLoading(message: message);
-    await FireStoreServices.updateRequestStatus(data).then((value) {
+    await FireStoreServices.updateRequestStatus(data).then((value)async {
+      await sendMessage(data.clientPhone, 'Request status updated to ${data.status}');
       CustomDialog.dismiss();
       CustomDialog.showSuccess(
         title: 'Success',

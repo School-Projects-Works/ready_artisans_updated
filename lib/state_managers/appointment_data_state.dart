@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ready_artisans/admin/core/funnnctions/sms_functions.dart';
 import 'package:ready_artisans/models/appointment_model.dart';
 import 'package:ready_artisans/models/user_model.dart';
 import 'package:ready_artisans/services/firestore_services.dart';
@@ -53,7 +54,9 @@ class AppointmentDataState extends StateNotifier<AppointmentModel> {
           note: note,
           perHourRate: perHourRate,
           createdAt: DateTime.now().millisecondsSinceEpoch);
-      await FireStoreServices.addAppointment(state).then((value) {
+      var results = await FireStoreServices.addAppointment(state);
+      if (results) {
+        await sendMessage(artisan.phone, 'You have a new request from ${client.name}');
         CustomDialog.dismiss();
         CustomDialog.showSuccess(
             title: 'Success',
@@ -64,11 +67,11 @@ class AppointmentDataState extends StateNotifier<AppointmentModel> {
             message: 'Your request has been sent to ${artisan.name}');
         ref.read(homePageIndexProvider.notifier).state = 1;
         // Navigator.pop(context);
-      }).catchError((e) {
-        CustomDialog.dismiss();
+      }else{
         CustomDialog.showError(
-            title: 'Error', message: 'An error occurred, please try again');
-      });
+            title: 'Error',
+            message: 'An error occurred while sending your request');
+      }
     } else {
       CustomDialog.showError(
           title: 'Unavailable',
@@ -99,7 +102,6 @@ class AppFilter {
     required this.items,
     required this.filter,
   });
-  
 
   AppFilter copyWith({
     List<AppointmentModel>? items,
@@ -116,6 +118,7 @@ final appointmentFilterProvider =
     StateNotifierProvider<AppFilterState, AppFilter>((ref) {
   return AppFilterState();
 });
+
 class AppFilterState extends StateNotifier<AppFilter> {
   AppFilterState() : super(AppFilter(items: [], filter: []));
   void setItems(List<AppointmentModel> items) {
@@ -134,9 +137,7 @@ class AppFilterState extends StateNotifier<AppFilter> {
       state = state.copyWith(filter: state.items);
     }
   }
-
 }
-
 
 final appointmentWithArtisanListProvider =
     StateProvider.family<List<AppointmentModel>, String>((ref, id) {
