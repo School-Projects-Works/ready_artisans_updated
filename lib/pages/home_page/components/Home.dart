@@ -44,7 +44,8 @@ class _HomeState extends ConsumerState<Home> {
     setState(() {});
   }
 
-  CarouselController buttonCarouselController = CarouselController();
+  CarouselSliderController buttonCarouselController =
+      CarouselSliderController();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -71,6 +72,7 @@ class _HomeState extends ConsumerState<Home> {
             children: [
               //show user location
               location.when(data: (data) {
+                var data = ref.watch(locationProvider);
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
@@ -165,7 +167,9 @@ class _HomeState extends ConsumerState<Home> {
                           icon: const Icon(Icons.close, color: primaryColor))
                       : const Icon(Icons.search, color: primaryColor),
                   onChanged: (value) {
-                    ref.read(artisansFilterProvider.notifier).filterArtisansByName(value);
+                    ref
+                        .read(artisansFilterProvider.notifier)
+                        .filterArtisansByName(value);
                   },
                 ),
               )
@@ -219,7 +223,9 @@ class _HomeState extends ConsumerState<Home> {
                           viewportFraction: 0.8,
                           autoPlay: false,
                           onPageChanged: (index, reason) {
-                            ref.read(artisansFilterProvider.notifier).filterArtisansByCat(data[index].name);
+                            ref
+                                .read(artisansFilterProvider.notifier)
+                                .filterArtisansByCat(data[index].name);
                           },
                         ));
                   }

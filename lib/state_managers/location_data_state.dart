@@ -47,7 +47,13 @@ final locationStreamProvider = StreamProvider<UserLocation>((ref) async* {
           district: place.subAdministrativeArea,
         );
       });
+      ref.read(locationProvider.notifier).state = location;
       yield location;
         }
   }
+});
+
+
+final locationProvider = StateProvider<UserLocation>((ref) {
+  return UserLocation();
 });

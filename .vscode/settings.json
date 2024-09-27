@@ -21,5 +21,6 @@
         "Tema",
         "unfocus",
         "vsync"
-    ]
+    ],
+    "cmake.sourceDirectory": "/Users/fuse/Development/Projects/ready_artisans_updated/linux"
 }
