@@ -64,7 +64,7 @@ class ArtisansFilterState extends StateNotifier<ArtisansFilter> {
     if (query.isNotEmpty) {
       List<UserModel> _filtered = state.items
           .where((element) =>
-              element.name.toLowerCase().contains(query.toLowerCase()))
+              element.name.toLowerCase().contains(query.toLowerCase())||element.artisanCategory.toLowerCase().contains(query.toLowerCase()))
           .toList();
       state = state.copyWith(filter: _filtered);
     } else {
