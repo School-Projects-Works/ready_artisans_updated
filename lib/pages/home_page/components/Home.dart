@@ -3,6 +3,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
 import 'package:ready_artisans/components/category_item.dart';
 import 'package:ready_artisans/components/custom_button.dart';
 import 'package:ready_artisans/components/text_inputs.dart';
@@ -12,6 +13,7 @@ import 'package:ready_artisans/state_managers/location_data_state.dart';
 import 'package:ready_artisans/styles/app_colors.dart';
 import 'package:ready_artisans/styles/styles.dart';
 import '../../../constant/functions.dart';
+import '../../../models/user_location_model.dart';
 import '../../../state_managers/artisans_data_state.dart';
 import 'artisan_card.dart';
 
@@ -89,7 +91,25 @@ class _HomeState extends ConsumerState<Home> {
                     ),
                     trailing: TextButton(
                       onPressed: () {
-                        //todo pick location from map
+                        FlutterLocationPicker(
+                            initZoom: 11,
+                             initPosition: LatLong(data.latitude?? 6.700071, data.longitude?? 1.630783),
+                            selectLocationButtonStyle: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStateProperty.all(Colors.blue),
+                            ),
+                            minZoomLevel: 5,
+                            maxZoomLevel: 16,
+                            trackMyPosition: true,
+                            onPicked: (pickedData) {
+                              ref.read(locationProvider.notifier).state = UserLocation(
+                                  latitude: pickedData.latLong.latitude,
+                                  longitude: pickedData.latLong.longitude,
+                                  city: pickedData.addressData.city,
+                                  district: pickedData.addressData.neighbourhood,
+                                  region: pickedData.addressData.state,
+                                  country: pickedData.addressData.country,);
+                            });
                       },
                       child: const Text(
                         'Change',
