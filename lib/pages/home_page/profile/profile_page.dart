@@ -156,47 +156,48 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                if (user.userType.toLowerCase() == 'artisan')
-                  Container(
-                    width: size.width,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(.2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ListTile(
-                      onTap: () {
-                        sendToPage(context, const NewArtisanPage());
-                      },
-                      trailing: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: Colors.blue,
-                            padding: const EdgeInsets.all(15),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                          onPressed: () {
-                            sendToPage(context, const NewArtisanPage());
-                          },
-                          child: Text(
-                            'Start',
-                            style: normalText(color: Colors.white),
-                          )),
-                      title: Text(
-                        'Make me a Customer',
-                        style: GoogleFonts.roboto(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                      subtitle: Text(
-                        'Become a customer and start requesting for services',
-                        style: GoogleFonts.nunito(
-                            fontSize: 16, color: Colors.black54),
-                      ),
-                    ),
-                  ),
+                // if (user.userType.toLowerCase() == 'artisan')
+                //   // Container(
+                //   width: size.width,
+                //   padding: const EdgeInsets.all(10),
+                //   decoration: BoxDecoration(
+                //     color: Colors.green.withOpacity(.2),
+                //     borderRadius: BorderRadius.circular(10),
+                //   ),
+                //   child: ListTile(
+                //     onTap: () {
+                //       //sendToPage(context, const NewArtisanPage());
+                //     },
+                //     trailing: ElevatedButton(
+                //         style: ElevatedButton.styleFrom(
+                //           elevation: 0,
+                //           backgroundColor: Colors.blue,
+                //           padding: const EdgeInsets.all(15),
+                //           shape: RoundedRectangleBorder(
+                //               borderRadius: BorderRadius.circular(10)),
+                //         ),
+                //         onPressed: () {
+                //           //sendToPage(context, const NewArtisanPage());
+                //         },
+                //         child: Text(
+                //           'Start',
+                //           style: normalText(color: Colors.white),
+                //         )),
+                //     title: Text(
+                //       'Make me a Customer',
+                //       style: GoogleFonts.roboto(
+                //           fontSize: 22,
+                //           fontWeight: FontWeight.bold,
+                //           color: Colors.black),
+                //     ),
+                //     subtitle: Text(
+                //       'Become a customer and start requesting for services',
+                //       style: GoogleFonts.nunito(
+                //           fontSize: 16, color: Colors.black54),
+                //     ),
+                //   ),
+                // ),
+
                 if (user.userType.toLowerCase() != 'artisan')
                   //become artisan card
                   Container(

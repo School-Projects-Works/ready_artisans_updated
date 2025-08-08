@@ -29,9 +29,7 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
       height: size.height,
       child: Column(
         children: [
-          SizedBox(
-            width: size.width,
-            height: size.height - 152,
+          Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -434,22 +432,19 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
   }
 
   void checkAndContinue() async {
-    if (idFront == null || idBack == null || profileImage == null|| certificate == null) {
+    if (idFront == null ||
+        idBack == null ||
+        profileImage == null ||
+        certificate == null) {
       CustomDialog.showError(
           title: 'Error', message: 'Please upload all images');
     } else {
-      List<File> list = [
-        idFront!,
-        idBack!,
-        profileImage!,
-        certificate!
-      ];
+      List<File> list = [idFront!, idBack!, profileImage!, certificate!];
       ref.read(filesProvider.notifier).state = list;
       ref.read(newArtisanIndexProvider.notifier).state = 1;
     }
   }
 }
-
 
 final filesProvider = StateProvider<List<File>>((ref) {
   return [];

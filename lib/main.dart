@@ -26,23 +26,23 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-Future<void> saveDummy() async {
-  var category = CategoryModel.dummyData;
-  for (var cat in category) {
-    var id = AdminServices.getCategoryId();
-    cat.id = id;
-    var results = await AdminServices.addCategory(cat);
-  }
+// Future<void> saveDummy() async {
+//   var category = CategoryModel.dummyData;
+//   for (var cat in category) {
+//     var id = AdminServices.getCategoryId();
+//     cat.id = id;
+//     var results = await AdminServices.addCategory(cat);
+//   }
 
-  // var artisans = DummyData.artisanList();
-  // for (var user in artisans) {
-  //   var id = AdminServices.getUserId();
-  //   user.id = id;
-  //   user.createdAt = DateTime.now().toUtc().millisecondsSinceEpoch;
+//   var artisans = DummyData.artisanList();
+//   for (var user in artisans) {
+//     var id = AdminServices.getUserId();
+//     user.id = id;
+//     user.createdAt = DateTime.now().toUtc().millisecondsSinceEpoch;
 
-  //   await AdminServices.createUser(user);
-  // }
-}
+//     await AdminServices.createUser(user);
+//   }
+// }
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -132,14 +132,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         indicatorColor: Colors.black87,
         primaryColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.black87),
-        cardTheme: CardTheme(
-          color: Colors.white,
-          elevation: 5,
-          margin: const EdgeInsets.all(5),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
+
         textTheme: GoogleFonts.nunitoTextTheme(Theme.of(context).textTheme)
             .apply(bodyColor: Colors.black, displayColor: Colors.black),
         canvasColor: primaryColor,

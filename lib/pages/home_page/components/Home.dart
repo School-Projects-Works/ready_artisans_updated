@@ -1,9 +1,8 @@
 // ignore_for_file: unused_result
-
+import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
 import 'package:ready_artisans/components/category_item.dart';
 import 'package:ready_artisans/components/custom_button.dart';
 import 'package:ready_artisans/components/text_inputs.dart';
@@ -60,7 +59,7 @@ class _HomeState extends ConsumerState<Home> {
       color: Colors.white,
       child: Column(children: [
         Container(
-          height: 170,
+          height: 180,
           width: size.width,
           decoration: const BoxDecoration(
             color: secondaryColor,
@@ -93,7 +92,8 @@ class _HomeState extends ConsumerState<Home> {
                       onPressed: () {
                         FlutterLocationPicker(
                             initZoom: 11,
-                             initPosition: LatLong(data.latitude?? 6.700071, data.longitude?? 1.630783),
+                            initPosition: LatLong(data.latitude ?? 6.700071,
+                                data.longitude ?? 1.630783),
                             selectLocationButtonStyle: ButtonStyle(
                               backgroundColor:
                                   WidgetStateProperty.all(Colors.blue),
@@ -102,13 +102,22 @@ class _HomeState extends ConsumerState<Home> {
                             maxZoomLevel: 16,
                             trackMyPosition: true,
                             onPicked: (pickedData) {
-                              ref.read(locationProvider.notifier).state = UserLocation(
-                                  latitude: pickedData.latLong.latitude,
-                                  longitude: pickedData.latLong.longitude,
-                                  city: pickedData.addressData.city,
-                                  district: pickedData.addressData.neighbourhood,
-                                  region: pickedData.addressData.state,
-                                  country: pickedData.addressData.country,);
+                              print(
+                                  "Picked location: ${pickedData.addressData}");
+                              ref.read(locationProvider.notifier).state =
+                                  UserLocation(
+                                      latitude: pickedData.latLong.latitude,
+                                      longitude: pickedData.latLong.longitude,
+                                      city:
+                                          pickedData.addressData['city'] ?? '',
+                                      district: pickedData
+                                              .addressData['neighbourhood'] ??
+                                          '',
+                                      region:
+                                          pickedData.addressData['state'] ?? '',
+                                      country:
+                                          pickedData.addressData['country'] ??
+                                              '');
                             });
                       },
                       child: const Text(
