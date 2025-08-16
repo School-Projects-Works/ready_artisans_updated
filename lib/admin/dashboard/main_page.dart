@@ -38,7 +38,7 @@ class _MainPageState extends ConsumerState<DashboardMain> {
                 if (styles.smallerThanTablet)
                   //manu button
 
-                  buildAdminManu(ref, context)
+                  Expanded(child: buildAdminManu(ref, context)),
               ],
             ),
           ),
@@ -137,6 +137,19 @@ class _MainPageState extends ConsumerState<DashboardMain> {
                 onTap: () {
                   MyRouter(context: context, ref: ref)
                       .navigateToRoute(RouterItem.categoriesRoute);
+                  Navigator.of(context).pop();
+                }),
+          ),
+          //logout
+          PopupMenuItem(
+            child: BarItem(
+                padding: const EdgeInsets.only(
+                    right: 40, top: 10, bottom: 10, left: 10),
+                icon: Icons.logout,
+                title: 'Logout',
+                onTap: () {
+                  MyRouter(context: context, ref: ref)
+                      .navigateToRoute(RouterItem.loginRoute);
                   Navigator.of(context).pop();
                 }),
           ),

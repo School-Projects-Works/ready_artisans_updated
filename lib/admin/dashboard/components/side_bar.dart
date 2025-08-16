@@ -41,8 +41,19 @@ class SideBar extends ConsumerWidget {
           ),
           Expanded(child: buildAdminManu(ref, context)),
           // footer
-          Text('© 2024 All rights reserved',
-              style: styles.body(color: Colors.white38, fontSize: 12)),
+          //logout button
+          ElevatedButton(
+            onPressed: () {
+              MyRouter(context: context, ref: ref)
+                  .navigateToRoute(RouterItem.loginRoute);
+            },
+            child: Text('Logout'),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          // Text('© 2024 All rights reserved',
+          //     style: styles.body(color: Colors.white38, fontSize: 12)),
         ]));
   }
 
