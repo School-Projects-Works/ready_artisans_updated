@@ -612,6 +612,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             thickness: 2,
           ),
           ListTile(
+            textColor: Colors.black,
+            iconColor: Colors.black,
             onTap: () async {
               var pickedFile =
                   await picker.pickImage(source: ImageSource.camera);
@@ -624,6 +626,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             title: const Text('Camera'),
           ),
           ListTile(
+            textColor: Colors.black,
+            iconColor: Colors.black,
             onTap: () async {
               var pickedFile =
                   await picker.pickImage(source: ImageSource.gallery);
@@ -640,6 +644,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             thickness: 1,
           ),
           ListTile(
+            textColor: Colors.black,
+            iconColor: Colors.black,
             onTap: () {
               CustomDialog.dismiss();
             },

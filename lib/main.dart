@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ready_artisans/admin/services/admin_services.dart';
+import 'package:ready_artisans/components/smart_dialog.dart';
 import 'package:ready_artisans/pages/home_page/home_page.dart';
 import 'package:ready_artisans/pages/welcome_page/welcome_page.dart';
 import 'package:ready_artisans/state_managers/location_data_state.dart';
@@ -16,6 +19,7 @@ import 'package:ready_artisans/state_managers/user_data_state.dart';
 import 'admin/main/views/admin_main.dart';
 import 'firebase_options.dart';
 import 'models/category_mode.dart';
+import 'models/review_mode.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,23 +30,23 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-// Future<void> saveDummy() async {
-//   var category = CategoryModel.dummyData;
-//   for (var cat in category) {
-//     var id = AdminServices.getCategoryId();
-//     cat.id = id;
-//     var results = await AdminServices.addCategory(cat);
-//   }
+Future<void> saveDummy() async {
+  var category = CategoryModel.dummyData;
+  for (var cat in category) {
+    var id = AdminServices.getCategoryId();
+    cat.id = id;
+    var results = await AdminServices.addCategory(cat);
+  }
 
-//   var artisans = DummyData.artisanList();
-//   for (var user in artisans) {
-//     var id = AdminServices.getUserId();
-//     user.id = id;
-//     user.createdAt = DateTime.now().toUtc().millisecondsSinceEpoch;
+  var artisans = DummyData.artisanList();
+  for (var user in artisans) {
+    var id = AdminServices.getUserId();
+    user.id = id;
+    user.createdAt = DateTime.now().toUtc().millisecondsSinceEpoch;
 
-//     await AdminServices.createUser(user);
-//   }
-// }
+    await AdminServices.createUser(user);
+  }
+}
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -87,7 +91,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     //   user.createdAt = DateTime.now().toUtc().millisecondsSinceEpoch;
     //   await FireStoreServices.saveUser(user);
     // }
-
+    try{
     var location = ref.watch(locationStreamProvider);
     if (FirebaseAuthService.isUserLogin()) {
       var user = FirebaseAuthService.getCurrentUser();
@@ -117,6 +121,12 @@ class _MyAppState extends ConsumerState<MyApp> {
     } else {
       return false;
     }
+    }catch(e){
+      //firebase delete account
+      await FirebaseAuthService.deleteUser();
+      CustomDialog.showError(title: "User data corrupted, Signup again");
+      return false;
+    }
   }
 
   @override
@@ -129,7 +139,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.white,
-        indicatorColor: Colors.black87,
+        //indicatorColor: Colors.black87,
         primaryColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.black87),
 

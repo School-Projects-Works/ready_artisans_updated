@@ -73,12 +73,12 @@ class FirebaseAuthService {
     return null;
   }
 
-  static sendEmailVerification() {
+  static void sendEmailVerification() {
     final currentUser = _firebaseAuth.currentUser;
     currentUser!.sendEmailVerification();
   }
 
-  static updateUserProfile({String? userType}) {
+  static void updateUserProfile({String? userType}) {
     final currentUser = _firebaseAuth.currentUser;
     currentUser!.updateDisplayName(userType);
   }
@@ -86,5 +86,10 @@ class FirebaseAuthService {
   static Future<void> updateUserDisplayName(String s) async {
     final currentUser = _firebaseAuth.currentUser;
     await currentUser!.updateDisplayName(s);
+  }
+
+  static Future<void> deleteUser() async {
+    final currentUser = _firebaseAuth.currentUser;
+    await currentUser!.delete();
   }
 }

@@ -62,7 +62,7 @@ class UserDataState extends StateNotifier<UserModel> {
     var user = await FirebaseAuthService.createUserWithEmailAndPassword(
         state.email, password!);
     if (user != null) {
-      await FirebaseAuthService.sendEmailVerification();
+      FirebaseAuthService.sendEmailVerification();
       var location = ref.read(locationStreamProvider);
       location.whenData((value) {
         state.copyWith(
@@ -87,7 +87,7 @@ class UserDataState extends StateNotifier<UserModel> {
       final String response = await FireStoreServices.saveUser(state);
       if (response == 'success') {
         // clear all states
-        ref.read(userProvider.notifier).state = UserModel.empty();
+        state = UserModel.empty();
         await FirebaseAuthService.signOut();
         CustomDialog.dismiss();
         CustomDialog.showSuccess(
