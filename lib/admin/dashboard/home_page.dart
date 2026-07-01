@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ready_artisans/admin/provider/admin_provider.dart';
 import 'components/dasboard_item.dart';
+import 'package:ready_artisans/admin/provider/admin_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DashboardHome extends ConsumerStatefulWidget {
   const DashboardHome({super.key});
@@ -29,29 +29,33 @@ class _HomePageState extends ConsumerState<DashboardHome> {
             runSpacing: 12,
             children: [
               DashBoardItem(
-                  icon: Icons.location_city,
-                  title: 'Artisans',
-                  itemCount: artisans.length,
-                  color: Colors.blue,
-                  onTap: () {}),
+                icon: Icons.location_city,
+                title: 'Artisans',
+                itemCount: artisans.length,
+                color: Colors.blue,
+                onTap: () {},
+              ),
               DashBoardItem(
-                  icon: Icons.warning,
-                  title: 'Customers',
-                  itemCount: clients.length,
-                  color: Colors.orange,
-                  onTap: () {}),
+                icon: Icons.warning,
+                title: 'Customers',
+                itemCount: clients.length,
+                color: Colors.orange,
+                onTap: () {},
+              ),
               DashBoardItem(
-                  icon: Icons.contact_emergency,
-                  title: 'Categories',
-                  itemCount: categories.length,
-                  color: Colors.green,
-                  onTap: () {}),
+                icon: Icons.contact_emergency,
+                title: 'Categories',
+                itemCount: categories.length,
+                color: Colors.green,
+                onTap: () {},
+              ),
               DashBoardItem(
-                  icon: Icons.warning,
-                  title: 'Bookings',
-                  itemCount: 0,
-                  color: Colors.purple,
-                  onTap: () {}),
+                icon: Icons.warning,
+                title: 'Bookings',
+                itemCount: 0,
+                color: Colors.purple,
+                onTap: () {},
+              ),
             ],
           ),
         ],

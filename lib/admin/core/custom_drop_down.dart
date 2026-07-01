@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../styles/styles_admin.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 
@@ -84,7 +85,7 @@ class CustomDropDown extends StatelessWidget {
       onSaved: onSaved,
       items: items,
       validator: validator,
-      value: value,
+      initialValue: value,
     
       isExpanded: true,
       icon: Icon(

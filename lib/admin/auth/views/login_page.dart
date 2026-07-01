@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ready_artisans/admin/core/custom_dialog.dart';
-import 'package:ready_artisans/admin/core/custom_input.dart';
-import '../../../components/custom_button.dart';
-import '../../../generated/assets.dart';
 import '../../../router/router.dart';
-import '../../../router/router_items.dart';
+import 'package:flutter/material.dart';
+import '../../../generated/assets.dart';
 import '../../../styles/app_colors.dart';
+import '../../../router/router_items.dart';
 import '../../../styles/styles_admin.dart';
-
+import '../../../components/custom_button.dart';
+import 'package:ready_artisans/admin/core/custom_input.dart';
+import 'package:ready_artisans/admin/core/custom_dialog.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -31,43 +30,46 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       ),
       child: Center(
         child: SingleChildScrollView(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            style.isMobile
-                ? _buildForm()
-                : Container(
-                    width:
-                        style.isDesktop ? style.width * .6 : style.width * .7,
-                    decoration: BoxDecoration(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              style.isMobile
+                  ? _buildForm()
+                  : Container(
+                      width: style.isDesktop
+                          ? style.width * .6
+                          : style.width * .7,
+                      decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withValues(alpha: 0.5),
                             spreadRadius: 5,
                             blurRadius: 7,
                             offset: const Offset(
-                                0, 3), // changes position of shadow
+                              0,
+                              3,
+                            ), // changes position of shadow
                           ),
-                        ]),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 450,
-                          width: style.width * .3,
-                          color: Colors.white,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            Assets.imagesLogoLargeT,
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 450,
+                            width: style.width * .3,
+                            color: Colors.white,
+                            alignment: Alignment.center,
+                            child: Image.asset(Assets.images.logoLargeT.path),
                           ),
-                        ),
-                        Expanded(child: _buildForm())
-                      ],
+                          Expanded(child: _buildForm()),
+                        ],
+                      ),
                     ),
-                  ),
-          ],
-        )),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -85,24 +87,24 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           children: [
             if (style.isMobile)
               Image.asset(
-                Assets.imagesLogoLargeT,
+                Assets.images.logoLargeT.path,
                 width: 200,
                 height: 200,
               ),
             if (style.isMobile) const SizedBox(height: 12),
-            Text('ADMIN LOGIN',
-                style: style.title(
-                    fontWeight: FontWeight.bold,
-                    color: primaryColor,
-                    fontSize: style.isDesktop
-                        ? 35
-                        : style.isTablet
-                            ? 30
-                            : 20)),
-            const Divider(
-              height: 22,
-              thickness: 3,
+            Text(
+              'ADMIN LOGIN',
+              style: style.title(
+                fontWeight: FontWeight.bold,
+                color: primaryColor,
+                fontSize: style.isDesktop
+                    ? 35
+                    : style.isTablet
+                    ? 30
+                    : 20,
+              ),
             ),
+            const Divider(height: 22, thickness: 3),
             const SizedBox(height: 15),
             CustomTextFields(
               label: 'Username',
@@ -131,10 +133,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
             const SizedBox(height: 22),
             CustomButton(
-                text: 'Login',
-                onPressed: () {
-                  login();
-                }),
+              text: 'Login',
+              onPressed: () {
+                login();
+              },
+            ),
             const SizedBox(height: 22),
           ],
         ),
@@ -147,12 +150,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     var password = _passwordController.text;
     CustomAdminDialog.showLoading(message: 'Login in .....');
     // delay for 5 seconds
-    
 
     if (name.toLowerCase() == 'admin' && password == '123456') {
       CustomAdminDialog.dismiss();
-      MyRouter(context: context, ref: ref)
-          .navigateToRoute(RouterItem.dashboardRoute);
+      MyRouter(
+        context: context,
+        ref: ref,
+      ).navigateToRoute(RouterItem.dashboardRoute);
     } else {
       CustomAdminDialog.dismiss();
       CustomAdminDialog.showToast(message: 'Invalid admin name or password');

@@ -1,19 +1,19 @@
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ready_artisans/pages/home_page/home_page.dart';
-import 'package:ready_artisans/styles/app_colors.dart';
-import 'package:ready_artisans/state_managers/navigation_state.dart';
-import '../../components/custom_input.dart';
-import '../../components/smart_dialog.dart';
-import '../../constant/functions.dart';
 import '../../constant/strings.dart';
 import '../../generated/assets.dart';
 import '../../models/user_model.dart';
-import '../../services/firebase_auth_services.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import '../../constant/functions.dart';
+import '../../components/custom_input.dart';
+import '../../components/smart_dialog.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../services/firestore_services.dart';
 import '../../state_managers/user_data_state.dart';
+import '../../services/firebase_auth_services.dart';
+import 'package:ready_artisans/styles/app_colors.dart';
+import 'package:ready_artisans/pages/home_page/home_page.dart';
+import 'package:ready_artisans/state_managers/navigation_state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -23,7 +23,7 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? email;
   String? password;
   bool _obscureText = true;
@@ -46,23 +46,31 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 25,
+                  ),
                   child: Form(
-                    key: _formKey,
+                    key: formKey,
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset(Assets.imagesLogoSmallT,
-                              width: 100, height: 100),
-                          Text('LOGIN',
-                              style: GoogleFonts.alfaSlabOne(
-                                  decoration: TextDecoration.underline,
-                                  fontSize: 30,
-                                  color: secondaryColor)),
+                          Image.asset(
+                            Assets.images.logoSmallT.path,
+                            width: 100,
+                            height: 100,
+                          ),
+                          Text(
+                            'LOGIN',
+                            style: GoogleFonts.alfaSlabOne(
+                              decoration: TextDecoration.underline,
+                              fontSize: 30,
+                              color: secondaryColor,
+                            ),
+                          ),
                           const SizedBox(height: 15),
                           CustomTextFields(
                             label: 'Email',
@@ -115,18 +123,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           Align(
                             alignment: Alignment.centerRight,
                             child: RichText(
-                                text: TextSpan(
-                              text: 'Forgot Password?',
-                              style: GoogleFonts.nunito(
-                                color: secondaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                              text: TextSpan(
+                                text: 'Forgot Password?',
+                                style: GoogleFonts.nunito(
+                                  color: secondaryColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    ref.read(authNavProvider.notifier).state =
+                                        2;
+                                  },
                               ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  ref.read(authNavProvider.notifier).state = 2;
-                                },
-                            )),
+                            ),
                           ),
                           const SizedBox(height: 20),
                           ElevatedButton(
@@ -137,7 +147,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 50, vertical: 10),
+                                horizontal: 50,
+                                vertical: 10,
+                              ),
                               textStyle: GoogleFonts.nunito(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -150,29 +162,30 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                           const SizedBox(height: 15),
                           RichText(
-                              text: TextSpan(
-                            text: 'Don\'t have an account?',
-                            style: GoogleFonts.nunito(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: ' Sign Up',
-                                style: GoogleFonts.nunito(
-                                  color: secondaryColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    ref.read(authNavProvider.notifier).state =
-                                        1;
-                                  },
+                            text: TextSpan(
+                              text: 'Don\'t have an account?',
+                              style: GoogleFonts.nunito(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
                               ),
-                            ],
-                          )),
+                              children: [
+                                TextSpan(
+                                  text: ' Sign Up',
+                                  style: GoogleFonts.nunito(
+                                    color: secondaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      ref.read(authNavProvider.notifier).state =
+                                          1;
+                                    },
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -180,9 +193,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            )
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -190,8 +201,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   signUserIn() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
       CustomDialog.showLoading(message: 'Signing in... Please wait');
       final user = await FirebaseAuthService().signIn(email!, password!);
       if (user != null) {
@@ -199,10 +210,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           await FireStoreServices.updateUserOnlineStatus(user.uid, true);
           UserModel? userModel = await FireStoreServices.getUser(user.uid);
           if (userModel != null) {
-            if(userModel.status=='banned'){
+            if (userModel.status == 'banned') {
               CustomDialog.showError(
                 title: 'Account Banned',
-                message: 'Your account has been banned, contact support for more information',
+                message:
+                    'Your account has been banned, contact support for more information',
               );
               return;
             }
@@ -213,20 +225,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             }
           } else {
             CustomDialog.showError(
-                title: 'Data Error',
-                message: 'Unable to get User info, try again later');
+              title: 'Data Error',
+              message: 'Unable to get User info, try again later',
+            );
           }
         } else {
           await FirebaseAuthService.signOut();
           CustomDialog.dismiss();
           CustomDialog.showInfo(
-              message:
-                  'User Email account is not verified, visit you email ($email) to verify your account.',
-              title: 'User Verification',
-              onConfirmText: 'Send Link',
-              onConfirm: () {
-                sendVerification();
-              });
+            message:
+                'User Email account is not verified, visit you email ($email) to verify your account.',
+            title: 'User Verification',
+            onConfirmText: 'Send Link',
+            onConfirm: () {
+              sendVerification();
+            },
+          );
         }
       } else {}
     }
@@ -236,12 +250,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     FirebaseAuthService.sendEmailVerification();
     CustomDialog.dismiss();
     CustomDialog.showInfo(
-        message:
-            'Verification link has been sent to your email ($email), visit your email to verify your account.',
-        title: 'User Verification',
-        onConfirmText: 'Ok',
-        onConfirm: () {
-          CustomDialog.dismiss();
-        });
+      message:
+          'Verification link has been sent to your email ($email), visit your email to verify your account.',
+      title: 'User Verification',
+      onConfirmText: 'Ok',
+      onConfirm: () {
+        CustomDialog.dismiss();
+      },
+    );
   }
 }

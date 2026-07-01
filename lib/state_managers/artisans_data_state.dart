@@ -1,9 +1,12 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:ready_artisans/models/user_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ready_artisans/services/firestore_services.dart';
+// ignore_for_file: undefined_function, undefined_identifier
 
-final artisanStreamProvider =
-    StreamProvider.autoDispose<List<UserModel>>((ref) async* {
+final artisanStreamProvider = StreamProvider.autoDispose<List<UserModel>>((
+  ref,
+) async* {
   var data = FireStoreServices.getArtisans();
   ref.onDispose(() {
     data.drain();
@@ -16,19 +19,12 @@ final artisanStreamProvider =
   }
 });
 
-
 class ArtisansFilter {
   List<UserModel> items;
   List<UserModel> filter;
-  ArtisansFilter({
-    required this.items,
-    required this.filter,
-  });
+  ArtisansFilter({required this.items, required this.filter});
 
-  ArtisansFilter copyWith({
-    List<UserModel>? items,
-    List<UserModel>? filter,
-  }) {
+  ArtisansFilter copyWith({List<UserModel>? items, List<UserModel>? filter}) {
     return ArtisansFilter(
       items: items ?? this.items,
       filter: filter ?? this.filter,
@@ -38,8 +34,8 @@ class ArtisansFilter {
 
 final artisansFilterProvider =
     StateNotifierProvider<ArtisansFilterState, ArtisansFilter>((ref) {
-  return ArtisansFilterState();
-});
+      return ArtisansFilterState();
+    });
 
 class ArtisansFilterState extends StateNotifier<ArtisansFilter> {
   ArtisansFilterState() : super(ArtisansFilter(items: [], filter: []));
@@ -50,9 +46,11 @@ class ArtisansFilterState extends StateNotifier<ArtisansFilter> {
   void filterArtisansByCat(String query) {
     if (query.isNotEmpty) {
       List<UserModel> _filtered = state.items
-          .where((element) =>
-             
-              element.artisanCategory.toLowerCase().contains(query.toLowerCase()))
+          .where(
+            (element) => element.artisanCategory.toLowerCase().contains(
+              query.toLowerCase(),
+            ),
+          )
           .toList();
       state = state.copyWith(filter: _filtered);
     } else {
@@ -63,8 +61,13 @@ class ArtisansFilterState extends StateNotifier<ArtisansFilter> {
   void filterArtisansByName(String query) {
     if (query.isNotEmpty) {
       List<UserModel> _filtered = state.items
-          .where((element) =>
-              element.name.toLowerCase().contains(query.toLowerCase())||element.artisanCategory.toLowerCase().contains(query.toLowerCase()))
+          .where(
+            (element) =>
+                element.name.toLowerCase().contains(query.toLowerCase()) ||
+                element.artisanCategory.toLowerCase().contains(
+                  query.toLowerCase(),
+                ),
+          )
           .toList();
       state = state.copyWith(filter: _filtered);
     } else {
@@ -72,4 +75,3 @@ class ArtisansFilterState extends StateNotifier<ArtisansFilter> {
     }
   }
 }
-

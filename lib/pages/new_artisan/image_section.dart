@@ -1,15 +1,15 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
+import '../../styles/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../state_managers/navigation_state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ready_artisans/components/smart_dialog.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import '../../state_managers/navigation_state.dart';
-import '../../styles/app_colors.dart';
-import '../../generated/assets.dart';
+
 
 class ImagesSection extends ConsumerStatefulWidget {
   const ImagesSection({super.key});
@@ -46,19 +46,24 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
                     alignment: Alignment.center,
                     child: Column(
                       children: [
-                        Text('ID & Image',
-                            style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600)),
+                        Text(
+                          'ID & Image',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Text(
-                            'Upload a clear front and back image of your Ghana Card as well as a clear image of yourself for verification.Please Note that your Ghana Card Number should match the Card Number used during account creation.',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600)),
+                          'Upload a clear front and back image of your Ghana Card as well as a clear image of yourself for verification.Please Note that your Ghana Card Number should match the Card Number used during account creation.',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -69,33 +74,33 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
                     margin: const EdgeInsets.all(10),
                     alignment: Alignment.bottomCenter,
                     decoration: BoxDecoration(
-                        color: Colors.black26,
-                        borderRadius: BorderRadius.circular(20),
-                        image: idFront != null
-                            ? DecorationImage(
-                                image: FileImage(idFront!),
-                                fit: BoxFit.cover,
-                              )
-                            : const DecorationImage(
-                                image: AssetImage(Assets.imagesPlaceholder),
-                                fit: BoxFit.cover)),
+                      color: Colors.black26,
+                      borderRadius: BorderRadius.circular(20),
+                      image: idFront != null
+                          ? DecorationImage(
+                              image: FileImage(idFront!),
+                              fit: BoxFit.cover,
+                            )
+                          : DecorationImage(
+                              image: const AssetImage(
+                                'assets/images/placeholder.png',
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                    ),
                     child: TextButton.icon(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.grey,
-                      ),
+                      style: TextButton.styleFrom(backgroundColor: Colors.grey),
                       onPressed: () {
                         _pickImage();
                       },
-                      icon: const Icon(
-                        FontAwesomeIcons.camera,
-                        color: Colors.white,
-                      ),
+                      icon: Icon(Icons.camera, color: Colors.white),
                       label: Text(
                         'Upload ID Front',
                         style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600),
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -105,33 +110,33 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
                     margin: const EdgeInsets.all(10),
                     alignment: Alignment.bottomCenter,
                     decoration: BoxDecoration(
-                        color: Colors.black26,
-                        borderRadius: BorderRadius.circular(20),
-                        image: idBack != null
-                            ? DecorationImage(
-                                image: FileImage(idBack!),
-                                fit: BoxFit.cover,
-                              )
-                            : const DecorationImage(
-                                image: AssetImage(Assets.imagesPlaceholder),
-                                fit: BoxFit.cover)),
+                      color: Colors.black26,
+                      borderRadius: BorderRadius.circular(20),
+                      image: idBack != null
+                          ? DecorationImage(
+                              image: FileImage(idBack!),
+                              fit: BoxFit.cover,
+                            )
+                          : DecorationImage(
+                              image: const AssetImage(
+                                'assets/images/placeholder.png',
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                    ),
                     child: TextButton.icon(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.grey,
-                      ),
+                      style: TextButton.styleFrom(backgroundColor: Colors.grey),
                       onPressed: () {
                         _pickIdBack();
                       },
-                      icon: const Icon(
-                        FontAwesomeIcons.camera,
-                        color: Colors.white,
-                      ),
+                      icon: Icon(Icons.camera, color: Colors.white),
                       label: Text(
                         'Upload ID Back',
                         style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600),
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -141,33 +146,33 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
                     margin: const EdgeInsets.all(10),
                     alignment: Alignment.bottomCenter,
                     decoration: BoxDecoration(
-                        color: Colors.black26,
-                        borderRadius: BorderRadius.circular(20),
-                        image: profileImage != null
-                            ? DecorationImage(
-                                image: FileImage(profileImage!),
-                                fit: BoxFit.cover,
-                              )
-                            : const DecorationImage(
-                                image: AssetImage(Assets.imagesPlaceholder),
-                                fit: BoxFit.cover)),
+                      color: Colors.black26,
+                      borderRadius: BorderRadius.circular(20),
+                      image: profileImage != null
+                          ? DecorationImage(
+                              image: FileImage(profileImage!),
+                              fit: BoxFit.cover,
+                            )
+                          : DecorationImage(
+                              image: const AssetImage(
+                                'assets/images/placeholder.png',
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                    ),
                     child: TextButton.icon(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.grey,
-                      ),
+                      style: TextButton.styleFrom(backgroundColor: Colors.grey),
                       onPressed: () {
                         _pickProfileImage();
                       },
-                      icon: const Icon(
-                        FontAwesomeIcons.camera,
-                        color: Colors.white,
-                      ),
+                      icon: Icon(Icons.camera, color: Colors.white),
                       label: Text(
                         'Upload Your Image',
                         style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600),
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -190,9 +195,7 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
                                   color: Colors.black26,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: SfPdfViewer.file(
-                                  certificate!,
-                                ),
+                                child: SfPdfViewer.file(certificate!),
                               )
                             : const SizedBox(),
                         TextButton.icon(
@@ -202,16 +205,14 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
                           onPressed: () {
                             _pickCertificate();
                           },
-                          icon: const Icon(
-                            FontAwesomeIcons.camera,
-                            color: Colors.white,
-                          ),
+                          icon: Icon(Icons.camera, color: Colors.white),
                           label: Text(
                             'Upload Certificate',
                             style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ],
@@ -228,16 +229,17 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
             color: Colors.white,
             alignment: Alignment.bottomRight,
             child: TextButton.icon(
-                onPressed: () => checkAndContinue(),
-                icon: const Icon(FontAwesomeIcons.arrowRight,
-                    color: secondaryColor),
-                label: Text(
-                  'Continue',
-                  style: GoogleFonts.nunito(
-                      fontSize: 18,
-                      color: secondaryColor,
-                      fontWeight: FontWeight.bold),
-                )),
+              onPressed: () => checkAndContinue(),
+              icon: const Icon(Icons.arrow_forward, color: secondaryColor),
+              label: Text(
+                'Continue',
+                style: GoogleFonts.nunito(
+                  fontSize: 18,
+                  color: secondaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -247,172 +249,202 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
   void _pickImage() {
     var picker = ImagePicker();
     CustomDialog.showCustom(
-        ui: Container(
-      color: Colors.white,
-      margin: const EdgeInsets.all(15),
-      padding: const EdgeInsets.all(15),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('Select source of image',
+      ui: Container(
+        color: Colors.white,
+        margin: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Select source of image',
               style: GoogleFonts.nunito(
-                  fontSize: 20, fontWeight: FontWeight.bold)),
-          const Divider(
-            color: Colors.grey,
-            thickness: 2,
-          ),
-          ListTile(
-            onTap: () async {
-              var pickedFile =
-                  await picker.pickImage(source: ImageSource.camera);
-              setState(() {
-                idFront = File(pickedFile!.path);
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Divider(color: Colors.grey, thickness: 2),
+            ListTile(
+              onTap: () async {
+                var pickedFile = await picker.pickImage(
+                  source: ImageSource.camera,
+                );
+                setState(() {
+                  idFront = File(pickedFile!.path);
+                  CustomDialog.dismiss();
+                });
+              },
+              leading: const Icon(Icons.camera_alt),
+              title: const Text(
+                'Camera',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ListTile(
+              onTap: () async {
+                var pickedFile = await picker.pickImage(
+                  source: ImageSource.gallery,
+                );
+                setState(() {
+                  idFront = File(pickedFile!.path);
+                  CustomDialog.dismiss();
+                });
+              },
+              leading: const Icon(Icons.image),
+              title: const Text(
+                'Gallery',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            const Divider(color: Colors.grey, thickness: 1),
+            ListTile(
+              onTap: () {
                 CustomDialog.dismiss();
-              });
-            },
-            leading: const Icon(Icons.camera_alt),
-            title: const Text('Camera', style: TextStyle(color: Colors.black)),
-          ),
-          ListTile(
-            onTap: () async {
-              var pickedFile =
-                  await picker.pickImage(source: ImageSource.gallery);
-              setState(() {
-                idFront = File(pickedFile!.path);
-                CustomDialog.dismiss();
-              });
-            },
-            leading: const Icon(Icons.image),
-            title: const Text('Gallery', style: TextStyle(color: Colors.black)),
-          ),
-          const Divider(
-            color: Colors.grey,
-            thickness: 1,
-          ),
-          ListTile(
-            onTap: () {
-              CustomDialog.dismiss();
-            },
-            leading: const Icon(Icons.close),
-            title: const Text('Cancel', style: TextStyle(color: Colors.black)),
-          ),
-        ],
+              },
+              leading: const Icon(Icons.close),
+              title: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   void _pickIdBack() {
     var picker = ImagePicker();
     CustomDialog.showCustom(
-        ui: Container(
-      color: Colors.white,
-      margin: const EdgeInsets.all(15),
-      padding: const EdgeInsets.all(15),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('Select source of image',
+      ui: Container(
+        color: Colors.white,
+        margin: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Select source of image',
               style: GoogleFonts.nunito(
-                  fontSize: 20, fontWeight: FontWeight.bold)),
-          const Divider(
-            color: Colors.grey,
-            thickness: 2,
-          ),
-          ListTile(
-            onTap: () async {
-              var pickedFile =
-                  await picker.pickImage(source: ImageSource.camera);
-              setState(() {
-                idBack = File(pickedFile!.path);
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Divider(color: Colors.grey, thickness: 2),
+            ListTile(
+              onTap: () async {
+                var pickedFile = await picker.pickImage(
+                  source: ImageSource.camera,
+                );
+                setState(() {
+                  idBack = File(pickedFile!.path);
+                  CustomDialog.dismiss();
+                });
+              },
+              leading: const Icon(Icons.camera_alt),
+              title: const Text(
+                'Camera',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ListTile(
+              onTap: () async {
+                var pickedFile = await picker.pickImage(
+                  source: ImageSource.gallery,
+                );
+                setState(() {
+                  idBack = File(pickedFile!.path);
+                  CustomDialog.dismiss();
+                });
+              },
+              leading: const Icon(Icons.image),
+              title: const Text(
+                'Gallery',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            const Divider(color: Colors.grey, thickness: 1),
+            ListTile(
+              onTap: () {
                 CustomDialog.dismiss();
-              });
-            },
-            leading: const Icon(Icons.camera_alt),
-            title: const Text('Camera', style: TextStyle(color: Colors.black)),
-          ),
-          ListTile(
-            onTap: () async {
-              var pickedFile =
-                  await picker.pickImage(source: ImageSource.gallery);
-              setState(() {
-                idBack = File(pickedFile!.path);
-                CustomDialog.dismiss();
-              });
-            },
-            leading: const Icon(Icons.image),
-            title: const Text('Gallery', style: TextStyle(color: Colors.black)),
-          ),
-          const Divider(
-            color: Colors.grey,
-            thickness: 1,
-          ),
-          ListTile(
-            onTap: () {
-              CustomDialog.dismiss();
-            },
-            leading: const Icon(Icons.close),
-            title: const Text('Cancel', style: TextStyle(color: Colors.black)),
-          ),
-        ],
+              },
+              leading: const Icon(Icons.close),
+              title: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   void _pickProfileImage() {
     var picker = ImagePicker();
     CustomDialog.showCustom(
-        ui: Container(
-      color: Colors.white,
-      margin: const EdgeInsets.all(15),
-      padding: const EdgeInsets.all(15),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('Select source of image',
+      ui: Container(
+        color: Colors.white,
+        margin: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Select source of image',
               style: GoogleFonts.nunito(
-                  fontSize: 20, fontWeight: FontWeight.bold)),
-          const Divider(
-            color: Colors.grey,
-            thickness: 2,
-          ),
-          ListTile(
-            onTap: () async {
-              var pickedFile =
-                  await picker.pickImage(source: ImageSource.camera);
-              setState(() {
-                profileImage = File(pickedFile!.path);
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Divider(color: Colors.grey, thickness: 2),
+            ListTile(
+              onTap: () async {
+                var pickedFile = await picker.pickImage(
+                  source: ImageSource.camera,
+                );
+                setState(() {
+                  profileImage = File(pickedFile!.path);
+                  CustomDialog.dismiss();
+                });
+              },
+              leading: const Icon(Icons.camera_alt),
+              title: const Text(
+                'Camera',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ListTile(
+              onTap: () async {
+                var pickedFile = await picker.pickImage(
+                  source: ImageSource.gallery,
+                );
+                setState(() {
+                  profileImage = File(pickedFile!.path);
+                  CustomDialog.dismiss();
+                });
+              },
+              leading: const Icon(Icons.image),
+              title: const Text(
+                'Gallery',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            const Divider(color: Colors.grey, thickness: 1),
+            ListTile(
+              onTap: () {
                 CustomDialog.dismiss();
-              });
-            },
-            leading: const Icon(Icons.camera_alt),
-            title: const Text('Camera', style: TextStyle(color: Colors.black)),
-          ),
-          ListTile(
-            onTap: () async {
-              var pickedFile =
-                  await picker.pickImage(source: ImageSource.gallery);
-              setState(() {
-                profileImage = File(pickedFile!.path);
-                CustomDialog.dismiss();
-              });
-            },
-            leading: const Icon(Icons.image),
-            title: const Text('Gallery', style: TextStyle(color: Colors.black)),
-          ),
-          const Divider(
-            color: Colors.grey,
-            thickness: 1,
-          ),
-          ListTile(
-            onTap: () {
-              CustomDialog.dismiss();
-            },
-            leading: const Icon(Icons.close),
-            title: const Text('Cancel', style: TextStyle(color: Colors.black)),
-          ),
-        ],
+              },
+              leading: const Icon(Icons.close),
+              title: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   void _pickCertificate() async {
@@ -437,7 +469,9 @@ class _ImagesSectionState extends ConsumerState<ImagesSection> {
         profileImage == null ||
         certificate == null) {
       CustomDialog.showError(
-          title: 'Error', message: 'Please upload all images');
+        title: 'Error',
+        message: 'Please upload all images',
+      );
     } else {
       List<File> list = [idFront!, idBack!, profileImage!, certificate!];
       ref.read(filesProvider.notifier).state = list;

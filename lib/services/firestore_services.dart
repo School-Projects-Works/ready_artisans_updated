@@ -6,6 +6,7 @@ import 'package:ready_artisans/models/appointment_model.dart';
 import 'package:ready_artisans/models/review_mode.dart';
 import 'package:ready_artisans/models/user_model.dart';
 import '../models/category_mode.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FireStoreServices {
   static final FirebaseFirestore _fireStore = FirebaseFirestore.instance;

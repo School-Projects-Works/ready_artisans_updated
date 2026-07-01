@@ -1,12 +1,12 @@
+import '../styles/styles.dart';
+import '../styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../styles/app_colors.dart';
-import '../styles/styles.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomTextFields extends StatelessWidget {
   const CustomTextFields({
-    Key? key,
+    super.key,
     this.controller,
     this.label,
     this.prefixIcon,
@@ -27,7 +27,7 @@ class CustomTextFields extends StatelessWidget {
     this.max = 999999,
     this.min = 0,
     this.focusNode,
-  }) : super(key: key);
+  });
   final TextEditingController? controller;
   final String? label;
   final String? hintText;

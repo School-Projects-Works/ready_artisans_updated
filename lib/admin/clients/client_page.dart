@@ -1,13 +1,12 @@
-import 'package:data_table_2/data_table_2.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_network/image_network.dart';
-import 'package:ready_artisans/admin/provider/admin_provider.dart';
-import 'package:ready_artisans/components/text_inputs.dart';
-
-import '../../styles/app_colors.dart';
-import '../../styles/styles_admin.dart';
 import '../core/custom_dialog.dart';
+import '../../styles/app_colors.dart';
+import 'package:flutter/material.dart';
+import '../../styles/styles_admin.dart';
+import 'package:data_table_2/data_table_2.dart';
+import 'package:image_network/image_network.dart';
+import 'package:ready_artisans/components/text_inputs.dart';
+import 'package:ready_artisans/admin/provider/admin_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ClientPage extends ConsumerStatefulWidget {
   const ClientPage({super.key});
@@ -28,8 +27,10 @@ class _ClientPageState extends ConsumerState<ClientPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Registered Artisans'.toUpperCase(),
-              style: style.title(fontSize: 30, color: primaryColor)),
+          Text(
+            'Registered Artisans'.toUpperCase(),
+            style: style.title(fontSize: 30, color: primaryColor),
+          ),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -44,7 +45,7 @@ class _ClientPageState extends ConsumerState<ClientPage> {
                         .filterClients(query);
                   },
                 ),
-              )
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -52,40 +53,22 @@ class _ClientPageState extends ConsumerState<ClientPage> {
             child: DataTable2(
               columnSpacing: 30,
               horizontalMargin: 12,
-              empty: Center(
-                  child: Text(
-                'No Artisan found',
-                style: rowStyles,
-              )),
+              empty: Center(child: Text('No Artisan found', style: rowStyles)),
               minWidth: 600,
               headingRowColor: WidgetStateColor.resolveWith(
-                  (states) => primaryColor.withOpacity(0.6)),
+                (states) => primaryColor.withValues(alpha: 0.6),
+              ),
               headingTextStyle: titleStyles,
               columns: [
                 DataColumn2(
-                  label: Text(
-                    'Ghana Card'.toUpperCase(),
-                    style: titleStyles,
-                  ),
+                  label: Text('Ghana Card'.toUpperCase(), style: titleStyles),
                 ),
-                DataColumn2(
-                  label: Text('Image'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('Name'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('Phone'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('address'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('status'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('Action'.toUpperCase()),
-                ),
+                DataColumn2(label: Text('Image'.toUpperCase())),
+                DataColumn2(label: Text('Name'.toUpperCase())),
+                DataColumn2(label: Text('Phone'.toUpperCase())),
+                DataColumn2(label: Text('address'.toUpperCase())),
+                DataColumn2(label: Text('status'.toUpperCase())),
+                DataColumn2(label: Text('Action'.toUpperCase())),
               ],
               rows: List<DataRow>.generate(clients.length, (index) {
                 var client = clients[index];
@@ -113,16 +96,20 @@ class _ClientPageState extends ConsumerState<ClientPage> {
                     DataCell(Text(client.address, style: rowStyles)),
                     DataCell(
                       Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              color: client.status == 'active'
-                                  ? Colors.green
-                                  : client.status == 'pending'
-                                      ? Colors.orange
-                                      : Colors.red,
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Text(client.status,
-                              style: rowStyles.copyWith(color: Colors.white))),
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: client.status == 'active'
+                              ? Colors.green
+                              : client.status == 'pending'
+                              ? Colors.orange
+                              : Colors.red,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          client.status,
+                          style: rowStyles.copyWith(color: Colors.white),
+                        ),
+                      ),
                     ),
                     DataCell(
                       Row(
@@ -138,15 +125,17 @@ class _ClientPageState extends ConsumerState<ClientPage> {
                               icon: const Icon(Icons.block),
                               onPressed: () {
                                 CustomAdminDialog.showInfo(
-                                    message:
-                                        'Are you sure you want to ban this customer?',
-                                    buttonText: 'Ban',
-                                    onPressed: () {
-                                      ref
-                                          .read(clientFilterProvider.notifier)
-                                          .updateStatus(client.copyWith(
-                                              status: 'banned'));
-                                    });
+                                  message:
+                                      'Are you sure you want to ban this customer?',
+                                  buttonText: 'Ban',
+                                  onPressed: () {
+                                    ref
+                                        .read(clientFilterProvider.notifier)
+                                        .updateStatus(
+                                          client.copyWith(status: 'banned'),
+                                        );
+                                  },
+                                );
                               },
                             ),
                           if (client.status == 'banned' ||
@@ -156,25 +145,27 @@ class _ClientPageState extends ConsumerState<ClientPage> {
                               icon: const Icon(Icons.check),
                               onPressed: () {
                                 CustomAdminDialog.showInfo(
-                                    message:
-                                        'Are you sure you want to activate this customer?',
-                                    buttonText: 'activate',
-                                    onPressed: () {
-                                      ref
-                                          .read(clientFilterProvider.notifier)
-                                          .updateStatus(client.copyWith(
-                                              status: 'active'));
-                                    });
+                                  message:
+                                      'Are you sure you want to activate this customer?',
+                                  buttonText: 'activate',
+                                  onPressed: () {
+                                    ref
+                                        .read(clientFilterProvider.notifier)
+                                        .updateStatus(
+                                          client.copyWith(status: 'active'),
+                                        );
+                                  },
+                                );
                               },
                             ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 );
               }),
             ),
-          )
+          ),
         ],
       ),
     );

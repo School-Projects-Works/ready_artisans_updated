@@ -1,17 +1,16 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_network/image_network.dart';
+import '../provider/category_provider.dart';
+import '../../../components/smart_dialog.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ready_artisans/admin/core/custom_dialog.dart';
-import 'package:ready_artisans/admin/provider/admin_provider.dart';
-import 'package:ready_artisans/components/custom_button.dart';
-import 'package:ready_artisans/components/text_inputs.dart';
+import 'package:image_network/image_network.dart';
 import 'package:ready_artisans/styles/app_colors.dart';
 import 'package:ready_artisans/styles/styles_admin.dart';
-
-import '../../../components/smart_dialog.dart';
-import '../provider/category_provider.dart';
+import 'package:ready_artisans/components/text_inputs.dart';
+import 'package:ready_artisans/admin/core/custom_dialog.dart';
+import 'package:ready_artisans/components/custom_button.dart';
+import 'package:ready_artisans/admin/provider/admin_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategoriesPage extends ConsumerStatefulWidget {
   const CategoriesPage({super.key});
@@ -32,8 +31,10 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Categories'.toUpperCase(),
-              style: style.title(fontSize: 30, color: primaryColor)),
+          Text(
+            'Categories'.toUpperCase(),
+            style: style.title(fontSize: 30, color: primaryColor),
+          ),
           const SizedBox(height: 20),
           newCategory(),
           const SizedBox(height: 20),
@@ -50,7 +51,7 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
                         .filterCategories(query);
                   },
                 ),
-              )
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -59,36 +60,23 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
               columnSpacing: 30,
               horizontalMargin: 12,
               empty: Center(
-                  child: Text(
-                'No Categories found',
-                style: rowStyles,
-              )),
+                child: Text('No Categories found', style: rowStyles),
+              ),
               minWidth: 600,
               headingRowColor: WidgetStateColor.resolveWith(
-                  (states) => primaryColor.withOpacity(0.6)),
+                (states) => primaryColor.withValues(alpha: 0.6),
+              ),
               headingTextStyle: titleStyles,
               columns: [
                 DataColumn2(
-                    label: Text(
-                      'INDEX',
-                      style: titleStyles,
-                    ),
-                    fixedWidth: style.largerThanMobile ? 80 : null),
-                DataColumn2(
-                  label: Text('Image'.toUpperCase()),
+                  label: Text('INDEX', style: titleStyles),
+                  fixedWidth: style.largerThanMobile ? 80 : null,
                 ),
-                DataColumn2(
-                  label: Text('Name'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('Description'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('Per Hour'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('Action'.toUpperCase()),
-                ),
+                DataColumn2(label: Text('Image'.toUpperCase())),
+                DataColumn2(label: Text('Name'.toUpperCase())),
+                DataColumn2(label: Text('Description'.toUpperCase())),
+                DataColumn2(label: Text('Per Hour'.toUpperCase())),
+                DataColumn2(label: Text('Action'.toUpperCase())),
               ],
               rows: List<DataRow>.generate(categories.length, (index) {
                 var category = categories[index];
@@ -112,34 +100,43 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
                             ),
                     ),
                     DataCell(Text(category.name, style: rowStyles)),
-                    DataCell(Text(category.description,
+                    DataCell(
+                      Text(
+                        category.description,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: rowStyles)),
-                    DataCell(Text(category.perHourRate!.toStringAsFixed(2),
-                        style: rowStyles)),
+                        style: rowStyles,
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        category.perHourRate!.toStringAsFixed(2),
+                        style: rowStyles,
+                      ),
+                    ),
                     DataCell(
                       IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
                           CustomAdminDialog.showInfo(
-                              message:
-                                  'Are you sure you want to delete this category?',
-                              buttonText: 'Delete',
-                              onPressed: () {
-                                print('Pressed======');
-                                ref
-                                    .read(categoriesFilterProvider.notifier)
-                                    .deleteCategory(category.id);
-                              });
+                            message:
+                                'Are you sure you want to delete this category?',
+                            buttonText: 'Delete',
+                            onPressed: () {
+                              print('Pressed======');
+                              ref
+                                  .read(categoriesFilterProvider.notifier)
+                                  .deleteCategory(category.id);
+                            },
+                          );
                         },
                       ),
-                    )
+                    ),
                   ],
                 );
               }),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -153,14 +150,16 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
       width: double.infinity,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                offset: const Offset(0, 2),
-                blurRadius: 3)
-          ]),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withValues(alpha: 0.2),
+            offset: const Offset(0, 2),
+            blurRadius: 3,
+          ),
+        ],
+      ),
       child: Form(
         key: _formKey,
         child: Wrap(
@@ -225,22 +224,26 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
                     children: [
                       Expanded(
                         child: Text(
-                            ref.watch(categoryImageProvider)?.path ?? '',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Styles(context).body()),
+                          ref.watch(categoryImageProvider)?.path ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Styles(context).body(),
+                        ),
                       ),
                       const SizedBox(width: 10),
                       TextButton(
-                          onPressed: () {
-                            _pickImage();
-                          },
-                          child: Text(
-                              ref.watch(categoryImageProvider) == null
-                                  ? 'Select Image'
-                                  : 'Change Image',
-                              style: Styles(context)
-                                  .body(color: primaryColor, fontSize: 13)))
+                        onPressed: () {
+                          _pickImage();
+                        },
+                        child: Text(
+                          ref.watch(categoryImageProvider) == null
+                              ? 'Select Image'
+                              : 'Change Image',
+                          style: Styles(
+                            context,
+                          ).body(color: primaryColor, fontSize: 13),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -249,19 +252,19 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
             SizedBox(
               width: 200,
               child: CustomButton(
-                  text: 'Save Category',
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      if (ref.watch(categoryImageProvider) == null) {
-                        CustomDialog.showToast(
-                            message: 'Please select an image');
-                        return;
-                      }
-                      notifier.saveCategory(_formKey, ref);
+                text: 'Save Category',
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    if (ref.watch(categoryImageProvider) == null) {
+                      CustomDialog.showToast(message: 'Please select an image');
+                      return;
                     }
-                  }),
-            )
+                    notifier.saveCategory(_formKey, ref);
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -270,7 +273,7 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
 
   void _pickImage() async {
     final ImagePicker picker = ImagePicker();
-// Pick an image.
+    // Pick an image.
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       ref.read(categoryImageProvider.notifier).state = image;

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import '../components/smart_dialog.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FirebaseAuthService {
   static final _firebaseAuth = FirebaseAuth.instance;

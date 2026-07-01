@@ -5,6 +5,7 @@ import 'package:ready_artisans/styles/app_colors.dart';
 import 'package:ready_artisans/styles/styles.dart';
 
 import 'open_artisan/open_artisan.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArtisanCard extends StatelessWidget {
   const ArtisanCard({super.key, required this.artisan, this.isRated = false});

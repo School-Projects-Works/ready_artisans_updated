@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../constant/functions.dart';
 import '../../../../models/user_model.dart';
 import '../../../../styles/app_colors.dart';
+import '../../../../constant/functions.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 class OpenArtisanTop extends StatefulWidget {
   const OpenArtisanTop({super.key, required this.artisan});
@@ -54,7 +55,7 @@ class _OpenArtisanTopState extends State<OpenArtisanTop>
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                      image: NetworkImage(widget.artisan.image!),
+                      image: NetworkImage(widget.artisan.image),
                       fit: BoxFit.fill)),
             ),
             const SizedBox(width: 8),
@@ -120,7 +121,7 @@ class _OpenArtisanTopState extends State<OpenArtisanTop>
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        '${widget.artisan.address}, ${widget.artisan.city ?? ''}, ${widget.artisan.region ?? ''}',
+                        '${widget.artisan.address}, ${widget.artisan.city}, ${widget.artisan.region}',
                         style: GoogleFonts.roboto(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -131,13 +132,13 @@ class _OpenArtisanTopState extends State<OpenArtisanTop>
                 ),
                 const SizedBox(height: 5),
                 Text(
-                    widget.artisan.available ?? false
+                    widget.artisan.available
                         ? 'Available'
                         : 'Not Available',
                     style: GoogleFonts.roboto(
                         fontSize: 16 * breath,
                         fontWeight: FontWeight.w400,
-                        color: widget.artisan.available ?? false
+                        color: widget.artisan.available
                             ? Colors.green
                             : Colors.red))
               ]),

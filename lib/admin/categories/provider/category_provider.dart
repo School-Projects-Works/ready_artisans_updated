@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ready_artisans/models/category_mode.dart';
 import 'package:ready_artisans/admin/core/custom_dialog.dart';
 import 'package:ready_artisans/admin/services/admin_services.dart';
-import 'package:ready_artisans/models/category_mode.dart';
+// ignore_for_file: undefined_function, undefined_identifier
 
-final newCategoryProvider =
-    StateNotifierProvider<NewCategory, CategoryModel>((ref) => NewCategory());
+final newCategoryProvider = StateNotifierProvider<NewCategory, CategoryModel>(
+  (ref) => NewCategory(),
+);
 
 class NewCategory extends StateNotifier<CategoryModel> {
   NewCategory() : super(CategoryModel.empty());
@@ -37,9 +40,7 @@ class NewCategory extends StateNotifier<CategoryModel> {
     var results = await AdminServices.addCategory(state);
     if (results) {
       CustomAdminDialog.dismiss();
-      CustomAdminDialog.showToast(
-        message: 'Category saved successfully',
-      );
+      CustomAdminDialog.showToast(message: 'Category saved successfully');
       formKey.currentState!.reset();
       ref.read(categoryImageProvider.notifier).state = null;
     } else {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../styles/styles_admin.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../styles/styles_admin.dart';
 
 
 class BarItem extends ConsumerStatefulWidget {

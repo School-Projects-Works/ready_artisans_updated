@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../styles/app_colors.dart';
 import '../styles/styles.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomTextFields extends StatelessWidget {
   const CustomTextFields({

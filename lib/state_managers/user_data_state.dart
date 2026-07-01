@@ -1,18 +1,22 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:io';
+import 'location_data_state.dart';
+import '../models/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import '../pages/welcome_page/welcome_page.dart';
+import 'package:ready_artisans/constant/functions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ready_artisans/components/smart_dialog.dart';
-import 'package:ready_artisans/constant/functions.dart';
-import 'package:ready_artisans/models/user_location_model.dart';
-import 'package:ready_artisans/services/firebase_auth_services.dart';
 import 'package:ready_artisans/services/firebase_storage.dart';
+import 'package:ready_artisans/models/user_location_model.dart';
 import 'package:ready_artisans/services/firestore_services.dart';
+import 'package:ready_artisans/services/firebase_auth_services.dart';
 import 'package:ready_artisans/state_managers/navigation_state.dart';
-import '../models/user_model.dart';
-import '../pages/welcome_page/welcome_page.dart';
-import 'location_data_state.dart';
+
+
+// ignore_for_file: undefined_function, undefined_identifier
+
+// ignore_for_file: use_build_context_synchronously
 
 final userProvider = StateNotifierProvider<UserDataState, UserModel>((ref) {
   return UserDataState();
@@ -52,15 +56,21 @@ class UserDataState extends StateNotifier<UserModel> {
     state = state.copyWith(address: s);
   }
 
-  void createUser(BuildContext context, WidgetRef ref,
-      {required File image, String? password}) async {
-    CustomDialog.showLoading(
-      message: 'Creating Account...',
-    );
+  void createUser(
+    BuildContext context,
+    WidgetRef ref, {
+    required File image,
+    String? password,
+  }) async {
+    CustomDialog.showLoading(message: 'Creating Account...');
     state = state.copyWith(
-        createdAt: DateTime.now().millisecondsSinceEpoch, userType: 'client');
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      userType: 'client',
+    );
     var user = await FirebaseAuthService.createUserWithEmailAndPassword(
-        state.email, password!);
+      state.email,
+      password!,
+    );
     if (user != null) {
       FirebaseAuthService.sendEmailVerification();
       var location = ref.read(locationStreamProvider);
@@ -74,14 +84,17 @@ class UserDataState extends StateNotifier<UserModel> {
         );
       });
       state = state.copyWith(
-          id: user.uid,
-          userType: 'client',
-          rating: 2.0,
-          available: true,
-          createdAt: DateTime.now().toUtc().millisecondsSinceEpoch);
+        id: user.uid,
+        userType: 'client',
+        rating: 2.0,
+        available: true,
+        createdAt: DateTime.now().toUtc().millisecondsSinceEpoch,
+      );
       //save user image to cloud storage
-      final userImageUrl =
-          await CloudStorageServices.saveUserImage(image, state.id.toString());
+      final userImageUrl = await CloudStorageServices.saveUserImage(
+        image,
+        state.id.toString(),
+      );
       state = state.copyWith(image: userImageUrl);
       //save user to firestore
       final String response = await FireStoreServices.saveUser(state);
@@ -98,10 +111,7 @@ class UserDataState extends StateNotifier<UserModel> {
         ref.read(authNavProvider.notifier).state = 0;
       } else {
         CustomDialog.dismiss();
-        CustomDialog.showError(
-          title: 'Error',
-          message: response,
-        );
+        CustomDialog.showError(title: 'Error', message: response);
       }
     }
   }
@@ -122,11 +132,12 @@ class UserDataState extends StateNotifier<UserModel> {
 
   void updateUserLocation(UserLocation location) async {
     state = state.copyWith(
-        location: state.toMap(),
-        latitude: state.latitude,
-        longitude: state.longitude,
-        city: state.city,
-        region: state.region);
+      location: state.toMap(),
+      latitude: state.latitude,
+      longitude: state.longitude,
+      city: state.city,
+      region: state.region,
+    );
     //await FireStoreServices.updateUserLocation(state);
   }
 

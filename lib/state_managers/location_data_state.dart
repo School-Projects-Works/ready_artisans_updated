@@ -1,9 +1,14 @@
 import 'dart:async';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geocoding/geocoding.dart' as geo;
-import 'package:geolocator/geolocator.dart';
 import '../constant/functions.dart';
+import 'package:riverpod/riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import '../models/user_location_model.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import 'package:geocoding/geocoding.dart' as geo;
+
+
+
+
 
 // final locationProvider =
 //     StateNotifierProvider.family<LocationDataState, UserLocation, WidgetRef>(
@@ -24,8 +29,9 @@ final locationStreamProvider = StreamProvider<UserLocation>((ref) async* {
     distanceFilter: 100,
   );
   if (await getLocationPermission()) {
-    Stream<Position> positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings);
+    Stream<Position> positionStream = Geolocator.getPositionStream(
+      locationSettings: locationSettings,
+    );
     await for (Position position in positionStream) {
       UserLocation location = UserLocation(
         latitude: position.latitude,
@@ -34,25 +40,24 @@ final locationStreamProvider = StreamProvider<UserLocation>((ref) async* {
       await geo
           .placemarkFromCoordinates(position.latitude, position.longitude)
           .then((List<geo.Placemark> placeMarks) {
-        geo.Placemark place = placeMarks[0];
-        location = UserLocation(
-          latitude: position.latitude,
-          longitude: position.longitude,
-          name: place.name,
-          street: place.street,
-          city: place.locality,
-          region: place.administrativeArea,
-          country: place.country,
-          countryCode: place.isoCountryCode,
-          district: place.subAdministrativeArea,
-        );
-      });
+            geo.Placemark place = placeMarks[0];
+            location = UserLocation(
+              latitude: position.latitude,
+              longitude: position.longitude,
+              name: place.name,
+              street: place.street,
+              city: place.locality,
+              region: place.administrativeArea,
+              country: place.country,
+              countryCode: place.isoCountryCode,
+              district: place.subAdministrativeArea,
+            );
+          });
       ref.read(locationProvider.notifier).state = location;
       yield location;
-        }
+    }
   }
 });
-
 
 final locationProvider = StateProvider<UserLocation>((ref) {
   return UserLocation();

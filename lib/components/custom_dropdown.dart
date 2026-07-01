@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../styles/app_colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomDropDown extends StatelessWidget {
   const CustomDropDown(
@@ -68,7 +69,7 @@ class CustomDropDown extends StatelessWidget {
       dropdownColor: Colors.white,
       items: items,
       validator: validator,
-      value: value,
+      initialValue: value,
       isExpanded: true,
       icon: const Icon(
         Icons.arrow_drop_down,

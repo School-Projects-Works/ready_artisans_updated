@@ -1,12 +1,13 @@
 import 'dart:math';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../components/smart_dialog.dart';
 import '../models/user_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import '../components/smart_dialog.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 void noReturnSendToPage(BuildContext context, Widget newPage) {
   Navigator.pushAndRemoveUntil(
@@ -32,7 +33,7 @@ void sendToTransparentPage(BuildContext context, Widget newPage) {
 }
 
 List<UserModel> sortUsersByRating(List<UserModel> users) {
-  users.sort((a, b) => b.rating!.compareTo(a.rating!));
+  users.sort((a, b) => b.rating.compareTo(a.rating));
   // return in descending order
   return users;
 }

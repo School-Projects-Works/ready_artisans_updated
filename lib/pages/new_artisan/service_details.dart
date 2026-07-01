@@ -1,16 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ready_artisans/components/smart_dialog.dart';
-import 'package:ready_artisans/pages/new_artisan/image_section.dart';
-import 'package:ready_artisans/services/firestore_services.dart';
-import 'package:ready_artisans/state_managers/navigation_state.dart';
-import '../../components/custom_dropdown.dart';
-import '../../components/custom_input.dart';
-import '../../state_managers/category_data_state.dart';
-import '../../state_managers/user_data_state.dart';
 import '../../styles/app_colors.dart';
+import 'package:flutter/material.dart';
+import '../../components/custom_input.dart';
+import '../../components/custom_dropdown.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../state_managers/user_data_state.dart';
+import '../../state_managers/category_data_state.dart';
+import 'package:ready_artisans/components/smart_dialog.dart';
+import 'package:ready_artisans/services/firestore_services.dart';
+import 'package:ready_artisans/pages/new_artisan/image_section.dart';
+import 'package:ready_artisans/state_managers/navigation_state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ServiceDetails extends ConsumerStatefulWidget {
   const ServiceDetails({super.key});
@@ -52,66 +51,78 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
                 alignment: Alignment.center,
                 child: Column(
                   children: [
-                    Text('Services Details',
-                        style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600)),
+                    Text(
+                      'Services Details',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     const SizedBox(height: 10),
                     Text(
-                        'Please provide the details of the services you offer. This will help us match you with the right customers.',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600)),
+                      'Please provide the details of the services you offer. This will help us match you with the right customers.',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 10),
               ListTile(
-                  title: Text('Which of these services do you offer?',
-                      style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600)),
-                  subtitle: category.when(
-                      error: (e, s) {
-                        return Text('Error: $e');
+                title: Text(
+                  'Which of these services do you offer?',
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                subtitle: category.when(
+                  error: (e, s) {
+                    return Text('Error: $e');
+                  },
+                  loading: () => const Center(child: LinearProgressIndicator()),
+                  data: (data) {
+                    return CustomDropDown(
+                      color: Colors.white,
+                      value: selectedService,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedService = value;
+                        });
                       },
-                      loading: () => const Center(
-                            child: LinearProgressIndicator(),
-                          ),
-                      data: (data) {
-                        return CustomDropDown(
-                          color: Colors.white,
-                          value: selectedService,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedService = value;
-                            });
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              selectedService = value;
-                            });
-                          },
-                          items: data
-                              .map((e) => DropdownMenuItem(
-                                    value: e.name,
-                                    child: Text(e.name,
-                                        style: GoogleFonts.poppins()),
-                                  ))
-                              .toList(),
-                        );
-                      })),
+                      onSaved: (value) {
+                        setState(() {
+                          selectedService = value;
+                        });
+                      },
+                      items: data
+                          .map(
+                            (e) => DropdownMenuItem(
+                              value: e.name,
+                              child: Text(e.name, style: GoogleFonts.poppins()),
+                            ),
+                          )
+                          .toList(),
+                    );
+                  },
+                ),
+              ),
               const SizedBox(height: 10),
               ListTile(
-                title: Text('Provide specific title for your service',
-                    style: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600)),
+                title: Text(
+                  'Provide specific title for your service',
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 subtitle: CustomTextFields(
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -128,11 +139,14 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
                 ),
               ),
               ListTile(
-                title: Text('How much do you charge for service (GHS)',
-                    style: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600)),
+                title: Text(
+                  'How much do you charge for service (GHS)',
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 subtitle: CustomTextFields(
                   isDigitOnly: true,
                   max: 4,
@@ -160,32 +174,34 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton.icon(
-                        onPressed: () {
-                          ref.read(authNavProvider.notifier).state = 0;
-                        },
-                        icon: const Icon(FontAwesomeIcons.arrowLeft,
-                            color: secondaryColor),
-                        label: Text(
-                          'Previous',
-                          style: GoogleFonts.nunito(
-                              fontSize: 18,
-                              color: secondaryColor,
-                              fontWeight: FontWeight.bold),
-                        )),
-                    TextButton.icon(
-                        style: TextButton.styleFrom(
-                          backgroundColor: secondaryColor,
+                      onPressed: () {
+                        ref.read(authNavProvider.notifier).state = 0;
+                      },
+                      icon: Icon(Icons.arrow_back, color: secondaryColor),
+                      label: Text(
+                        'Previous',
+                        style: GoogleFonts.nunito(
+                          fontSize: 18,
+                          color: secondaryColor,
+                          fontWeight: FontWeight.bold,
                         ),
-                        onPressed: () => checkAndContinue(),
-                        icon: const Icon(FontAwesomeIcons.arrowRight,
-                            color: Colors.white),
-                        label: Text(
-                          'Submit',
-                          style: GoogleFonts.nunito(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        )),
+                      ),
+                    ),
+                    TextButton.icon(
+                      style: TextButton.styleFrom(
+                        backgroundColor: secondaryColor,
+                      ),
+                      onPressed: () => checkAndContinue(),
+                      icon: Icon(Icons.arrow_forward, color: Colors.white),
+                      label: Text(
+                        'Submit',
+                        style: GoogleFonts.nunito(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -205,7 +221,9 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
       if (files.isEmpty) {
         CustomDialog.dismiss();
         CustomDialog.showError(
-            title: 'Error', message: 'Please upload all required files');
+          title: 'Error',
+          message: 'Please upload all required files',
+        );
         return;
       }
       var (image, id, cert) = await FireStoreServices.uploadFiles(files);
@@ -227,11 +245,12 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
         ref.read(userProvider.notifier).logout(context);
         CustomDialog.dismiss();
         CustomDialog.showSuccess(
-            title: 'Success',
-            message: 'Request sent successfully',
-            onOkayPressed: () {
-              //Navigator.of(context).pop();
-            });
+          title: 'Success',
+          message: 'Request sent successfully',
+          onOkayPressed: () {
+            //Navigator.of(context).pop();
+          },
+        );
       } else {
         CustomDialog.showError(title: 'Error', message: 'An error occurred');
       }

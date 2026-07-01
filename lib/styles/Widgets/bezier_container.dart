@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ready_artisans/styles/app_colors.dart';
 import 'package:ready_artisans/styles/Widgets/clip_path_shadow.dart';
 import 'custom_clipper.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class StyleShape extends StatelessWidget {
   const StyleShape(

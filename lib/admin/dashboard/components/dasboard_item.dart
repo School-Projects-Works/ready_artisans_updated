@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../styles/styles_admin.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DashBoardItem extends ConsumerStatefulWidget {
   const DashBoardItem(
@@ -44,7 +42,7 @@ class _DashBoardItemState extends ConsumerState<DashBoardItem> {
                   : styles.width * 0.2,
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           decoration: BoxDecoration(
-            color: onHaver ? widget.color.withOpacity(.9) : widget.color,
+            color: onHaver ? widget.color.withValues(alpha: .9) : widget.color,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
@@ -66,7 +64,6 @@ class _DashBoardItemState extends ConsumerState<DashBoardItem> {
                     widget.title,
                     maxLines: 1,
                     style: styles.subtitle(
-                      
                       color: Colors.white,
                     ),
                   ),

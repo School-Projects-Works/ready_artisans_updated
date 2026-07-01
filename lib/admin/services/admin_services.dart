@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:ready_artisans/models/category_mode.dart';
 
 import '../../models/user_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AdminServices {
   static final CollectionReference users =

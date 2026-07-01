@@ -1,52 +1,49 @@
-import 'dart:math';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter/foundation.dart';
+import 'admin/main/views/admin_main.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ready_artisans/admin/services/admin_services.dart';
-import 'package:ready_artisans/components/smart_dialog.dart';
-import 'package:ready_artisans/pages/home_page/home_page.dart';
-import 'package:ready_artisans/pages/welcome_page/welcome_page.dart';
-import 'package:ready_artisans/state_managers/location_data_state.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:ready_artisans/styles/app_colors.dart';
 import 'package:ready_artisans/models/user_model.dart';
-import 'package:ready_artisans/services/firebase_auth_services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ready_artisans/components/smart_dialog.dart';
+import 'package:ready_artisans/pages/home_page/home_page.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:ready_artisans/services/firestore_services.dart';
 import 'package:ready_artisans/state_managers/user_data_state.dart';
-import 'admin/main/views/admin_main.dart';
-import 'firebase_options.dart';
-import 'models/category_mode.dart';
-import 'models/review_mode.dart';
+import 'package:ready_artisans/pages/welcome_page/welcome_page.dart';
+import 'package:ready_artisans/services/firebase_auth_services.dart';
+import 'package:ready_artisans/state_managers/location_data_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //await saveDummy();
+  if (kIsWeb) {
+    setPathUrlStrategy();
+  }
   runApp(const ProviderScope(child: MyApp()));
 }
 
-Future<void> saveDummy() async {
-  var category = CategoryModel.dummyData;
-  for (var cat in category) {
-    var id = AdminServices.getCategoryId();
-    cat.id = id;
-    var results = await AdminServices.addCategory(cat);
-  }
+// Future<void> saveDummy() async {
+//   var category = CategoryModel.dummyData;
+//   for (var cat in category) {
+//     var id = AdminServices.getCategoryId();
+//     cat.id = id;
+//     var results = await AdminServices.addCategory(cat);
+//   }
 
-  var artisans = DummyData.artisanList();
-  for (var user in artisans) {
-    var id = AdminServices.getUserId();
-    user.id = id;
-    user.createdAt = DateTime.now().toUtc().millisecondsSinceEpoch;
+//   var artisans = DummyData.artisanList();
+//   for (var user in artisans) {
+//     var id = AdminServices.getUserId();
+//     user.id = id;
+//     user.createdAt = DateTime.now().toUtc().millisecondsSinceEpoch;
 
-    await AdminServices.createUser(user);
-  }
-}
+//     await AdminServices.createUser(user);
+//   }
+// }
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -91,37 +88,37 @@ class _MyAppState extends ConsumerState<MyApp> {
     //   user.createdAt = DateTime.now().toUtc().millisecondsSinceEpoch;
     //   await FireStoreServices.saveUser(user);
     // }
-    try{
-    var location = ref.watch(locationStreamProvider);
-    if (FirebaseAuthService.isUserLogin()) {
-      var user = FirebaseAuthService.getCurrentUser();
-      //set user Online
-      await FireStoreServices.setUserOnline(user.uid);
-      UserModel userData = await FireStoreServices.getUserData(user.uid);
+    try {
+      var location = ref.watch(locationStreamProvider);
+      if (FirebaseAuthService.isUserLogin()) {
+        var user = FirebaseAuthService.getCurrentUser();
+        //set user Online
+        await FireStoreServices.setUserOnline(user.uid);
+        UserModel userData = await FireStoreServices.getUserData(user.uid);
 
-      //update user location
-      location.whenData((location) async {
-        if (location.latitude != null && location.longitude != null) {
-          userData = userData.copyWith(
-            location: location.toMap(),
-            latitude: location.latitude,
-            longitude: location.longitude,
-            city: location.city,
-            region: location.region,
-          );
-          await FireStoreServices.updateUserLocation(userData);
-        }
-      });
+        //update user location
+        location.whenData((location) async {
+          if (location.latitude != null && location.longitude != null) {
+            userData = userData.copyWith(
+              location: location.toMap(),
+              latitude: location.latitude,
+              longitude: location.longitude,
+              city: location.city,
+              region: location.region,
+            );
+            await FireStoreServices.updateUserLocation(userData);
+          }
+        });
 
-      //check if widget is build
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.watch(userProvider.notifier).setUser(userData);
-      });
-      return true;
-    } else {
-      return false;
-    }
-    }catch(e){
+        //check if widget is build
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.watch(userProvider.notifier).setUser(userData);
+        });
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
       //firebase delete account
       await FirebaseAuthService.deleteUser();
       CustomDialog.showError(title: "User data corrupted, Signup again");
@@ -143,29 +140,29 @@ class _MyAppState extends ConsumerState<MyApp> {
         primaryColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.black87),
 
-        textTheme: GoogleFonts.nunitoTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.black, displayColor: Colors.black),
+        textTheme: GoogleFonts.nunitoTextTheme(
+          Theme.of(context).textTheme,
+        ).apply(bodyColor: Colors.black, displayColor: Colors.black),
         canvasColor: primaryColor,
       ),
       builder: FlutterSmartDialog.init(),
       home: FutureBuilder<bool>(
-          future: _initUser(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data!) {
-                return const HomePage();
-              } else {
-                return const WelcomePage();
-              }
+        future: _initUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!) {
+              return const HomePage();
             } else {
-              return const Scaffold(
-                backgroundColor: Colors.white,
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
+              return const WelcomePage();
             }
-          }),
+          } else {
+            return const Scaffold(
+              backgroundColor: Colors.white,
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
+        },
+      ),
     );
   }
 }

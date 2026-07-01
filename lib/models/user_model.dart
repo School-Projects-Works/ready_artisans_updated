@@ -1,11 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 import 'dart:math';
-
+import 'dart:convert';
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:ready_artisans/models/category_mode.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class UserModel {
   String id;
@@ -40,9 +39,8 @@ class UserModel {
     required this.address,
     required this.status,
     this.image = '',
-
     this.userType = 'client',
-     this.perHourRate=0.0,
+    this.perHourRate = 0.0,
     required this.certificate,
     this.location = const {},
     required this.gender,
@@ -112,7 +110,7 @@ class UserModel {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
+
     result.addAll({'id': id});
     result.addAll({'idNumber': idNumber});
     result.addAll({'name': name});
@@ -136,7 +134,7 @@ class UserModel {
     result.addAll({'images': images});
     result.addAll({'createdAt': createdAt});
     result.addAll({'artisanCategory': artisanCategory});
-  
+
     return result;
   }
 
@@ -181,58 +179,58 @@ class UserModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is UserModel &&
-      other.id == id &&
-      other.idNumber == idNumber &&
-      other.name == name &&
-      other.email == email &&
-      other.phone == phone &&
-      other.address == address &&
-      other.status == status &&
-      other.image == image &&
-      other.userType == userType &&
-      other.perHourRate == perHourRate &&
-      other.certificate == certificate &&
-      mapEquals(other.location, location) &&
-      other.gender == gender &&
-      other.rating == rating &&
-      other.latitude == latitude &&
-      other.longitude == longitude &&
-      other.isOnline == isOnline &&
-      other.available == available &&
-      other.city == city &&
-      other.region == region &&
-      listEquals(other.images, images) &&
-      other.createdAt == createdAt &&
-      other.artisanCategory == artisanCategory;
+        other.id == id &&
+        other.idNumber == idNumber &&
+        other.name == name &&
+        other.email == email &&
+        other.phone == phone &&
+        other.address == address &&
+        other.status == status &&
+        other.image == image &&
+        other.userType == userType &&
+        other.perHourRate == perHourRate &&
+        other.certificate == certificate &&
+        mapEquals(other.location, location) &&
+        other.gender == gender &&
+        other.rating == rating &&
+        other.latitude == latitude &&
+        other.longitude == longitude &&
+        other.isOnline == isOnline &&
+        other.available == available &&
+        other.city == city &&
+        other.region == region &&
+        listEquals(other.images, images) &&
+        other.createdAt == createdAt &&
+        other.artisanCategory == artisanCategory;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      idNumber.hashCode ^
-      name.hashCode ^
-      email.hashCode ^
-      phone.hashCode ^
-      address.hashCode ^
-      status.hashCode ^
-      image.hashCode ^
-      userType.hashCode ^
-      perHourRate.hashCode ^
-      certificate.hashCode ^
-      location.hashCode ^
-      gender.hashCode ^
-      rating.hashCode ^
-      latitude.hashCode ^
-      longitude.hashCode ^
-      isOnline.hashCode ^
-      available.hashCode ^
-      city.hashCode ^
-      region.hashCode ^
-      images.hashCode ^
-      createdAt.hashCode ^
-      artisanCategory.hashCode;
+        idNumber.hashCode ^
+        name.hashCode ^
+        email.hashCode ^
+        phone.hashCode ^
+        address.hashCode ^
+        status.hashCode ^
+        image.hashCode ^
+        userType.hashCode ^
+        perHourRate.hashCode ^
+        certificate.hashCode ^
+        location.hashCode ^
+        gender.hashCode ^
+        rating.hashCode ^
+        latitude.hashCode ^
+        longitude.hashCode ^
+        isOnline.hashCode ^
+        available.hashCode ^
+        city.hashCode ^
+        region.hashCode ^
+        images.hashCode ^
+        createdAt.hashCode ^
+        artisanCategory.hashCode;
   }
 
   static UserModel empty() {
@@ -438,7 +436,7 @@ class DummyData {
   static String _getDoctorSpecialty() {
     //return random doctor specialty
     final doctorSpecialty = CategoryModel.dummyData;
-    return doctorSpecialty[_random.nextInt(doctorSpecialty.length)].name!;
+    return doctorSpecialty[_random.nextInt(doctorSpecialty.length)].name;
   }
 
   static String generateRandomId() {

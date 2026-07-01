@@ -1,12 +1,12 @@
+import '../../constant/strings.dart';
+import '../../generated/assets.dart';
+import '../../styles/app_colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../components/custom_input.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ready_artisans/state_managers/navigation_state.dart';
-import '../../components/custom_input.dart';
-import '../../constant/strings.dart';
-import '../../styles/app_colors.dart';
-import '../../generated/assets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -16,7 +16,7 @@ class ForgotPasswordPage extends ConsumerStatefulWidget {
 }
 
 class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? email;
   @override
   Widget build(BuildContext context) {
@@ -35,20 +35,26 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(Assets.imagesLogoSmallT,
-                        width: 100, height: 100),
-                    Text('RESET PASSWORD',
-                        style: GoogleFonts.alfaSlabOne(
-                            decoration: TextDecoration.underline,
-                            fontSize: 25,
-                            color: secondaryColor)),
+                    Image.asset(
+                      Assets.images.logoSmallT.path,
+                      width: 100,
+                      height: 100,
+                    ),
+                    Text(
+                      'RESET PASSWORD',
+                      style: GoogleFonts.alfaSlabOne(
+                        decoration: TextDecoration.underline,
+                        fontSize: 25,
+                        color: secondaryColor,
+                      ),
+                    ),
                     const SizedBox(height: 15),
                     CustomTextFields(
                       label: 'Email',
@@ -75,7 +81,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 10),
+                          horizontal: 50,
+                          vertical: 10,
+                        ),
                         textStyle: GoogleFonts.nunito(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,

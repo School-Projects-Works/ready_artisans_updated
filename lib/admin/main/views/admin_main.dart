@@ -1,11 +1,9 @@
+import '../../../router/router.dart';
 import 'package:flutter/material.dart';
+import '../../../styles/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:ready_artisans/admin/services/admin_services.dart';
-import 'package:ready_artisans/models/category_mode.dart';
 
-import '../../../router/router.dart';
-import '../../../styles/app_colors.dart';
 
 class AdminMain extends ConsumerWidget {
   const AdminMain({super.key});
@@ -23,6 +21,4 @@ class AdminMain extends ConsumerWidget {
       routerConfig: MyRouter(context: context, ref: ref).router(),
     );
   }
-
- 
 }

@@ -1,17 +1,14 @@
-// ignore_for_file: no_wildcard_variable_uses
-
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+// ignore_for_file: no_wildcard_variable_uses
 
 enum ToastType { success, error, warning, info }
 
 // ignore_for_file: file_names
 class CustomAdminDialog {
   static void showLoading({required String message}) {
-    SmartDialog.showLoading(
-      msg: message,
-    );
+    SmartDialog.showLoading(msg: message);
   }
 
   static void dismiss() {
@@ -19,30 +16,28 @@ class CustomAdminDialog {
   }
 
   static void showToast({required String message}) {
-    SmartDialog.showToast(
-      message,
-    );
+    SmartDialog.showToast(message);
   }
 
   static void showError({required String message}) {
     SmartDialog.show(
       maskColor: Colors.transparent,
       builder: (context) {
-        
         return Container(
           width: 450,
           height: 250,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ]),
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withValues(alpha: 0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
           alignment: Alignment.center,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -52,11 +47,7 @@ class CustomAdminDialog {
                 child: const CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.red,
-                  child: Icon(
-                    Icons.error,
-                    size: 50,
-                    color: Colors.white,
-                  ),
+                  child: Icon(Icons.error, size: 50, color: Colors.white),
                 ),
               ),
               Padding(
@@ -77,16 +68,17 @@ class CustomAdminDialog {
                     Expanded(
                       child: TextButton(
                         style: TextButton.styleFrom(
-                          foregroundColor:
-                              Theme.of(context).textTheme.bodyLarge!.color,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge!.color,
                         ),
                         onPressed: () => SmartDialog.dismiss(),
                         child: const Text(
                           'Okay',
-                         style: TextStyle(fontSize: 15),
+                          style: TextStyle(fontSize: 15),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -101,21 +93,21 @@ class CustomAdminDialog {
     SmartDialog.show(
       maskColor: Colors.transparent,
       builder: (context) {
-        
         return Container(
           width: 450,
           height: 250,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ]),
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withValues(alpha: 0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
           alignment: Alignment.center,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -125,11 +117,7 @@ class CustomAdminDialog {
                 child: const CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.green,
-                  child: Icon(
-                    Icons.check,
-                    size: 50,
-                    color: Colors.white,
-                  ),
+                  child: Icon(Icons.check, size: 50, color: Colors.white),
                 ),
               ),
               Padding(
@@ -151,8 +139,9 @@ class CustomAdminDialog {
                     Expanded(
                       child: TextButton(
                         style: TextButton.styleFrom(
-                          foregroundColor:
-                              Theme.of(context).textTheme.bodyLarge!.color,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge!.color,
                         ),
                         onPressed: () => SmartDialog.dismiss(),
                         child: const Text(
@@ -160,7 +149,7 @@ class CustomAdminDialog {
                           style: TextStyle(fontSize: 15),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -171,30 +160,31 @@ class CustomAdminDialog {
     );
   }
 
-  static Future<void> showInfo(
-      {required String message,
-      VoidCallback? onPressed,
-      required String buttonText,
-      String? buttonText2,
-      VoidCallback? onPressed2}) async {
+  static Future<void> showInfo({
+    required String message,
+    VoidCallback? onPressed,
+    required String buttonText,
+    String? buttonText2,
+    VoidCallback? onPressed2,
+  }) async {
     SmartDialog.show(
       maskColor: Colors.transparent,
-      builder: (_) {
-       
+      builder: (context) {
         return Container(
           width: 400,
           height: 230,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ]),
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withValues(alpha: 0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
           alignment: Alignment.center,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -204,11 +194,7 @@ class CustomAdminDialog {
                 child: const CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.blue,
-                  child: Icon(
-                    Icons.info,
-                    size: 50,
-                    color: Colors.white,
-                  ),
+                  child: Icon(Icons.info, size: 50, color: Colors.white),
                 ),
               ),
               Transform.translate(
@@ -219,7 +205,7 @@ class CustomAdminDialog {
                     message,
                     maxLines: 3,
                     textAlign: TextAlign.center,
-                   style: const TextStyle(fontSize: 15),
+                    style: const TextStyle(fontSize: 15),
                   ),
                 ),
               ),
@@ -232,14 +218,13 @@ class CustomAdminDialog {
                     Expanded(
                       child: Column(
                         children: [
-                          const Divider(
-                            height: 0,
-                          ),
+                          const Divider(height: 0),
                           Expanded(
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                foregroundColor:
-                                    Theme.of(_).textTheme.bodyLarge!.color,
+                                foregroundColor: Theme.of(
+                                  context,
+                                ).textTheme.bodyLarge!.color,
                               ),
                               onPressed: () {
                                 if (onPressed != null) {
@@ -254,20 +239,17 @@ class CustomAdminDialog {
                         ],
                       ),
                     ),
-                    const VerticalDivider(
-                      width: 0,
-                    ),
+                    const VerticalDivider(width: 0),
                     Expanded(
                       child: Column(
                         children: [
-                          const Divider(
-                            height: 0,
-                          ),
+                          const Divider(height: 0),
                           Expanded(
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                foregroundColor:
-                                    Theme.of(_).textTheme.bodyLarge!.color,
+                                foregroundColor: Theme.of(
+                                  context,
+                                ).textTheme.bodyLarge!.color,
                               ),
                               onPressed: () {
                                 if (onPressed2 != null) {
@@ -292,12 +274,13 @@ class CustomAdminDialog {
     );
   }
 
-  static Future<void> showCustom(
-      {required Widget ui,
-      SmartDialogController? controller,
-      double? width,
-      bool clickMaskDismiss = false,
-      double? height}) async {
+  static Future<void> showCustom({
+    required Widget ui,
+    SmartDialogController? controller,
+    double? width,
+    bool clickMaskDismiss = false,
+    double? height,
+  }) async {
     SmartDialog.show(
       alignment: Alignment.center,
       animationType: SmartAnimationType.centerScale_otherSlide,
@@ -307,11 +290,7 @@ class CustomAdminDialog {
       controller: controller,
       maskColor: Colors.transparent,
       builder: (_) {
-        return SizedBox(
-          width: width ?? 900,
-          height: height,
-          child: ui,
-        );
+        return SizedBox(width: width ?? 900, height: height, child: ui);
       },
     );
   }
@@ -322,7 +301,6 @@ class CustomAdminDialog {
       animationType: SmartAnimationType.centerScale_otherSlide,
       clickMaskDismiss: false,
       builder: (_) {
-       
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(10),
@@ -331,7 +309,7 @@ class CustomAdminDialog {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
+                color: Colors.grey.withValues(alpha: 0.5),
                 spreadRadius: 5,
                 blurRadius: 7,
                 offset: const Offset(0, 3), // changes position of shadow
@@ -340,10 +318,7 @@ class CustomAdminDialog {
           ),
           width: 300,
           height: 120,
-          child: Text(
-            text,
-            style: const TextStyle(fontSize: 15),
-          ),
+          child: Text(text, style: const TextStyle(fontSize: 15)),
         );
       },
     );
@@ -356,38 +331,38 @@ class CustomAdminDialog {
         return Card(
           elevation: 10,
           child: Container(
-              width: 500,
-              height: 500,
-              alignment: Alignment.topRight,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(path!), fit: BoxFit.fill)),
-              child: Transform.translate(
-                offset: const Offset(30, -30),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                    color: Colors.white,
-                    highlightColor: Colors.white,
-                    padding: EdgeInsets.zero,
-                    icon: const CircleAvatar(
-                      backgroundColor: Colors.red,
-                      radius: 40,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.close,
-                          color: Colors.white,
-                          size: 18,
-                        ),
-                      ),
+            width: 500,
+            height: 500,
+            alignment: Alignment.topRight,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(path!),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: Transform.translate(
+              offset: const Offset(30, -30),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  color: Colors.white,
+                  highlightColor: Colors.white,
+                  padding: EdgeInsets.zero,
+                  icon: const CircleAvatar(
+                    backgroundColor: Colors.red,
+                    radius: 40,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.close, color: Colors.white, size: 18),
                     ),
-                    onPressed: () {
-                      CustomAdminDialog.dismiss();
-                    },
                   ),
+                  onPressed: () {
+                    CustomAdminDialog.dismiss();
+                  },
                 ),
-              )),
+              ),
+            ),
+          ),
         );
       },
     );

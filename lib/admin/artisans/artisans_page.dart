@@ -1,12 +1,12 @@
-import 'package:data_table_2/data_table_2.dart';
+import '../core/custom_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:image_network/image_network.dart';
-import 'package:ready_artisans/admin/provider/admin_provider.dart';
-import 'package:ready_artisans/components/text_inputs.dart';
 import 'package:ready_artisans/styles/app_colors.dart';
 import 'package:ready_artisans/styles/styles_admin.dart';
-import '../core/custom_dialog.dart';
+import 'package:ready_artisans/components/text_inputs.dart';
+import 'package:ready_artisans/admin/provider/admin_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArtisansPage extends ConsumerStatefulWidget {
   const ArtisansPage({super.key});
@@ -27,8 +27,10 @@ class _ArtisansPageState extends ConsumerState<ArtisansPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Registered Artisans'.toUpperCase(),
-              style: style.title(fontSize: 30, color: primaryColor)),
+          Text(
+            'Registered Artisans'.toUpperCase(),
+            style: style.title(fontSize: 30, color: primaryColor),
+          ),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +45,7 @@ class _ArtisansPageState extends ConsumerState<ArtisansPage> {
                         .filterArtisans(query);
                   },
                 ),
-              )
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -51,46 +53,24 @@ class _ArtisansPageState extends ConsumerState<ArtisansPage> {
             child: DataTable2(
               columnSpacing: 30,
               horizontalMargin: 12,
-              empty: Center(
-                  child: Text(
-                'No Artisan found',
-                style: rowStyles,
-              )),
+              empty: Center(child: Text('No Artisan found', style: rowStyles)),
               minWidth: 600,
               headingRowColor: WidgetStateColor.resolveWith(
-                  (states) => primaryColor.withOpacity(0.6)),
+                (states) => primaryColor.withValues(alpha: 0.6),
+              ),
               headingTextStyle: titleStyles,
               columns: [
                 DataColumn2(
-                  label: Text(
-                    'Ghana Card'.toUpperCase(),
-                    style: titleStyles,
-                  ),
+                  label: Text('Ghana Card'.toUpperCase(), style: titleStyles),
                 ),
-                DataColumn2(
-                  label: Text('Image'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('Name'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('category'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('Phone'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('address'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('hasDocuments'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('status'.toUpperCase()),
-                ),
-                DataColumn2(
-                  label: Text('Action'.toUpperCase()),
-                ),
+                DataColumn2(label: Text('Image'.toUpperCase())),
+                DataColumn2(label: Text('Name'.toUpperCase())),
+                DataColumn2(label: Text('category'.toUpperCase())),
+                DataColumn2(label: Text('Phone'.toUpperCase())),
+                DataColumn2(label: Text('address'.toUpperCase())),
+                DataColumn2(label: Text('hasDocuments'.toUpperCase())),
+                DataColumn2(label: Text('status'.toUpperCase())),
+                DataColumn2(label: Text('Action'.toUpperCase())),
               ],
               rows: List<DataRow>.generate(artisans.length, (index) {
                 var artisan = artisans[index];
@@ -114,26 +94,38 @@ class _ArtisansPageState extends ConsumerState<ArtisansPage> {
                             ),
                     ),
                     DataCell(Text(artisan.name, style: rowStyles)),
-                    DataCell(Text(artisan.artisanCategory,
+                    DataCell(
+                      Text(
+                        artisan.artisanCategory,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: rowStyles)),
+                        style: rowStyles,
+                      ),
+                    ),
                     DataCell(Text(artisan.phone, style: rowStyles)),
                     DataCell(Text(artisan.address, style: rowStyles)),
-                    DataCell(Text(artisan.certificate.isEmpty ? 'Yes' : 'No',
-                        style: rowStyles)),
+                    DataCell(
+                      Text(
+                        artisan.certificate.isEmpty ? 'Yes' : 'No',
+                        style: rowStyles,
+                      ),
+                    ),
                     DataCell(
                       Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              color: artisan.status == 'active'
-                                  ? Colors.green
-                                  : artisan.status == 'pending'
-                                      ? Colors.orange
-                                      : Colors.red,
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Text(artisan.status,
-                              style: rowStyles.copyWith(color: Colors.white))),
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: artisan.status == 'active'
+                              ? Colors.green
+                              : artisan.status == 'pending'
+                              ? Colors.orange
+                              : Colors.red,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          artisan.status,
+                          style: rowStyles.copyWith(color: Colors.white),
+                        ),
+                      ),
                     ),
                     DataCell(
                       Row(
@@ -149,15 +141,17 @@ class _ArtisansPageState extends ConsumerState<ArtisansPage> {
                               icon: const Icon(Icons.block),
                               onPressed: () {
                                 CustomAdminDialog.showInfo(
-                                    message:
-                                        'Are you sure you want to ban this artisan?',
-                                    buttonText: 'Ban',
-                                    onPressed: () {
-                                      ref
-                                          .read(artisansFilterProvider.notifier)
-                                          .updateStatus(artisan.copyWith(
-                                              status: 'banned'));
-                                    });
+                                  message:
+                                      'Are you sure you want to ban this artisan?',
+                                  buttonText: 'Ban',
+                                  onPressed: () {
+                                    ref
+                                        .read(artisansFilterProvider.notifier)
+                                        .updateStatus(
+                                          artisan.copyWith(status: 'banned'),
+                                        );
+                                  },
+                                );
                               },
                             ),
                           if (artisan.status == 'banned' ||
@@ -167,25 +161,27 @@ class _ArtisansPageState extends ConsumerState<ArtisansPage> {
                               icon: const Icon(Icons.check),
                               onPressed: () {
                                 CustomAdminDialog.showInfo(
-                                    message:
-                                        'Are you sure you want to activate this artisan?',
-                                    buttonText: 'activate',
-                                    onPressed: () {
-                                      ref
-                                          .read(artisansFilterProvider.notifier)
-                                          .updateStatus(artisan.copyWith(
-                                              status: 'active'));
-                                    });
+                                  message:
+                                      'Are you sure you want to activate this artisan?',
+                                  buttonText: 'activate',
+                                  onPressed: () {
+                                    ref
+                                        .read(artisansFilterProvider.notifier)
+                                        .updateStatus(
+                                          artisan.copyWith(status: 'active'),
+                                        );
+                                  },
+                                );
                               },
                             ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 );
               }),
             ),
-          )
+          ),
         ],
       ),
     );
